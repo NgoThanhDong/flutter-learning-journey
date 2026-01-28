@@ -12,24 +12,24 @@ void main() {
   
   // Test cases - Uncomment sau khi implement
   
-  // print('Test 1: Chỉ có name');
-  // createProfile(name: 'Dong');
+  print('Test 1: Chỉ có name');
+  createProfile(name: 'Dong');
   // Expected output: Profile: Dong, 18, email: không có
   
-  // print('\nTest 2: name + age');
-  // createProfile(name: 'An', age: 25);
+  print('\nTest 2: name + age');
+  createProfile(name: 'An', age: 25);
   // Expected output: Profile: An, 25, email: không có
   
-  // print('\nTest 3: Đầy đủ thông tin');
-  // createProfile(name: 'Minh', age: 30, email: 'minh@email.com');
+  print('\nTest 3: Đầy đủ thông tin');
+  createProfile(name: 'Minh', age: 30, email: 'minh@email.com');
   // Expected output: Profile: Minh, 30, email: minh@email.com
   
   print('\n=== KIỂM TRA ===');
   // Uncomment sau khi implement:
-  // checkExercise3();
+  checkExercise3();
 }
 
-/// TODO: Implement function này
+/// -TODO: Implement function này
 /// 
 /// Yêu cầu:
 /// - name: required (bắt buộc)
@@ -39,13 +39,13 @@ void main() {
 /// Output format:
 /// "Profile: [name], [age], email: [email hoặc 'không có']"
 void createProfile({
-  // TODO: Thêm parameters ở đây
-  // required String name,
-  // int age = 18,
-  // String? email,
+  // -TODO: Thêm parameters ở đây
+  required String name,
+  int age = 18,
+  String? email,
 }) {
-  // TODO: Viết code ở đây
-  // print('Profile: $name, $age, email: ${email ?? "không có"}');
+  // -TODO: Viết code ở đây
+  print('Profile: $name, $age, email: ${email ?? "không có"}');
 }
 
 // Function kiểm tra

@@ -26,7 +26,7 @@ void main() {
   checkExercise2();
 }
 
-/// TODO: Implement function này
+/// -TODO: Implement function này
 ///
 /// Yêu cầu:
 /// - Nếu nickname là null hoặc rỗng → trả về "Guest"
@@ -34,9 +34,11 @@ void main() {
 ///
 /// Gợi ý: Sử dụng ?? hoặc if-else
 String getDisplayName(String? nickname) {
-  // TODO: Viết code ở đây
-
-  return 'Guest'; // Placeholder, thay bằng logic thực
+  // -TODO: Viết code ở đây
+  if (nickname == null || nickname.isEmpty) {
+    return 'Guest';
+  }
+  return nickname;
 }
 
 // Function kiểm tra
