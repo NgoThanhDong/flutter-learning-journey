@@ -4,93 +4,79 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 
 ---
 
-## 👋 Giới thiệu
+## 📚 Lộ Trình Học
 
-Đây là project học Flutter được thiết kế cho người mới bắt đầu:
-- **Học từng bước một** - không nhảy cóc
-- **Hiểu bản chất** - không học vẹt
-- **Thực hành ngay** - code chạy được
-
----
-
-## 📚 Lộ trình học
-
-| Phase | Chủ đề | Thời gian | Trạng thái |
-|-------|--------|-----------|------------|
-| 1 | Dart Fundamentals | 1-2 tuần | 🔄 Đang học |
-| 2 | Flutter Basics & Widgets | 2-3 tuần | ⏳ Chờ |
-| 3 | State Management | 2 tuần | ⏳ Chờ |
-| 4 | Navigation & Routing | 1 tuần | ⏳ Chờ |
-| 5 | API & Data Handling | 2 tuần | ⏳ Chờ |
-| 6 | Clean Architecture | 2 tuần | ⏳ Chờ |
-| 7 | BLoC Pattern | 2 tuần | ⏳ Chờ |
-| 8 | Real Projects | 4+ tuần | ⏳ Chờ |
+| Phase | Chủ đề | Trạng thái |
+|-------|--------|------------|
+| 1 | Dart Fundamentals | 🔄 Đang học |
+| 2 | Flutter Basics & Widgets | ⏳ Chờ |
+| 3 | State Management | ⏳ Chờ |
+| 4 | Navigation & Routing | ⏳ Chờ |
+| 5 | API & Data Handling | ⏳ Chờ |
+| 6 | Clean Architecture | ⏳ Chờ |
+| 7 | BLoC Pattern | ⏳ Chờ |
+| 8 | Real Projects | ⏳ Chờ |
 
 ---
 
-## 🎯 Cách học
+## 📁 Cấu Trúc Project
 
-### Bước 1: Mở file bài học
-Click vào file `.dart` trong thư mục tương ứng
+```
+white-nebula/
+│
+├── README.md                 ← Bạn đang ở đây
+│
+└── 01_dart_fundamentals/     ← Phase 1
+    │
+    ├── lesson_02_oop.md      ← Bài 2: OOP (Class, Interface, Mixin)
+    ├── lesson_03_async.md    ← Bài 3: Async (Future, Stream)
+    │
+    └── exercises/            ← Bài tập thực hành
+        │
+        ├── Bài 2 (OOP):
+        │   ├── exercise_04_product.dart
+        │   ├── exercise_05_employee.dart
+        │   └── exercise_06_extension.dart
+        │
+        └── Bài 3 (Async):
+            ├── exercise_07_future.dart
+            ├── exercise_08_multiple_futures.dart
+            ├── exercise_09_stream.dart
+            └── exercise_10_stream_controller.dart
+```
 
-### Bước 2: Đọc code + ghi chú
-Mỗi dòng code có ghi chú tiếng Việt giải thích
+---
 
-### Bước 3: Chạy thử
+## 🎯 Cách Học
+
+### 1. Đọc file .md
+Mở file `lesson_XX_xxx.md` để học lý thuyết
+
+### 2. Làm bài tập
+Mở file `exercises/exercise_XX_xxx.dart`:
+- Đọc TODO và hướng dẫn trong code
+- Viết code của bạn
+- Uncomment phần test
+- Chạy: `dart run exercise_XX_xxx.dart`
+
+### 3. Hỏi Antigravity
+Chưa hiểu? Cứ hỏi! Tôi sẽ giải thích chi tiết.
+
+---
+
+## ⚡ Lệnh Thường Dùng
+
 ```bash
+# Chạy file Dart
 dart run <tên_file>.dart
-```
 
-### Bước 4: Tự thay đổi và thử lại
-Thay đổi code, chạy lại, xem điều gì xảy ra!
-
-### Bước 5: Hỏi tôi (Antigravity)
-Chưa hiểu gì? Cứ hỏi! Tôi sẽ giải thích rõ hơn.
-
----
-
-## 📁 Cấu trúc thư mục
-
-```
-flutter-learning/
-│
-├── hello.dart              ← 🌟 BẮT ĐẦU TỪ ĐÂY!
-│
-├── 01_dart_fundamentals/   ← Phase 1: Học Dart
-│   ├── lesson_01_*.dart
-│   ├── lesson_02_*.dart
-│   └── ...
-│
-├── 02_flutter_basics/      ← Phase 2: Flutter cơ bản (sắp tới)
-├── 03_state_management/    ← Phase 3: Quản lý state
-└── ...
+# Chạy Flutter app trên Chrome
+flutter run -d chrome
 ```
 
 ---
 
-## ⚡ Lệnh thường dùng
-
-| Lệnh | Chức năng |
-|------|-----------|
-| `dart run hello.dart` | Chạy file Dart |
-| `flutter create app_name` | Tạo app Flutter mới |
-| `flutter run -d chrome` | Chạy app trên Chrome |
-
----
-
-## 🆘 Gặp lỗi?
-
-1. **Đọc kỹ thông báo lỗi** - Dart báo rõ lỗi ở dòng nào
-2. **Hỏi tôi** - Copy lỗi và paste vào chat
-3. **Google** - Tìm thông báo lỗi + "dart" hoặc "flutter"
-
----
-
-## 📞 Liên hệ
+## 📞 Liên Hệ
 
 - **GitHub**: [NgoThanhDong](https://github.com/NgoThanhDong)
-- **Học cùng**: Antigravity AI Assistant
-
----
-
-**Bắt đầu ngay bằng cách mở file `hello.dart`!** 🎉
+- **Học cùng**: Antigravity AI
