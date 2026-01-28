@@ -3,6 +3,7 @@
 ## Mục tiêu bài học
 - Hiểu Class, Constructor, và Properties
 - Nắm vững Inheritance và Abstract Classes
+- Hiểu Interface và cách sử dụng
 - Thành thạo Mixins và Extensions
 
 ---
@@ -87,7 +88,6 @@ class User {
 var user1 = User('Dong', 25, 'dong@email.com');
 var guest = User.guest();
 var user2 = User.withName('An');
-var user3 = User.fromJson({'name': 'Minh', 'age': 30, 'email': 'minh@test.com'});
 ```
 
 ### 💡 Thủ thuật: Khi nào dùng Factory?
@@ -130,10 +130,6 @@ class Dog extends Animal {
     print('$name: Gâu gâu!');
   }
 }
-
-var dog = Dog('Lucky', 'Corgi');
-dog.eat();   // Lucky (giống Corgi) đang ăn
-dog.bark();  // Lucky: Gâu gâu!
 ```
 
 ### 💡 Suy luận: Tại sao cần Inheritance?
@@ -177,13 +173,6 @@ class Circle extends Shape {
   @override
   double getArea() => 3.14159 * radius * radius;
 }
-
-// Sử dụng
-var rect = Rectangle(10, 5);
-var circle = Circle(7);
-
-rect.printInfo();    // Diện tích: 50.0
-circle.printInfo();  // Diện tích: 153.93...
 ```
 
 ### 💡 Suy luận: Tại sao cần Abstract Class?
@@ -192,52 +181,148 @@ circle.printInfo();  // Diện tích: 153.93...
 |------------|-----------|
 | Có một số method chung | Dùng normal class |
 | **Bắt buộc** subclass phải implement method | Dùng **abstract class** |
-| Chỉ cần "giao ước" không cần implementation | Dùng interface (abstract class không có code) |
-
-**Trong Flutter, bạn sẽ thấy:**
-- `StatelessWidget` và `StatefulWidget` là abstract classes
-- Bạn phải override method `build()` - đây là bắt buộc!
+| Chỉ cần "giao ước" không cần implementation | Dùng interface |
 
 ---
 
-## 5. Mixins - Chia sẻ code giữa các Class
+## 5. Interface
 
-### 5.1 Vấn đề: Dart không có Multiple Inheritance
+### 5.1 Dart không có từ khóa "interface"
+
+Trong Dart, **mọi class đều có thể dùng như interface!**
+
+```dart
+// Abstract class dùng làm interface
+abstract class Printable {
+  void printInfo();  // Chỉ khai báo, không có code
+}
+
+abstract class Exportable {
+  String exportToJson();
+}
+
+// Implement interface bằng từ khóa "implements"
+class Document implements Printable {
+  String title;
+  
+  Document(this.title);
+  
+  // BẮT BUỘC phải implement tất cả methods
+  @override
+  void printInfo() {
+    print('Document: $title');
+  }
+}
+```
+
+### 5.2 So sánh extends vs implements
+
+```dart
+// extends: Kế thừa code từ parent
+class Dog extends Animal {
+  // Có thể dùng methods của Animal luôn
+}
+
+// implements: Phải viết lại TẤT CẢ methods
+class Cat implements Animal {
+  // Phải implement mọi thứ từ đầu
+}
+```
+
+| Từ khóa | Ý nghĩa | Số lượng |
+|---------|---------|----------|
+| `extends` | Kế thừa code | Chỉ 1 class |
+| `implements` | Thực thi interface | Nhiều interfaces |
+| `with` | Trộn mixin | Nhiều mixins |
+
+### 5.3 Multiple Interfaces
+
+```dart
+abstract class Readable {
+  String read();
+}
+
+abstract class Writable {
+  void write(String data);
+}
+
+// Implement nhiều interface cùng lúc
+class File implements Readable, Writable {
+  String _content = '';
+  
+  @override
+  String read() => _content;
+  
+  @override
+  void write(String data) => _content = data;
+}
+```
+
+### 5.4 Thực tế: Repository Pattern
+
+Đây là pattern bạn sẽ dùng rất nhiều trong Flutter:
+
+```dart
+// Interface định nghĩa các operations
+abstract class UserRepository {
+  Future<User> getById(int id);
+  Future<void> save(User user);
+}
+
+// Implementation 1: Từ API
+class ApiUserRepository implements UserRepository {
+  @override
+  Future<User> getById(int id) async {
+    // Gọi API...
+  }
+  
+  @override
+  Future<void> save(User user) async {
+    // POST to API...
+  }
+}
+
+// Implementation 2: Từ local database
+class LocalUserRepository implements UserRepository {
+  @override
+  Future<User> getById(int id) async {
+    // Đọc từ SQLite...
+  }
+  
+  @override
+  Future<void> save(User user) async {
+    // Lưu vào SQLite...
+  }
+}
+```
+
+**Lợi ích**: Dễ dàng thay đổi giữa API và Local mà không sửa code service!
+
+---
+
+## 6. Mixins - Chia sẻ code giữa các Class
+
+### 6.1 Vấn đề: Dart không có Multiple Inheritance
 
 ```dart
 // ❌ Dart không cho phép:
 // class A extends B, C { }  // LỖI!
 ```
 
-### 5.2 Giải pháp: Mixins
+### 6.2 Giải pháp: Mixins
 
 ```dart
-// Mixin - tập hợp các methods có thể "trộn" vào class
 mixin CanFly {
-  void fly() {
-    print('Đang bay...');
-  }
+  void fly() => print('Đang bay...');
 }
 
 mixin CanSwim {
-  void swim() {
-    print('Đang bơi...');
-  }
-}
-
-class Bird with CanFly {
-  String name;
-  Bird(this.name);
+  void swim() => print('Đang bơi...');
 }
 
 class Duck with CanFly, CanSwim {
   String name;
   Duck(this.name);
-}
-
-class Fish with CanSwim {
-  String name;
-  Fish(this.name);
 }
 
 // Sử dụng
@@ -246,23 +331,13 @@ duck.fly();   // Đang bay...
 duck.swim();  // Đang bơi...
 ```
 
-### 💡 Thủ thuật: Mixin trong Flutter
-
-Flutter dùng Mixins rất nhiều! Ví dụ:
-```dart
-class MyWidget extends StatefulWidget with TickerProviderStateMixin {
-  // TickerProviderStateMixin cho animation
-}
-```
-
 ---
 
-## 6. Extension Methods
+## 7. Extension Methods
 
-### 6.1 Thêm method vào class có sẵn
+### 7.1 Thêm method vào class có sẵn
 
 ```dart
-// Thêm method cho String
 extension StringExtension on String {
   String capitalize() {
     if (isEmpty) return this;
@@ -274,47 +349,29 @@ extension StringExtension on String {
   }
 }
 
-// Thêm method cho int
-extension IntExtension on int {
-  bool get isEven => this % 2 == 0;
-  
-  String toVietnameseCurrency() {
-    return '${toString().replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (m) => '${m[1]}.',
-    )} VNĐ';
-  }
-}
-
 // Sử dụng
 print('hello'.capitalize());  // Hello
 print('test@email.com'.isValidEmail);  // true
-print(1000000.toVietnameseCurrency());  // 1.000.000 VNĐ
-```
-
-### 💡 Thủ thuật: Tổ chức Extensions
-
-```dart
-// Tạo file extensions.dart và import khi cần
-// lib/core/extensions/string_extensions.dart
-// lib/core/extensions/datetime_extensions.dart
 ```
 
 ---
 
-## 7. Bài Tập Thực Hành
+## 8. Bài Tập Thực Hành
 
 ### Bài 1: Tạo Class Product
+File: `exercises/exercise_04_product.dart`
 - Properties: `name`, `price`, `quantity`
 - Method: `getTotalValue()` trả về `price * quantity`
 - Named constructor: `Product.free(name)` với price = 0
 
 ### Bài 2: Inheritance - Hệ thống nhân viên
+File: `exercises/exercise_05_employee.dart`
 - Abstract class `Employee` với abstract method `calculateSalary()`
 - `FullTimeEmployee` với lương cố định
 - `PartTimeEmployee` với lương theo giờ
 
 ### Bài 3: Extension
+File: `exercises/exercise_06_extension.dart`
 - Tạo extension cho `DateTime` với method `toVietnameseFormat()` trả về "dd/MM/yyyy"
 
 ---
@@ -323,8 +380,10 @@ print(1000000.toVietnameseCurrency());  // 1.000.000 VNĐ
 
 - [ ] Hiểu các loại Constructor (default, named, factory)
 - [ ] Hiểu Inheritance và khi nào dùng `@override`
-- [ ] Biết dùng Abstract Class để bắt buộc implement
+- [ ] Hiểu Abstract Class để bắt buộc implement
+- [ ] Hiểu Interface và sự khác biệt với extends
 - [ ] Hiểu Mixins và cách chia sẻ code
 - [ ] Biết viết Extension methods
+- [ ] Hoàn thành 3 bài tập
 
 **Tiếp theo:** Bài 3 - Async Programming (Future, Stream, async/await)
