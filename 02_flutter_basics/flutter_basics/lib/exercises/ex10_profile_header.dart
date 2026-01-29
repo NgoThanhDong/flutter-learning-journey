@@ -9,7 +9,9 @@
 /// - Ảnh đại diện (Avatar) hình tròn đè lên giữa ảnh bìa và phần dưới
 /// - Tên và thông tin bên dưới
 
-import 'package:flutter/material.dart';
+library;
+
+// import 'package:flutter/material.dart';
 
 /*
 class Ex10ProfileHeader extends StatelessWidget {

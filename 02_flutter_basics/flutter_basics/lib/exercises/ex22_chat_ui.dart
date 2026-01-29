@@ -9,7 +9,9 @@
 /// - Input area: TextField + Send Button
 /// - Bong bóng chat (Chat Bubble) khác màu cho Sender/Receiver
 
-import 'package:flutter/material.dart';
+library;
+
+// import 'package:flutter/material.dart';
 
 /*
 class Ex22ChatUI extends StatefulWidget {
