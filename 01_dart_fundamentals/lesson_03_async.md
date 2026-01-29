@@ -418,15 +418,19 @@ if (result.isSuccess) {
 ## 7. Bài Tập Thực Hành
 
 ### Bài 1: Future cơ bản
+File: `exercises/exercise_07_future.dart`
 Viết function `delayedHello(String name)` trả về Future<String> sau 2 giây.
 
 ### Bài 2: Xử lý nhiều Future
+File: `exercises/exercise_08_multiple_futures.dart`
 Viết function `fetchAllUsers()` gọi đồng thời 3 API và trả về danh sách users.
 
 ### Bài 3: Stream
+File: `exercises/exercise_09_stream.dart`
 Tạo Stream phát ra số từ 1 đến 10, mỗi giây 1 số.
 
 ### Bài 4: StreamController
+File: `exercises/exercise_10_stream_controller.dart`
 Tạo class `NumberEmitter` với method `add(int n)` và stream `numbers`.
 
 ---

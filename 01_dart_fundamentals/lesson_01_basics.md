@@ -147,16 +147,19 @@ Container(
 ## 5. Bài Tập Thực Hành
 
 ### Bài 1: Khai báo biến
-Tạo file `exercise_1.dart` và khai báo:
+File: `exercises/exercise_01_variables.dart`
+Tạo file bài tập và khai báo:
 - Tên của bạn (String)
 - Tuổi (int)
 - Có phải sinh viên không (bool)
 - Điểm trung bình (double, nullable)
 
 ### Bài 2: Null Safety
+File: `exercises/exercise_02_null_safety.dart`
 Viết function `getDisplayName` nhận `String? nickname` và trả về nickname nếu có, hoặc "Guest" nếu null.
 
 ### Bài 3: Named Parameters
+File: `exercises/exercise_03_named_params.dart`
 Viết function `createProfile` với:
 - `name` (required)
 - `age` (optional, default 18)
