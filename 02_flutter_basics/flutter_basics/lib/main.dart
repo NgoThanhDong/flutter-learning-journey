@@ -3,7 +3,26 @@ import 'package:flutter/material.dart';
 // Import exercises (uncomment khi làm bài tập)
 import 'exercises/ex01_hello_flutter.dart';
 import 'exercises/ex02_counter.dart';
-// ...
+// import 'exercises/ex03_toggle_theme.dart';
+// import 'exercises/ex04_like_button.dart';
+// import 'exercises/ex05_profile_card.dart';
+// import 'exercises/ex06_product_card.dart';
+// import 'exercises/ex07_social_post_card.dart';
+// import 'exercises/ex08_navigation_bar.dart';
+// import 'exercises/ex09_price_row.dart';
+// import 'exercises/ex10_profile_header.dart';
+// import 'exercises/ex11_grid_layout.dart';
+// import 'exercises/ex12_contact_list.dart';
+// import 'exercises/ex13_product_grid.dart';
+// import 'exercises/ex14_horizontal_categories.dart';
+// import 'exercises/ex15_login_form.dart';
+// import 'exercises/ex16_registration_form.dart';
+// import 'exercises/ex17_settings_page.dart';
+// import 'exercises/ex18_app_theme.dart';
+// import 'exercises/ex19_dark_mode_toggle.dart';
+// import 'exercises/ex20_login_screen.dart';
+// import 'exercises/ex21_ecommerce_home.dart';
+// import 'exercises/ex22_chat_ui.dart';
 
 void main() {
   runApp(const MyApp());

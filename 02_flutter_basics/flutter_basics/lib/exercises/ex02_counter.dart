@@ -34,7 +34,13 @@ class _Ex02CounterState extends State<Ex02Counter> {
 
   void _decrement() {
     setState(() {
-      if (_count > 0) _count--;
+      if (_count > 0) {
+        _count--;
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Counter is not negative!')));
+      }
     });
   }
 
@@ -56,17 +62,13 @@ class _Ex02CounterState extends State<Ex02Counter> {
               children: [
                 ElevatedButton(
                   onPressed: _decrement,
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                  ),
+                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(20)),
                   child: Icon(Icons.remove, size: 30),
                 ),
                 SizedBox(width: 24),
                 ElevatedButton(
                   onPressed: _increment,
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                  ),
+                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(20)),
                   child: Icon(Icons.add, size: 30),
                 ),
               ],
@@ -76,11 +78,12 @@ class _Ex02CounterState extends State<Ex02Counter> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() { _count = 0; });
+          setState(() {
+            _count = 0;
+          });
         },
         child: Icon(Icons.refresh),
       ),
     );
   }
 }
-
