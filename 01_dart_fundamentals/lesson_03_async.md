@@ -4,6 +4,7 @@
 - Hiểu tại sao cần lập trình bất đồng bộ (async)
 - Thành thạo Future và async/await
 - **Hiểu rõ Stream** (từ cơ bản đến nâng cao)
+- Xử lý lỗi trong async code
 
 ---
 
@@ -28,6 +29,10 @@ Hãy tưởng tượng bạn đang order coffee tại quán:
 **Trong lập trình:**
 - `Blocking` = App đóng băng khi chờ network
 - `Non-blocking (Async)` = App vẫn chạy mượt, khi nào xong thì xử lý
+
+### 💡 Trong Flutter: 
+- UI chạy ở **main thread**
+- Network calls, file I/O phải là async để **không đóng băng UI**
 
 ### 1.2 Ví dụ thực tế
 
@@ -72,6 +77,9 @@ fetchUsername()
     })
     .catchError((error) {
       print('Lỗi: $error');
+    })
+    .whenComplete(() {
+      print('Hoàn thành (dù thành công hay thất bại)');
     });
 ```
 
@@ -84,38 +92,56 @@ Future<void> greetUser() async {
     print('Xin chào, $name');
   } catch (error) {
     print('Lỗi: $error');
+  } finally {
+    print('Hoàn thành');
   }
 }
 ```
 
-**Tại sao async/await tốt hơn?**
-- Đọc như code bình thường (từ trên xuống)
-- Dễ debug hơn
-- try/catch quen thuộc
+### 💡 Suy luận: async/await vs then
+
+| Aspect | then/catchError | async/await |
+|--------|-----------------|-------------|
+| Đọc | Khó theo dõi khi nhiều bước | Đọc như code đồng bộ |
+| Debug | Khó debug | Dễ debug |
+| Lỗi | catchError riêng | try/catch quen thuộc |
+| Khuyên | Dùng cho case đơn giản | **Dùng cho hầu hết cases** |
 
 ---
 
 ## 3. Xử lý nhiều Future song song
 
-### 3.1 Tuần tự vs Song song
+### 3.1 Future.wait - Chờ tất cả hoàn thành
 
 ```dart
 // ❌ Tuần tự - CHẬM (6 giây)
 var user = await fetchUser();      // 2 giây
-var products = await fetchProducts(); // 2 giây
-var orders = await fetchOrders();  // 2 giây
+var products = await fetchProducts(); // 3 giây
+var orders = await fetchOrders();  // 1 giây
 
-// ✅ Song song - NHANH (2 giây, lấy max)
+// ✅ Song song - NHANH (3 giây, lấy max)
 var results = await Future.wait([
   fetchUser(),      // 2 giây ─┐
-  fetchProducts(),  // 2 giây ─┼─► Chạy cùng lúc!
-  fetchOrders(),    // 2 giây ─┘
+  fetchProducts(),  // 3 giây ─┼─► Chạy cùng lúc!
+  fetchOrders(),    // 1 giây ─┘
 ]);
+```
+
+### 3.2 Future.any - Lấy kết quả đầu tiên
+
+```dart
+Future<String> fetchFromFastestServer() async {
+  return await Future.any([
+    fetchFromServer1(), // 3 giây
+    fetchFromServer2(), // 1 giây ← Trả về cái này
+    fetchFromServer3(), // 2 giây
+  ]);
+}
 ```
 
 ---
 
-## 4. Stream - Giải thích SIÊU CHI TIẾT
+## 4. Stream - Luồng dữ liệu liên tục - Giải thích SIÊU CHI TIẾT
 
 ### 4.1 Stream là gì? (Ví dụ đời thực)
 
@@ -133,7 +159,13 @@ Future  = 📦 Nhận 1 gói hàng
 Stream  = 📬 Đăng ký nhận báo hàng ngày
 ```
 
-### 4.2 Ví dụ trực quan
+| Future | Stream |
+|--------|--------|
+| **1 giá trị** trong tương lai | **Nhiều giá trị** theo thời gian |
+| HTTP request | WebSocket, realtime data |
+| Đọc 1 file | Đọc file lớn theo chunks |
+
+### 4.2 Tạo Stream - Ví dụ trực quan
 
 ```dart
 // FUTURE: Lấy 1 giá trị
@@ -162,6 +194,19 @@ Stream<int> countUp(int max) async* {
     print('Đã phát: $i');
   }
 }
+
+// Stream đơn giản với async*
+Stream<int> countDown(int from) async* {
+  for (int i = from; i >= 0; i--) {
+    await Future.delayed(Duration(seconds: 1));
+    yield i; // "yield" = emit giá trị ra stream
+  }
+}
+
+// Stream từ List
+Stream<String> fruitsStream() {
+  return Stream.fromIterable(['Táo', 'Cam', 'Chuối']);
+}
 ```
 
 **Giải thích từng bước:**
@@ -174,29 +219,55 @@ Stream<int> countUp(int max) async* {
 ### 4.4 Lắng nghe Stream
 
 ```dart
-// Cách 1: listen()
+// Cách 1: listen
 countUp(5).listen((number) {
   print('Nhận được: $number');
 });
 
+countDown(5).listen(
+  (number) => print('Countdown: $number'),
+  onDone: () => print('Blast off!'),
+  onError: (error) => print('Error: $error'),
+);
+
 // Cách 2: await for (trong async function)
-Future<void> printNumbers() async {
-  await for (var number in countUp(5)) {
-    print('Nhận được: $number');
+Future<void> printCountdown() async {
+  await for (var number in countDown(5)) {
+    print('Countdown: $number');
   }
-  print('Stream kết thúc!');
+  print('Blast off!');
 }
 ```
 
-### 4.5 Hình dung Stream như ống nước
+### 4.5 Stream Transformations
+
+```dart
+Stream<int> numbers = Stream.fromIterable([1, 2, 3, 4, 5]);
+
+// Map - biến đổi mỗi giá trị
+numbers.map((n) => n * 2); // 2, 4, 6, 8, 10
+
+// Where - lọc giá trị
+numbers.where((n) => n > 2); // 3, 4, 5
+
+// Take - lấy n giá trị đầu
+numbers.take(3); // 1, 2, 3
+
+// Skip - bỏ qua n giá trị đầu
+numbers.skip(2); // 3, 4, 5
+```
+
+---
+
+### 4.6 Hình dung Stream như ống nước
 
 ```
 ┌────────────────────────────────────────────────┐
-│                    STREAM                       │
+│                    STREAM                      │
 │                                                │
 │   [Nguồn phát]  ─────►  ─────►  [Người nghe]   │
 │                                                │
-│   yield 1  ──► 1 ──► 2 ──► 3 ──►  listen()    │
+│   yield 1  ──► 1 ──► 2 ──► 3 ──►  listen()     │
 │   yield 2                                      │
 │   yield 3                                      │
 └────────────────────────────────────────────────┘
@@ -206,7 +277,7 @@ Future<void> printNumbers() async {
 - **Ống nước (Stream)**: Dòng dữ liệu chảy qua
 - **Người nghe (Listener)**: Code có `listen()` hoặc `await for`
 
-### 4.6 Stream trong thực tế Flutter
+### 4.7 Stream trong thực tế Flutter
 
 ```dart
 // 1. Lắng nghe input từ TextField (mỗi ký tự gõ vào)
@@ -268,23 +339,95 @@ service.dispose();
 ### 5.3 Broadcast Stream (Nhiều người nghe)
 
 ```dart
-// Mặc định: Chỉ 1 listener
-final _controller = StreamController<int>();
+class EventBus {
+  // Broadcast = nhiều listeners
+  final _controller = StreamController<String>.broadcast();
+  
+  Stream<String> get events => _controller.stream;
+  
+  void emit(String event) {
+    _controller.add(event);
+  }
+  
+  void dispose() {
+    _controller.close();
+  }
+}
 
-// Broadcast: Nhiều listeners
-final _controller = StreamController<int>.broadcast();
+// Sử dụng
+var eventBus = EventBus();
+
+// Listener 1
+eventBus.events.listen((event) {
+  print('Listener 1: $event');
+});
+
+// Listener 2
+eventBus.events.listen((event) {
+  print('Listener 2: $event');
+});
+
+eventBus.emit('User logged in');
+// Output:
+// Listener 1: User logged in
+// Listener 2: User logged in
+```
+
+### 💡 Trong Flutter:
+- BLoC pattern sử dụng Stream/StreamController
+- Riverpod sử dụng khái niệm tương tự
+
+---
+
+## 6. Xử lý lỗi Async
+
+### 6.1 Pattern: Result Type
+
+```dart
+// Thay vì throw exception, return kết quả có cấu trúc
+class Result<T> {
+  final T? data;
+  final String? error;
+  
+  Result.success(this.data) : error = null;
+  Result.failure(this.error) : data = null;
+  
+  bool get isSuccess => error == null;
+}
+
+Future<Result<String>> fetchSafely() async {
+  try {
+    var data = await fetchFromNetwork();
+    return Result.success(data);
+  } catch (e) {
+    return Result.failure(e.toString());
+  }
+}
+
+// Sử dụng
+var result = await fetchSafely();
+if (result.isSuccess) {
+  print(result.data);
+} else {
+  print('Error: ${result.error}');
+}
 ```
 
 ---
 
-## 6. Bài Tập Thực Hành
+## 7. Bài Tập Thực Hành
 
-| Bài | File | Nội dung |
-|-----|------|----------|
-| 1 | `exercises/exercise_07_future.dart` | Future cơ bản |
-| 2 | `exercises/exercise_08_multiple_futures.dart` | Future.wait |
-| 3 | `exercises/exercise_09_stream.dart` | Tạo Stream với async*/yield |
-| 4 | `exercises/exercise_10_stream_controller.dart` | StreamController |
+### Bài 1: Future cơ bản
+Viết function `delayedHello(String name)` trả về Future<String> sau 2 giây.
+
+### Bài 2: Xử lý nhiều Future
+Viết function `fetchAllUsers()` gọi đồng thời 3 API và trả về danh sách users.
+
+### Bài 3: Stream
+Tạo Stream phát ra số từ 1 đến 10, mỗi giây 1 số.
+
+### Bài 4: StreamController
+Tạo class `NumberEmitter` với method `add(int n)` và stream `numbers`.
 
 ---
 
