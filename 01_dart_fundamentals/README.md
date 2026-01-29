@@ -5,7 +5,7 @@
 | Bài | Chủ đề | File lý thuyết | File code |
 |-----|--------|----------------|-----------|
 | 1 | Cơ bản: Variables, Null Safety, Functions | [lesson_01_basics.md](lesson_01_basics.md) | [lesson_01_examples.dart](lesson_01_examples.dart) |
-| 2 | OOP: Class, Inheritance, Interface, Mixins | [lesson_02_oop.md](lesson_02_oop.md) | [lesson_02_examples.dart](lesson_02_examples.dart) |
+| 2 | OOP: Class, Inheritance, Interface, Mixins | [lesson_02_oop.md](lesson_02_oop.md) | [lesson_02_examples.dart](lesson_02_examples.dart), [lesson_02b_interface.dart](lesson_02b_interface.dart) |
 | 3 | Async: Future, Stream, async/await | [lesson_03_async.md](lesson_03_async.md) | [lesson_03_examples.dart](lesson_03_examples.dart) |
 | 4 | Collections: List, Map, Set, Generics | [lesson_04_collections.md](lesson_04_collections.md) | [lesson_04_examples.dart](lesson_04_examples.dart) |
 | 5 | Enums & Error Handling | [lesson_05_enums_errors.md](lesson_05_enums_errors.md) | [lesson_05_examples.dart](lesson_05_examples.dart) |
