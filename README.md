@@ -3,7 +3,6 @@
 Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer**.
 
 ---
-
 ## 👋 Giới Thiệu
 
 Đây là project học Flutter được thiết kế cho người mới bắt đầu:
@@ -17,7 +16,7 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 
 | Phase | Thời gian | Chủ đề | Nội dung chính | Trạng thái |
 |-------|-----------|--------|----------------|------------|
-| 1 | 1-2 tuần | **Dart Fundamentals** | Cú pháp Dart, OOP, Async | 🔄 Đang học |
+| 1 | 1-2 tuần | **Dart Fundamentals** | 5 bài: Variables, OOP, Async, Collections, Enums | 🔄 Đang học |
 | 2 | 2-3 tuần | Flutter Basics | Widget, Layout, UI | ⏳ Chờ |
 | 3 | 2 tuần | State Management | setState, Provider | ⏳ Chờ |
 | 4 | 1 tuần | Navigation | Routing, GoRouter | ⏳ Chờ |
@@ -31,30 +30,33 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 ## 📁 Cấu Trúc Thư Mục
 
 ```
-flutter-learning-journey/
+white-nebula/
 │
-├── 📄 hello.dart                   ← 🌟 BẮT ĐẦU TỪ ĐÂY!
 ├── 📄 README.md                    ← Bạn đang đọc file này
 │
-├── 📂 01_dart_fundamentals/        ← PHASE 1: Học Dart
-│   ├── 📄 README.md                ← Hướng dẫn Phase 1
+├── 📂 01_dart_fundamentals/        ← PHASE 1: Học Dart (5 bài, 15 exercises)
+│   ├── 📄 README.md
 │   │
-│   ├── 📖 Bài học (file .md)
-│   │   ├── lesson_02_oop.md        ← OOP: Class, Interface, Mixin
-│   │   └── lesson_03_async.md      ← Async: Future, Stream
+│   ├── 📖 Bài học (5 bài)
+│   │   ├── lesson_01_basics.md       ← Variables, Null Safety, Functions
+│   │   ├── lesson_02_oop.md          ← Class, Inheritance, Interface
+│   │   ├── lesson_03_async.md        ← Future, Stream, async/await
+│   │   ├── lesson_04_collections.md  ← List, Map, Generics
+│   │   └── lesson_05_enums_errors.md ← Enum, Error Handling
 │   │
-│   └── 📂 exercises/               ← Bài tập thực hành
-│       │
-│       ├── 🏋️ Bài 2 (OOP):
-│       │   ├── exercise_04_product.dart
-│       │   ├── exercise_05_employee.dart
-│       │   └── exercise_06_extension.dart
-│       │
-│       └── 🏋️ Bài 3 (Async):
-│           ├── exercise_07_future.dart
-│           ├── exercise_08_multiple_futures.dart
-│           ├── exercise_09_stream.dart
-│           └── exercise_10_stream_controller.dart
+│   ├── 🖥️ Code ví dụ
+│   │   ├── lesson_01_examples.dart
+│   │   ├── lesson_02_examples.dart
+│   │   ├── lesson_03_examples.dart
+│   │   ├── lesson_04_examples.dart
+│   │   └── lesson_05_examples.dart
+│   │
+│   └── 📂 exercises/               ← 15 bài tập thực hành
+│       ├── exercise_01 → 03        ← Bài 1
+│       ├── exercise_04 → 06        ← Bài 2
+│       ├── exercise_07 → 10        ← Bài 3
+│       ├── exercise_11 → 13        ← Bài 4
+│       └── exercise_14 → 15        ← Bài 5
 │
 ├── 📂 02_flutter_basics/           ← PHASE 2 (sắp tới)
 ├── 📂 03_state_management/         ← PHASE 3 (sắp tới)
@@ -140,7 +142,7 @@ Tìm: `[thông báo lỗi] dart` hoặc `flutter`
 ## 📞 Thông Tin
 
 - **GitHub**: [NgoThanhDong](https://github.com/NgoThanhDong)
-- **Học cùng**: Antigravity AI Assistant
+- **Học cùng**: Antigravity AI
 - **Môi trường**: Flutter Web (Chrome)
 
 ---
