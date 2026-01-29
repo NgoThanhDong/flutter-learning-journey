@@ -25,13 +25,13 @@ Mọi thứ bạn thấy trên màn hình đều là Widget:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                        WIDGET                            │
+│                        WIDGET                           │
 ├────────────────────────┬────────────────────────────────┤
 │    StatelessWidget     │      StatefulWidget            │
 ├────────────────────────┼────────────────────────────────┤
 │ Không thay đổi         │ Có thể thay đổi                │
 │ Không có state         │ Có state riêng                 │
-│ build() gọi 1 lần     │ build() gọi nhiều lần          │
+│ build() gọi 1 lần      │ build() gọi nhiều lần          │
 │ Ví dụ: Text, Icon      │ Ví dụ: TextField, Checkbox     │
 └────────────────────────┴────────────────────────────────┘
 ```

@@ -9,8 +9,9 @@
 /// - Tên (Text bold)
 /// - Bio (Text nhỏ, màu xám)
 /// - Location với Icon
+library;
 
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 // TODO: Uncomment và hoàn thiện
 

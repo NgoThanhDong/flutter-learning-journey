@@ -14,12 +14,12 @@
 /// 2. Điền vào chỗ ???
 /// 3. Import file này trong main.dart
 /// 4. Chạy: flutter run -d chrome
+library;
 
 import 'package:flutter/material.dart';
 
-// TODO: Uncomment và hoàn thiện code bên dưới
+// -TODO: Uncomment và hoàn thiện code bên dưới
 
-/*
 class Ex01HelloFlutter extends StatelessWidget {
   const Ex01HelloFlutter({super.key});
 
@@ -52,7 +52,7 @@ class Ex01HelloFlutter extends StatelessWidget {
     );
   }
 }
-*/
+
 
 // ============================================
 // GỢI Ý

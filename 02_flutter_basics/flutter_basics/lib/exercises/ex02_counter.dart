@@ -9,12 +9,12 @@
 /// - Nút (+) để tăng
 /// - Nút (-) để giảm
 /// - Số không được âm (minimum = 0)
+library;
 
 import 'package:flutter/material.dart';
 
-// TODO: Uncomment và hoàn thiện
+// -TODO: Uncomment và hoàn thiện
 
-/*
 class Ex02Counter extends StatefulWidget {
   const Ex02Counter({super.key});
 
@@ -82,4 +82,4 @@ class _Ex02CounterState extends State<Ex02Counter> {
     );
   }
 }
-*/
+

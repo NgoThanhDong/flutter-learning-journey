@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // Import exercises (uncomment khi làm bài tập)
-// import 'exercises/ex01_hello_flutter.dart';
-// import 'exercises/ex02_counter.dart';
+import 'exercises/ex01_hello_flutter.dart';
+import 'exercises/ex02_counter.dart';
 // ...
 
 void main() {
@@ -41,10 +41,10 @@ class ExerciseListScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           _buildLessonSection(context, 'Bài 1: Introduction', [
-            _ExerciseItem('Ex 01: Hello Flutter', null),
+            _ExerciseItem('Ex 01: Hello Flutter', Ex01HelloFlutter()),
           ]),
           _buildLessonSection(context, 'Bài 2: Widget Fundamentals', [
-            _ExerciseItem('Ex 02: Counter App', null),
+            _ExerciseItem('Ex 02: Counter App', Ex02Counter()),
             _ExerciseItem('Ex 03: Toggle Theme', null),
             _ExerciseItem('Ex 04: Like Button', null),
           ]),
