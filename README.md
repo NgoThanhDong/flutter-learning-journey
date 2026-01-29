@@ -16,8 +16,8 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 
 | Phase | Thời gian | Chủ đề | Nội dung chính | Trạng thái |
 |-------|-----------|--------|----------------|------------|
-| 1 | 1-2 tuần | **Dart Fundamentals** | 5 bài: Variables, OOP, Async, Collections, Enums | 🔄 Đang học |
-| 2 | 2-3 tuần | Flutter Basics | Widget, Layout, UI | ⏳ Chờ |
+| 1 | 1-2 tuần | **Dart Fundamentals** | 5 bài: Variables, OOP, Async, Collections, Enums | ✅ Hoàn thành |
+| 2 | 2-3 tuần | **Flutter Basics** | 8 bài: Widget, Layout, Input, Styling | 🔄 Đang học |
 | 3 | 2 tuần | State Management | setState, Provider | ⏳ Chờ |
 | 4 | 1 tuần | Navigation | Routing, GoRouter | ⏳ Chờ |
 | 5 | 2 tuần | API & Data | REST API, Local Storage | ⏳ Chờ |
@@ -34,31 +34,31 @@ white-nebula/
 │
 ├── 📄 README.md                    ← Bạn đang đọc file này
 │
-├── 📂 01_dart_fundamentals/        ← PHASE 1: Học Dart (5 bài, 15 exercises)
+├── 📂 01_dart_fundamentals/        ← PHASE 1: Học Dart ✅
 │   ├── 📄 README.md
-│   │
-│   ├── 📖 Bài học (5 bài)
-│   │   ├── lesson_01_basics.md       ← Variables, Null Safety, Functions
-│   │   ├── lesson_02_oop.md          ← Class, Inheritance, Interface
-│   │   ├── lesson_03_async.md        ← Future, Stream, async/await
-│   │   ├── lesson_04_collections.md  ← List, Map, Generics
-│   │   └── lesson_05_enums_errors.md ← Enum, Error Handling
-│   │
-│   ├── 🖥️ Code ví dụ
-│   │   ├── lesson_01_examples.dart
-│   │   ├── lesson_02_examples.dart
-│   │   ├── lesson_03_examples.dart
-│   │   ├── lesson_04_examples.dart
-│   │   └── lesson_05_examples.dart
-│   │
-│   └── 📂 exercises/               ← 15 bài tập thực hành
-│       ├── exercise_01 → 03        ← Bài 1
-│       ├── exercise_04 → 06        ← Bài 2
-│       ├── exercise_07 → 10        ← Bài 3
-│       ├── exercise_11 → 13        ← Bài 4
-│       └── exercise_14 → 15        ← Bài 5
+│   ├── 📖 5 bài học (lesson_01 → lesson_05)
+│   ├── 🖥️ 5 file code ví dụ
+│   └── 📂 exercises/ (15 bài tập)
 │
-├── 📂 02_flutter_basics/           ← PHASE 2 (sắp tới)
+├── 📂 02_flutter_basics/           ← PHASE 2: Flutter Basics 🔄
+│   ├── 📄 README.md
+│   ├── 📖 8 bài học
+│   │   ├── lesson_01_introduction.md   ← Project structure, Flutter overview
+│   │   ├── lesson_02_widgets.md        ← Stateless vs Stateful
+│   │   ├── lesson_03_basic_widgets.md  ← Text, Container, Image, Icon
+│   │   ├── lesson_04_layout.md         ← Row, Column, Stack, Flex
+│   │   ├── lesson_05_scrollable.md     ← ListView, GridView
+│   │   ├── lesson_06_input.md          ← TextField, Button, Form
+│   │   ├── lesson_07_styling.md        ← Theme, ColorScheme, Dark Mode
+│   │   └── lesson_08_practice.md       ← Real UI Projects
+│   │
+│   └── 📂 flutter_basics/          ← Flutter Project
+│       ├── lib/
+│       │   ├── main.dart
+│       │   └── exercises/          ← 22 bài tập
+│       ├── pubspec.yaml
+│       └── web/
+│
 ├── 📂 03_state_management/         ← PHASE 3 (sắp tới)
 └── ...
 ```
@@ -79,7 +79,7 @@ Mỗi bài học đều có giải thích trong comment
 Đọc từ trên xuống, hiểu từng dòng
 ```
 
-### Bước 3: Làm bài tập
+### Bước 3: Làm bài tập (Phase 1 - Dart)
 ```bash
 # Vào thư mục exercises
 cd 01_dart_fundamentals/exercises
@@ -88,10 +88,13 @@ cd 01_dart_fundamentals/exercises
 dart run exercise_07_future.dart
 ```
 
-### Bước 4: Tự viết code
-```
-Xóa code mẫu, tự viết lại từ đầu
-Đây là cách tốt nhất để ghi nhớ!
+### Bước 4: Làm bài tập (Phase 2 - Flutter)
+```bash
+# Vào thư mục Flutter project
+cd 02_flutter_basics/flutter_basics
+
+# Chạy app trên Chrome
+flutter run -d chrome
 ```
 
 ### Bước 5: Hỏi Antigravity
@@ -112,7 +115,7 @@ Tôi sẽ giải thích chi tiết hơn.
 | `dart analyze` | Kiểm tra lỗi code |
 | `dart format file.dart` | Format code đẹp |
 
-### Flutter (sẽ dùng ở Phase 2+)
+### Flutter
 
 | Lệnh | Chức năng |
 |------|-----------|
@@ -120,22 +123,48 @@ Tôi sẽ giải thích chi tiết hơn.
 | `flutter run -d chrome` | Chạy app trên Chrome |
 | `flutter pub get` | Cài dependencies |
 | `flutter clean` | Xóa cache, build lại |
+| Hot Reload: `r` | Reload nhanh khi chạy |
+| Hot Restart: `R` | Restart hoàn toàn |
+
+---
+
+## 📊 Tiến Độ Học
+
+### Phase 1: Dart Fundamentals ✅
+- [x] Bài 1: Variables, Null Safety, Functions
+- [x] Bài 2: OOP - Class, Inheritance, Interface
+- [x] Bài 3: Async - Future, Stream
+- [x] Bài 4: Collections & Generics
+- [x] Bài 5: Enums & Error Handling
+
+### Phase 2: Flutter Basics 🔄
+- [ ] Bài 1: Introduction & Project Structure
+- [ ] Bài 2: Widget Fundamentals (Stateless/Stateful)
+- [ ] Bài 3: Basic Widgets (Text, Container, Image)
+- [ ] Bài 4: Layout (Row, Column, Stack)
+- [ ] Bài 5: Scrollable Widgets (ListView, GridView)
+- [ ] Bài 6: Input Widgets (TextField, Button, Form)
+- [ ] Bài 7: Styling & Theming
+- [ ] Bài 8: Real UI Practice
 
 ---
 
 ## 🆘 Gặp Lỗi?
 
 ### 1. Đọc kỹ thông báo lỗi
-Dart thường báo rõ lỗi ở dòng nào, vấn đề gì.
+Dart/Flutter thường báo rõ lỗi ở dòng nào, vấn đề gì.
 
 ### 2. Hỏi Antigravity
 Copy lỗi và paste vào chat, tôi sẽ giúp bạn fix.
+
+### 3. Google
+Tìm: `[thông báo lỗi] flutter` hoặc `dart`
+
+### 4. Path thư mục
 Tất cả file tôi tạo đang nằm ở:
 ```
 C:\Users\User\.gemini\antigravity\playground\white-nebula
 ```
-### 3. Google
-Tìm: `[thông báo lỗi] dart` hoặc `flutter`
 
 ---
 
@@ -147,10 +176,14 @@ Tìm: `[thông báo lỗi] dart` hoặc `flutter`
 
 ---
 
-## ▶️ Bắt Đầu Ngay!
-**Bắt đầu ngay bằng cách mở file `hello.dart`!** 🎉
-1. Mở thư mục `01_dart_fundamentals`
+## ▶️ Bắt Đầu Phase 2!
+
+1. Mở thư mục `02_flutter_basics`
 2. Đọc file `README.md` trong đó
-3. Bắt đầu với bài học đầu tiên!
+3. Chạy Flutter app:
+```bash
+cd 02_flutter_basics/flutter_basics
+flutter run -d chrome
+```
 
 **Chúc bạn học tốt! 🎉**
