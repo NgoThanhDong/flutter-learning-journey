@@ -17,13 +17,13 @@ void main() {
   var prices = [100000, 250000, 500000, 750000, 1000000];
   print('Giá gốc: $prices');
 
-  // TODO 1.1: Giảm giá 10% cho tất cả sản phẩm
-  // var discounted = prices.map((p) => ???).toList();
-  // print('Giảm 10%: $discounted');
+  // -TODO 1.1: Giảm giá 10% cho tất cả sản phẩm
+  var discounted = prices.map((p) => p * 0.9).toList();
+  print('Giảm 10%: $discounted');
 
-  // TODO 1.2: Format thành chuỗi "xxx VNĐ"
-  // var formatted = prices.map((p) => ???).toList();
-  // print('Formatted: $formatted');
+  // -TODO 1.2: Format thành chuỗi "xxx VNĐ"
+  var formatted = prices.map((p) => '${p} VNĐ').toList();
+  print('Formatted: $formatted');
 
   // ╔════════════════════════════════════════════╗
   // ║  BÀI TẬP 2: where() - Lọc phần tử          ║
@@ -38,13 +38,15 @@ void main() {
     {'name': 'Em', 'score': 65},
   ];
 
-  // TODO 2.1: Lọc sinh viên có điểm >= 80
-  // var passed = students.where((s) => ???).toList();
-  // print('Điểm >= 80: $passed');
+  // -TODO 2.1: Lọc sinh viên có điểm >= 80
+  var passed = students.where((s) => s['score'] as int >= 80).toList();
+  print('Điểm >= 80: $passed');
 
-  // TODO 2.2: Lọc sinh viên có tên bắt đầu bằng chữ cái trong ['A', 'B', 'C']
-  // var abcStudents = students.where((s) => ???).toList();
-  // print('Tên A/B/C: $abcStudents');
+  // -TODO 2.2: Lọc sinh viên có tên bắt đầu bằng chữ cái trong ['A', 'B', 'C']
+  var abcStudents = students
+      .where((s) => ['A', 'B', 'C'].contains((s['name'] as String)[0]))
+      .toList();
+  print('Tên A/B/C: $abcStudents');
 
   // ╔════════════════════════════════════════════╗
   // ║  BÀI TẬP 3: fold() - Tính toán tổng hợp    ║
@@ -57,13 +59,16 @@ void main() {
     {'name': 'Keyboard', 'price': 1000000, 'qty': 1},
   ];
 
-  // TODO 3.1: Tính tổng tiền giỏ hàng (price * qty cho mỗi item)
-  // var total = cart.fold<int>(0, (sum, item) => ???);
-  // print('Tổng giỏ hàng: $total VNĐ');
+  // -TODO 3.1: Tính tổng tiền giỏ hàng (price * qty cho mỗi item)
+  var total = cart.fold<int>(
+    0,
+    (sum, item) => sum + (item['price'] as int) * (item['qty'] as int),
+  );
+  print('Tổng giỏ hàng: $total VNĐ');
 
-  // TODO 3.2: Đếm tổng số lượng sản phẩm
-  // var totalQty = cart.fold<int>(0, (sum, item) => ???);
-  // print('Tổng số lượng: $totalQty');
+  // -TODO 3.2: Đếm tổng số lượng sản phẩm
+  var totalQty = cart.fold<int>(0, (sum, item) => sum + (item['qty'] as int));
+  print('Tổng số lượng: $totalQty');
 
   // ╔════════════════════════════════════════════╗
   // ║  BÀI TẬP 4: any() và every()               ║
@@ -73,13 +78,13 @@ void main() {
   var ages = [18, 22, 25, 30, 16, 35];
   print('Tuổi: $ages');
 
-  // TODO 4.1: Kiểm tra có ai dưới 18 tuổi không
-  // var hasMinor = ages.any((age) => ???);
-  // print('Có người dưới 18: $hasMinor');
+  // -TODO 4.1: Kiểm tra có ai dưới 18 tuổi không
+  var hasMinor = ages.any((age) => age < 18);
+  print('Có người dưới 18: $hasMinor');
 
-  // TODO 4.2: Kiểm tra tất cả có phải người lớn (>= 18) không
-  // var allAdults = ages.every((age) => ???);
-  // print('Tất cả >= 18: $allAdults');
+  // -TODO 4.2: Kiểm tra tất cả có phải người lớn (>= 18) không
+  var allAdults = ages.every((age) => age >= 18);
+  print('Tất cả >= 18: $allAdults');
 
   // ╔════════════════════════════════════════════╗
   // ║  BÀI TẬP 5: Kết hợp nhiều operations       ║
@@ -94,17 +99,17 @@ void main() {
     {'name': 'E', 'price': 250000, 'inStock': false},
   ];
 
-  // TODO: Tìm tổng giá của các sản phẩm CÒN HÀNG (inStock = true)
+  // -TODO 5.1: Tìm tổng giá của các sản phẩm CÒN HÀNG (inStock = true)
   // Gợi ý: where() -> map() -> fold()
 
-  // var inStockTotal = products
-  //     .where((p) => ???)         // Lọc còn hàng
-  //     .map((p) => ???)           // Lấy giá
-  //     .fold<int>(0, (sum, price) => sum + price);  // Tính tổng
-  // print('Tổng giá sản phẩm còn hàng: $inStockTotal VNĐ');
+  var inStockTotal = products
+      .where((p) => p['inStock'] as bool) // Lọc còn hàng
+      .map((p) => p['price']) // Lấy giá
+      .fold<int>(0, (sum, price) => sum + (price as int)); // Tính tổng
+  print('Tổng giá sản phẩm còn hàng: $inStockTotal VNĐ');
 
   print('\n--- KIỂM TRA ---');
-  // checkExercises();
+  checkExercises();
 }
 
 void checkExercises() {
