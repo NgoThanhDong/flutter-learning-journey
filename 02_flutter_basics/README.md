@@ -18,14 +18,14 @@ Sau khi hoàn thành, bạn sẽ:
 
 | Bài | Chủ đề | File lý thuyết | Exercises |
 |-----|--------|----------------|-----------|
-| 1 | Flutter Introduction & Project Structure | lesson_01_introduction.md | 1 |
-| 2 | Widget Fundamentals (Stateless/Stateful) | lesson_02_widgets.md | 3 |
-| 3 | Basic Widgets (Text, Container, Image...) | lesson_03_basic_widgets.md | 3 |
-| 4 | Layout Widgets (Row, Column, Stack) | lesson_04_layout.md | 4 |
-| 5 | Scrollable Widgets (ListView, GridView) | lesson_05_scrollable.md | 3 |
-| 6 | Input Widgets (TextField, Button, Form) | lesson_06_input.md | 3 |
-| 7 | Styling & Theming | lesson_07_styling.md | 2 |
-| 8 | Real UI Practice | lesson_08_practice.md | 3 |
+| 1 | Flutter Introduction & Project Structure | [lesson_01_introduction.md](lesson_01_introduction.md) | 1 |
+| 2 | Widget Fundamentals (Stateless/Stateful) | [lesson_02_widgets.md](lesson_02_widgets.md) | 3 |
+| 3 | Basic Widgets (Text, Container, Image...) | [lesson_03_basic_widgets.md](lesson_03_basic_widgets.md) | 3 |
+| 4 | Layout Widgets (Row, Column, Stack) | [lesson_04_layout.md](lesson_04_layout.md) | 4 |
+| 5 | Scrollable Widgets (ListView, GridView) | [lesson_05_scrollable.md](lesson_05_scrollable.md) | 3 |
+| 6 | Input Widgets (TextField, Button, Form) | [lesson_06_input.md](lesson_06_input.md) | 3 |
+| 7 | Styling & Theming | [lesson_07_styling.md](lesson_07_styling.md) | 2 |
+| 8 | Real UI Practice | [lesson_08_practice.md](lesson_08_practice.md) | 3 |
 
 ---
 
