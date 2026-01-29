@@ -64,25 +64,29 @@ Ví dụ:
 ''');
 
   // Uncomment sau khi implement
-  // print('⏳ Đang đếm từ 1 đến 10...\n');
-  //
-  // await for (var number in countToTen()) {
-  //   print('Đã nhận: $number');
-  // }
-  //
-  // print('\n✅ Stream đã kết thúc!');
+  print('⏳ Đang đếm từ 1 đến 10...\n');
+  
+  await for (var number in countToTen()) {
+    print('Đã nhận: $number');
+  }
+  
+  print('\n✅ Stream đã kết thúc!');
 
   print('👆 Hãy implement function countToTen() rồi uncomment code trên!');
 }
 
 // ============================================
-// TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
+// -TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
 // ============================================
 
-// Stream<int> countToTen() async* {
-//   // TODO: Phát ra số từ 1 đến 10
-//   // Mỗi số cách nhau 1 giây
-// }
+Stream<int> countToTen() async* {
+  // -TODO: Phát ra số từ 1 đến 10
+  // Mỗi số cách nhau 1 giây
+  for (int i = 1; i <= 10; i++) {
+    await Future.delayed(Duration(seconds: 1)); // Đợi 1 giây
+    yield i; // Phát số i vào Stream
+  }
+}
 
 // ============================================
 // GỢI Ý TỪNG BƯỚC

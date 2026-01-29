@@ -16,23 +16,34 @@ void main() async {
   print('⏳ Đang chờ...');
 
   // Uncomment sau khi implement
-  // var message = await delayedHello('Dong');
-  // print(message);
+  var message = await delayedHello('Dong');
+  print(message);
 
-  // print('\n--- KIỂM TRA ---');
-  // await checkExercise();
+  message = await delayedHello2('DongNT');
+  print(message);
+
+  print('\n--- KIỂM TRA ---');
+  await checkExercise();
 
   print('\n👆 Hãy implement function delayedHello() rồi uncomment code trên!');
 }
 
 // ============================================
-// TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
+// -TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
 // ============================================
 
-// Future<String> delayedHello(String name) {
-//   // TODO: Trả về Future sau 2 giây
-//   // với nội dung "Xin chào, [name]!"
-// }
+Future<String> delayedHello(String name) {
+  // -TODO: Trả về Future sau 2 giây
+  // với nội dung "Xin chào, [name]!"
+  return Future.delayed(Duration(seconds: 2), () {
+    return 'Xin chào, $name!';
+  });
+}
+
+Future<String> delayedHello2(String name) async {
+  await Future.delayed(Duration(seconds: 2));
+  return 'Xin chào, $name!';
+}
 
 // ============================================
 // GỢI Ý TỪNG BƯỚC
@@ -73,19 +84,19 @@ Future<void> checkExercise() async {
   print('Test 1: delayedHello("Test")');
   var start = DateTime.now();
 
-  // var result = await delayedHello('Test');
+  var result = await delayedHello('Test');
 
   var elapsed = DateTime.now().difference(start).inMilliseconds;
 
-  // if (elapsed >= 1900 && elapsed <= 2500) {
-  //   print('✅ Thời gian đợi: ${elapsed}ms (đúng ~2 giây)');
-  // } else {
-  //   print('❌ Thời gian đợi: ${elapsed}ms (phải ~2000ms)');
-  // }
+  if (elapsed >= 1900 && elapsed <= 2500) {
+    print('✅ Thời gian đợi: ${elapsed}ms (đúng ~2 giây)');
+  } else {
+    print('❌ Thời gian đợi: ${elapsed}ms (phải ~2000ms)');
+  }
 
-  // if (result == 'Xin chào, Test!') {
-  //   print('✅ Nội dung: "$result"');
-  // } else {
-  //   print('❌ Nội dung sai. Expected: "Xin chào, Test!"');
-  // }
+  if (result == 'Xin chào, Test!') {
+    print('✅ Nội dung: "$result"');
+  } else {
+    print('❌ Nội dung sai. Expected: "Xin chào, Test!"');
+  }
 }

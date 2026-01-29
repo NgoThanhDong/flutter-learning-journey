@@ -20,22 +20,22 @@ void main() async {
   print('fetchUser(3) sẽ trả về User 3 sau 1.5 giây\n');
 
   // Uncomment sau khi implement
-  // print('⏳ Đang fetch tất cả users...');
-  // var start = DateTime.now();
-  //
-  // var users = await fetchAllUsers();
-  //
-  // var elapsed = DateTime.now().difference(start).inMilliseconds;
-  //
-  // print('✅ Đã fetch xong trong ${elapsed}ms');
-  // print('Danh sách: $users');
-  //
-  // print('\n--- KIỂM TRA ---');
-  // if (elapsed < 2500) {
-  //   print('✅ Chạy song song! (${elapsed}ms < 4500ms tuần tự)');
-  // } else {
-  //   print('❌ Có vẻ chạy tuần tự. Hãy dùng Future.wait!');
-  // }
+  print('⏳ Đang fetch tất cả users...');
+  var start = DateTime.now();
+  
+  var users = await fetchAllUsers();
+  
+  var elapsed = DateTime.now().difference(start).inMilliseconds;
+  
+  print('✅ Đã fetch xong trong ${elapsed}ms');
+  print('Danh sách: $users');
+  
+  print('\n--- KIỂM TRA ---');
+  if (elapsed < 2500) {
+    print('✅ Chạy song song! (${elapsed}ms < 4500ms tuần tự)');
+  } else {
+    print('❌ Có vẻ chạy tuần tự. Hãy dùng Future.wait!');
+  }
 
   print('\n👆 Hãy implement function fetchAllUsers() rồi uncomment code trên!');
 }
@@ -52,13 +52,24 @@ Future<String> fetchUser(int id) async {
 }
 
 // ============================================
-// TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
+// -TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
 // ============================================
 
-// Future<List<String>> fetchAllUsers() async {
-//   // TODO: Gọi fetchUser(1), fetchUser(2), fetchUser(3) SONG SONG
-//   // và trả về List<String> chứa tất cả users
-// }
+Future<List<String>> fetchAllUsers() async {
+  // -TODO: Gọi fetchUser(1), fetchUser(2), fetchUser(3) SONG SONG
+  // và trả về List<String> chứa tất cả users
+
+  // var user1 = await fetchUser(1);  // Đợi 1 giây
+  // var user2 = await fetchUser(2);  // Đợi 2 giây
+  // var user3 = await fetchUser(3);  // Đợi 1.5 giây
+  // return [user1, user2, user3];    // Tổng: 4.5 giây!
+
+  return Future.wait([
+    fetchUser(1),
+    fetchUser(2),
+    fetchUser(3),
+  ]);
+}
 
 // ============================================
 // GỢI Ý TỪNG BƯỚC

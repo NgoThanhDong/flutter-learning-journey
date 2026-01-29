@@ -65,44 +65,51 @@ Nhưng nếu bạn muốn TỰ QUYẾT ĐỊNH khi nào phát data?
 ''');
 
   // Uncomment sau khi implement
-  // var emitter = NumberEmitter();
-  //
-  // // Lắng nghe stream
-  // emitter.numbers.listen((n) {
-  //   print('Nhận được số: $n');
-  // });
-  //
-  // // Phát các số
-  // emitter.add(10);
-  // emitter.add(20);
-  // emitter.add(30);
-  //
-  // // Đợi một chút để stream xử lý
-  // await Future.delayed(Duration(milliseconds: 100));
-  //
-  // // Đóng stream
-  // emitter.dispose();
-  // print('\n✅ Stream đã đóng!');
+  var emitter = NumberEmitter();
+  
+  // Lắng nghe stream
+  emitter.numbers.listen((n) {
+    print('Nhận được số: $n');
+  });
+  
+  // Phát các số
+  emitter.add(10);
+  emitter.add(20);
+  emitter.add(30);
+  
+  // Đợi một chút để stream xử lý
+  await Future.delayed(Duration(milliseconds: 100));
+  
+  // Đóng stream
+  emitter.dispose();
+  print('\n✅ Stream đã đóng!');
 
   print('👆 Hãy implement class NumberEmitter rồi uncomment code trên!');
 }
 
 // ============================================
-// TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
+// -TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
 // ============================================
 
-// class NumberEmitter {
-//   // TODO: Tạo StreamController<int>
-//   
-//   // TODO: Getter để expose stream ra ngoài
-//   // Stream<int> get numbers => ...
-//   
-//   // TODO: Method để phát số vào stream
-//   // void add(int n) { ... }
-//   
-//   // TODO: Method để đóng stream
-//   // void dispose() { ... }
-// }
+class NumberEmitter {
+  // -TODO: Tạo StreamController<int>
+  final _controller = StreamController<int>();
+  
+  // -TODO: Getter để expose stream ra ngoài
+  Stream<int> get numbers => _controller.stream;
+  
+  // -TODO: Method để phát số vào stream
+  // void add(int n) { ... }
+  void add(int n) {
+    _controller.add(n);
+  }
+  
+  // -TODO: Method để đóng stream
+  // void dispose() { ... }
+  void dispose() {
+    _controller.close();
+  }
+}
 
 // ============================================
 // GỢI Ý TỪNG BƯỚC
