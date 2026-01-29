@@ -31,8 +31,9 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 ## 📁 Cấu Trúc Thư Mục
 
 ```
-white-nebula/
+flutter-learning-journey/
 │
+├── 📄 hello.dart                   ← 🌟 BẮT ĐẦU TỪ ĐÂY!
 ├── 📄 README.md                    ← Bạn đang đọc file này
 │
 ├── 📂 01_dart_fundamentals/        ← PHASE 1: Học Dart
@@ -127,7 +128,10 @@ Dart thường báo rõ lỗi ở dòng nào, vấn đề gì.
 
 ### 2. Hỏi Antigravity
 Copy lỗi và paste vào chat, tôi sẽ giúp bạn fix.
-
+Tất cả file tôi tạo đang nằm ở:
+```
+C:\Users\User\.gemini\antigravity\playground\white-nebula
+```
 ### 3. Google
 Tìm: `[thông báo lỗi] dart` hoặc `flutter`
 
