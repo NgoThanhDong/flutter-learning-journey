@@ -446,4 +446,4 @@ File: `exercises/exercise_10_stream_controller.dart`
 - [ ] Biết dùng StreamController
 - [ ] Hoàn thành 4 bài tập
 
-**Kết thúc Phase 1!** Tiếp theo: Phase 2 - Flutter Basics & Widget System
+**Tiếp theo:** Bài 4 - Collections: List, Map, Set, Generics
