@@ -15,13 +15,21 @@ void main() async {
 
   print('--- Bài tập 1: Parse số an toàn ---');
 
-  // TODO: Implement function safeParseInt(String value)
+  // -TODO: Implement function safeParseInt(String value)
   // - Nếu parse được → trả về số
   // - Nếu không parse được → trả về null
 
-  // print(safeParseInt('123'));  // 123
-  // print(safeParseInt('abc'));  // null
-  // print(safeParseInt('12.5')); // null
+  int? safeParseInt(String value) {
+    try {
+      return int.parse(value);
+    } on FormatException {
+      return null;
+    }
+  }
+
+  print(safeParseInt('123')); // 123
+  print(safeParseInt('abc')); // null
+  print(safeParseInt('12.5')); // null
 
   // ╔════════════════════════════════════════════╗
   // ║  BÀI TẬP 2: Validate với Exception         ║
@@ -29,15 +37,37 @@ void main() async {
 
   print('\n--- Bài tập 2: Validate email ---');
 
-  // TODO: Implement function validateEmail(String email)
+  // -TODO: Implement function validateEmail(String email)
   // - Throw FormatException nếu email rỗng
   // - Throw FormatException nếu không có @
   // - Throw FormatException nếu không có .
   // - Return true nếu hợp lệ
 
-  // testEmail('test@example.com');  // ✅ Valid
-  // testEmail('invalid-email');     // ❌ Invalid
-  // testEmail('');                  // ❌ Invalid
+  bool validateEmail(String email) {
+    if (email.isEmpty) {
+      throw FormatException('Email không được rỗng');
+    }
+    if (!email.contains('@')) {
+      throw FormatException('Email phải có @');
+    }
+    if (!email.contains('.')) {
+      throw FormatException('Email phải có .');
+    }
+    return true;
+  }
+
+  void testEmail(String email) {
+    try {
+      validateEmail(email);
+      print('✅ "$email" is valid');
+    } on FormatException catch (e) {
+      print('❌ "$email" invalid: $e');
+    }
+  }
+
+  testEmail('test@example.com'); // ✅ Valid
+  testEmail('invalid-email'); // ❌ Invalid
+  testEmail(''); // ❌ Invalid
 
   // ╔════════════════════════════════════════════╗
   // ║  BÀI TẬP 3: Custom Exception               ║
@@ -45,10 +75,9 @@ void main() async {
 
   print('\n--- Bài tập 3: Custom Exception cho ngân hàng ---');
 
-  // TODO: Tạo các custom exception:
+  // -TODO: Tạo các custom exception:
   // - InsufficientBalanceException(required, available)
   // - InvalidAmountException(amount)
-  // - AccountNotFoundException(accountId)
 
   // Sau đó implement class BankAccount:
   // - balance property
@@ -57,10 +86,23 @@ void main() async {
   //   + throw InsufficientBalanceException nếu không đủ tiền
   //   + trừ tiền và return balance mới nếu OK
 
-  // var account = BankAccount(1000000);
-  // testWithdraw(account, 500000);   // ✅ OK
-  // testWithdraw(account, 1000000);  // ❌ Không đủ tiền
-  // testWithdraw(account, -100);     // ❌ Số tiền không hợp lệ
+   void testWithdraw(BankAccount account, int amount) {
+    try {
+      account.withdraw(amount);
+      print('✅ $amount withdrawed successfully');
+    } on InvalidAmountException catch (e) {
+      print('❌ Invalid amount: $e');
+    } on InsufficientBalanceException catch (e) {
+      print('❌ Insufficient balance: $e');
+    }
+  }
+
+  int balance = 1000000;
+  var account = BankAccount(balance);
+
+  testWithdraw(account, 500000); // ✅ OK
+  testWithdraw(account, 1000000); // ❌ Không đủ tiền
+  testWithdraw(account, -100); // ❌ Số tiền không hợp lệ
 
   // ╔════════════════════════════════════════════╗
   // ║  BÀI TẬP 4: Finally - Cleanup              ║
@@ -68,14 +110,31 @@ void main() async {
 
   print('\n--- Bài tập 4: Xử lý file (giả lập) ---');
 
-  // TODO: Implement function processFile(String filename)
+  // -TODO: Implement function processFile(String filename)
   // Giả lập:
   // - "openFile" (print)
   // - "readFile" (có thể throw nếu filename là 'error.txt')
   // - "closeFile" (print) - PHẢI luôn được gọi dù có lỗi hay không
 
-  // processFile('data.txt');    // Open, Read, Close
-  // processFile('error.txt');   // Open, Error, Close (finally)
+  void processFile(String filename) {
+    print('📂 Opening $filename...');
+    try {
+      // Giả lập đọc file
+      if (filename == 'error.txt') {
+        throw Exception('File bị lỗi!');
+      }
+      print('📖 Reading $filename...');
+    } catch (e) {
+      print('❌ Error: $e');
+    } finally {
+      // Luôn close file
+      print('🔒 Closing $filename...');
+    }
+    print('');
+  }
+
+  processFile('data.txt'); // Open, Read, Close
+  processFile('error.txt'); // Open, Error, Close (finally)
 
   print('\n--- KIỂM TRA ---');
   print('👆 Implement code rồi uncomment để kiểm tra!');
@@ -85,7 +144,7 @@ void main() async {
 // BÀI 1: Safe Parse
 // ============================================
 
-// TODO: Implement
+// -TODO: Implement
 // int? safeParseInt(String value) {
 //   try {
 //     return int.parse(value);
@@ -98,7 +157,7 @@ void main() async {
 // BÀI 2: Validate Email
 // ============================================
 
-// TODO: Implement
+// -TODO: Implement
 // bool validateEmail(String email) {
 //   if (email.isEmpty) {
 //     throw FormatException('Email không được rỗng');
@@ -111,7 +170,7 @@ void main() async {
 //   }
 //   return true;
 // }
-// 
+//
 // void testEmail(String email) {
 //   try {
 //     validateEmail(email);
@@ -125,62 +184,49 @@ void main() async {
 // BÀI 3: Custom Exception - Bank
 // ============================================
 
-// TODO: Tạo custom exceptions
-// class InsufficientBalanceException implements Exception {
-//   final int required;
-//   final int available;
-//   
-//   InsufficientBalanceException(this.required, this.available);
-//   
-//   @override
-//   String toString() => 
-//       'InsufficientBalanceException: Cần $required, chỉ có $available';
-// }
-// 
-// class InvalidAmountException implements Exception {
-//   final int amount;
-//   
-//   InvalidAmountException(this.amount);
-//   
-//   @override
-//   String toString() => 
-//       'InvalidAmountException: Số tiền $amount không hợp lệ';
-// }
+// -TODO: Tạo custom exceptions
+class InsufficientBalanceException implements Exception {
+  final int required;
+  final int available;
 
-// TODO: Implement BankAccount
-// class BankAccount {
-//   int balance;
-//   
-//   BankAccount(this.balance);
-//   
-//   int withdraw(int amount) {
-//     if (amount <= 0) {
-//       throw InvalidAmountException(amount);
-//     }
-//     if (amount > balance) {
-//       throw InsufficientBalanceException(amount, balance);
-//     }
-//     balance -= amount;
-//     return balance;
-//   }
-// }
-// 
-// void testWithdraw(BankAccount account, int amount) {
-//   try {
-//     var newBalance = account.withdraw(amount);
-//     print('✅ Rút $amount thành công. Số dư: $newBalance');
-//   } on InvalidAmountException catch (e) {
-//     print('❌ $e');
-//   } on InsufficientBalanceException catch (e) {
-//     print('❌ $e');
-//   }
-// }
+  InsufficientBalanceException(this.required, this.available);
+
+  @override
+  String toString() =>
+      'InsufficientBalanceException: Cần $required, chỉ có $available';
+}
+
+class InvalidAmountException implements Exception {
+  final int amount;
+
+  InvalidAmountException(this.amount);
+
+  @override
+  String toString() => 'InvalidAmountException: Số tiền $amount không hợp lệ';
+}
+
+// -TODO: Implement BankAccount
+class BankAccount {
+  int balance;
+
+  BankAccount(this.balance);
+  int withdraw(int amount) {
+    if (amount <= 0) {
+      throw InvalidAmountException(amount);
+    }
+    if (amount > balance) {
+      throw InsufficientBalanceException(amount, balance);
+    }
+    balance -= amount;
+    return balance;
+  }
+}
 
 // ============================================
 // BÀI 4: Finally
 // ============================================
 
-// TODO: Implement
+// -TODO: Implement
 // void processFile(String filename) {
 //   print('📂 Opening $filename...');
 //   try {
