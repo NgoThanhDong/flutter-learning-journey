@@ -1,74 +1,77 @@
-# Phase 1: Dart Fundamentals
+# Phase 1: Dart Fundamentals - README
 
-Học ngôn ngữ Dart - nền tảng của Flutter.
+## 📚 Nội dung
 
----
+| Bài | Chủ đề | File lý thuyết | File code |
+|-----|--------|----------------|-----------|
+| 1 | Cơ bản: Variables, Null Safety, Functions | [lesson_01_basics.md](lesson_01_basics.md) | [lesson_01_examples.dart](lesson_01_examples.dart) |
+| 2 | OOP: Class, Inheritance, Interface, Mixins | [lesson_02_oop.md](lesson_02_oop.md) | [lesson_02_examples.dart](lesson_02_examples.dart) |
+| 3 | Async: Future, Stream, async/await | [lesson_03_async.md](lesson_03_async.md) | [lesson_03_examples.dart](lesson_03_examples.dart) |
 
-## 📚 Bài Học
+## 🏋️ Bài tập
 
-| Bài | File | Nội dung chính |
-|-----|------|----------------|
-| 2 | [lesson_02_oop.md](lesson_02_oop.md) | Class, Constructor, Inheritance, Interface, Mixin, Extension |
-| 3 | [lesson_03_async.md](lesson_03_async.md) | Future, async/await, Stream, StreamController |
+Folder `exercises/` chứa các bài tập có auto-check:
 
----
-
-## 🏋️ Bài Tập Thực Hành
-
-### Bài 2 - OOP
-
-| File | Nội dung |
-|------|----------|
-| `exercises/exercise_04_product.dart` | Tạo Class Product với named constructor |
-| `exercises/exercise_05_employee.dart` | Inheritance hệ thống nhân viên |
-| `exercises/exercise_06_extension.dart` | Extension cho DateTime |
-
-### Bài 3 - Async
-
-| File | Nội dung |
-|------|----------|
-| `exercises/exercise_07_future.dart` | Future cơ bản |
-| `exercises/exercise_08_multiple_futures.dart` | Future.wait (chạy song song) |
-| `exercises/exercise_09_stream.dart` | Tạo Stream với async*/yield |
-| `exercises/exercise_10_stream_controller.dart` | Tự điều khiển Stream |
-
----
-
-## 🚀 Cách Học
-
-### Bước 1: Đọc lý thuyết
 ```
-Mở file lesson_XX_xxx.md
+exercises/
+│
+├── 📝 Bài 1 (Cơ bản):
+│   ├── exercise_01_variables.dart      # Khai báo biến
+│   ├── exercise_02_null_safety.dart    # Null Safety
+│   └── exercise_03_named_params.dart   # Named Parameters
+│
+├── 📝 Bài 2 (OOP):
+│   ├── exercise_04_product.dart        # Class Product với named constructor
+│   ├── exercise_05_employee.dart       # Inheritance hệ thống nhân viên
+│   └── exercise_06_extension.dart      # Extension cho DateTime
+│
+└── 📝 Bài 3 (Async):
+    ├── exercise_07_future.dart             # Future cơ bản
+    ├── exercise_08_multiple_futures.dart   # Future.wait (chạy song song)
+    ├── exercise_09_stream.dart             # Tạo Stream với async*/yield
+    └── exercise_10_stream_controller.dart  # StreamController
 ```
 
-### Bước 2: Làm bài tập
+## 🚀 Cách học
+
+### 1. Đọc lý thuyết
+Mở file `.md` để đọc giải thích chi tiết.
+
+### 2. Chạy ví dụ
+```bash
+dart run lesson_01_examples.dart
+dart run lesson_02_examples.dart
+dart run lesson_03_examples.dart
+```
+
+### 3. Làm bài tập
 ```bash
 cd exercises
-dart run exercise_XX_xxx.dart
+dart run exercise_01_variables.dart
 ```
 
-### Bước 3: Hỏi nếu chưa hiểu
-Antigravity sẽ giải thích chi tiết!
+## ✅ Checklist hoàn thành Phase 1
 
----
+- [ ] **Bài 1**: Biến, Null Safety, Functions
+  - [ ] Hiểu var, final, const
+  - [ ] Hiểu ?, !, ??
+  - [ ] Viết được function với named params
+  - [ ] Hoàn thành exercise_01, 02, 03
+  
+- [ ] **Bài 2**: OOP
+  - [ ] Hiểu các loại constructor
+  - [ ] Hiểu inheritance và @override
+  - [ ] Hiểu abstract class và interface
+  - [ ] Hiểu mixins và extension
+  - [ ] Hoàn thành exercise_04, 05, 06
+  
+- [ ] **Bài 3**: Async
+  - [ ] Hiểu Future và async/await
+  - [ ] Hiểu Future.wait (chạy song song)
+  - [ ] Hiểu Stream và yield
+  - [ ] Hiểu StreamController
+  - [ ] Hoàn thành exercise_07, 08, 09, 10
 
-## ✅ Checklist Hoàn Thành
+## ➡️ Tiếp theo
 
-### Bài 2: OOP
-- [ ] Hiểu Class và Constructor
-- [ ] Hiểu Inheritance (extends)
-- [ ] Hiểu Interface (implements)
-- [ ] Hiểu Mixin (with)
-- [ ] Hiểu Extension
-- [ ] Hoàn thành 3 bài tập
-
-### Bài 3: Async
-- [ ] Hiểu Future và async/await
-- [ ] Biết dùng Future.wait
-- [ ] Hiểu Stream và yield
-- [ ] Biết dùng StreamController
-- [ ] Hoàn thành 4 bài tập
-
----
-
-**Sau khi hoàn thành** → Chuyển sang Phase 2: Flutter Basics!
+Sau khi hoàn thành Phase 1, chuyển sang **Phase 2: Flutter Basics & Widget System**!
