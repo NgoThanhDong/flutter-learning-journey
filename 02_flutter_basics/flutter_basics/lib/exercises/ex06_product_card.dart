@@ -17,11 +17,10 @@
 
 library;
 
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// TODO: Uncomment và hoàn thiện
+// -TODO: Uncomment và hoàn thiện
 
-/*
 class Ex06ProductCard extends StatelessWidget {
   const Ex06ProductCard({super.key});
 
@@ -127,4 +126,3 @@ class Ex06ProductCard extends StatelessWidget {
     );
   }
 }
-*/

@@ -11,9 +11,10 @@
 
 library;
 
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-/*
+// -TODO: Uncomment và hoàn thiện
+
 class Ex22ChatUI extends StatefulWidget {
   const Ex22ChatUI({super.key});
 
@@ -134,4 +135,3 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
     );
   }
 }
-*/

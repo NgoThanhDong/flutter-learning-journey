@@ -14,11 +14,10 @@
 
 library;
 
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// TODO: Uncomment và hoàn thiện code
+// -TODO: Uncomment và hoàn thiện code
 
-/*
 class Ex03ToggleTheme extends StatefulWidget {
   const Ex03ToggleTheme({super.key});
 
@@ -27,7 +26,7 @@ class Ex03ToggleTheme extends StatefulWidget {
 }
 
 class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
-  // TODO: Tạo biến state _isDark
+  // -TODO: Tạo biến state _isDark
   bool _isDark = false;
 
   void _toggleTheme() {
@@ -39,7 +38,7 @@ class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // TODO: Đổi màu background dựa vào _isDark
+      // -TODO: Đổi màu background dựa vào _isDark
       backgroundColor: _isDark ? Colors.black : Colors.white,
       
       appBar: AppBar(
@@ -52,7 +51,7 @@ class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // TODO: Icon thay đổi dựa vào _isDark
+            // -TODO: Icon thay đổi dựa vào _isDark
             Icon(
               _isDark ? Icons.nightlight_round : Icons.wb_sunny,
               size: 100,
@@ -65,7 +64,7 @@ class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
               _isDark ? 'Dark Mode' : 'Light Mode',
               style: TextStyle(
                 fontSize: 24,
-                // TODO: Màu chữ thay đổi
+                // -TODO: Màu chữ thay đổi
                 color: _isDark ? Colors.white : Colors.black,
               ),
             ),
@@ -82,4 +81,3 @@ class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
     );
   }
 }
-*/

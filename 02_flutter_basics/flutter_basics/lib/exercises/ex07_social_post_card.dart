@@ -12,11 +12,10 @@
 
 library;
 
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// TODO: Uncomment và hoàn thiện
+// -TODO: Uncomment và hoàn thiện
 
-/*
 class Ex07SocialPostCard extends StatelessWidget {
   const Ex07SocialPostCard({super.key});
 
@@ -118,4 +117,3 @@ class Ex07SocialPostCard extends StatelessWidget {
     );
   }
 }
-*/

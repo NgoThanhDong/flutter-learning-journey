@@ -12,11 +12,10 @@
 
 library;
 
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// TODO: Uncomment và hoàn thiện
+// -TODO: Uncomment và hoàn thiện
 
-/*
 class Ex05ProfileCard extends StatelessWidget {
   const Ex05ProfileCard({super.key});
 
@@ -76,4 +75,3 @@ class Ex05ProfileCard extends StatelessWidget {
     );
   }
 }
-*/

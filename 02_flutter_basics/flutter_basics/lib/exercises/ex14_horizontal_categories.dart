@@ -11,9 +11,10 @@
 
 library;
 
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-/*
+// -TODO: Uncomment và hoàn thiện
+
 class Ex14HorizontalCategories extends StatefulWidget {
   const Ex14HorizontalCategories({super.key});
 
@@ -85,4 +86,3 @@ class _Ex14HorizontalCategoriesState extends State<Ex14HorizontalCategories> {
     );
   }
 }
-*/

@@ -13,9 +13,10 @@
 
 library;
 
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-/*
+// -TODO: Implement theo hướng dẫn trong lesson_08_practice.md
+
 class Ex21EcommerceHome extends StatelessWidget {
   const Ex21EcommerceHome({super.key});
 
@@ -178,4 +179,3 @@ class Ex21EcommerceHome extends StatelessWidget {
     );
   }
 }
-*/
