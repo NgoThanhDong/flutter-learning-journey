@@ -15,7 +15,7 @@
 ```
 ┌─────────────────────────────────────┐
 │  ROW (ngang)                        │
-│  Main Axis: ←──────────────────→    │
+│  Main Axis: ← ────────────────── →  │
 │  Cross Axis: ↑                      │
 │              │                      │
 │              ↓                      │
@@ -26,7 +26,7 @@
 │  Main Axis: ↑                       │
 │             │                       │
 │             ↓                       │
-│  Cross Axis: ←──────────────────→   │
+│  Cross Axis: ← ────────────────── → │
 └─────────────────────────────────────┘
 ```
 
@@ -65,7 +65,7 @@ Row(
 
 ```
 start:        [A][B][C]____________
-center:       ____[A][B][C]________
+center:       ______[A][B][C]______
 end:          ____________[A][B][C]
 spaceBetween: [A]_____[B]_____[C]
 spaceAround:  _[A]___[B]___[C]_
@@ -90,6 +90,7 @@ Row(
 
 ```dart
 Row(
+  // spaceBetween: Chia đều khoảng cách giữa các phần tử và cả 2 đầu
   mainAxisAlignment: MainAxisAlignment.spaceBetween,
   children: [
     // Left: Back button
@@ -132,7 +133,7 @@ Column(
 
 ```dart
 Column(
-  mainAxisAlignment: MainAxisAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.center, // Căn giữa
   children: [...],
 )
 ```
@@ -244,6 +245,7 @@ Row(
 ### 5.1 Cơ bản
 
 ```dart
+// Sếp chồng lên, cái nào ở khái báo sau thì ở trên
 Stack(
   children: [
     // Bottom layer (phía dưới)
@@ -315,7 +317,7 @@ Stack(
 )
 ```
 
-### 5.4 Ví dụ: Badge trên Icon
+### 5.4 Ví dụ: Badge (Huy hiệu) trên Icon
 
 ```dart
 Stack(
@@ -323,13 +325,13 @@ Stack(
   children: [
     Icon(Icons.shopping_cart, size: 30),
     Positioned(
-      top: -5,
-      right: -5,
+      top: -5, // Cách trên 5px
+      right: -5, // Cách phải 5px
       child: Container(
         padding: EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: Colors.red,
-          shape: BoxShape.circle,
+          shape: BoxShape.circle, // Hình tròn
         ),
         child: Text(
           '3',
@@ -351,17 +353,17 @@ Stack(
       'https://picsum.photos/300/200',
       width: 300,
       height: 200,
-      fit: BoxFit.cover,
+      fit: BoxFit.cover, // Cắt ảnh theo tỷ lệ khung hình, không méo ảnh
     ),
     
     // Gradient overlay
-    Positioned.fill(
+    Positioned.fill( // Fill toàn bộ khung hình
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.transparent, Colors.black54],
+          gradient: LinearGradient( // Gradient: Chuyển màu từ trên xuống dưới
+            begin: Alignment.topCenter, // Bắt đầu từ trên cùng
+            end: Alignment.bottomCenter, // Kết thúc ở dưới cùng
+            colors: [Colors.transparent, Colors.black54], // Màu sắc
           ),
         ),
       ),
@@ -369,8 +371,8 @@ Stack(
     
     // Text at bottom
     Positioned(
-      bottom: 16,
-      left: 16,
+      bottom: 16, // Cách dưới 16px
+      left: 16, // Cách trái 16px
       child: Text(
         'Image Title',
         style: TextStyle(color: Colors.white, fontSize: 18),
@@ -388,7 +390,7 @@ Stack(
 Wrap(
   spacing: 8,          // Khoảng cách ngang
   runSpacing: 8,       // Khoảng cách dọc
-  alignment: WrapAlignment.start,
+  alignment: WrapAlignment.start, // Căn trái
   
   children: [
     Chip(label: Text('Flutter')),
@@ -406,11 +408,12 @@ Wrap(
 ## 7. LayoutBuilder - Responsive
 
 ```dart
+// Tự động thay đổi layout dựa trên kích thước màn hình
 LayoutBuilder(
   builder: (context, constraints) {
-    // constraints chứa maxWidth, maxHeight
+    // constraints (hạn chế) chứa maxWidth, maxHeight
     
-    if (constraints.maxWidth > 600) {
+    if (constraints.maxWidth > 600) { // Nếu chiều rộng lớn hơn 600px
       // Desktop layout
       return Row(
         children: [
@@ -437,7 +440,7 @@ LayoutBuilder(
 ### 8.1 Unbounded height trong Column
 
 ```dart
-// ❌ LỖI: Column trong ListView không có bounds
+// ❌ LỖI: Column trong ListView không có bounds (giới hạn)
 ListView(
   children: [
     Column(
@@ -447,6 +450,8 @@ ListView(
 )
 
 // ✅ SỬA: Dùng shrinkWrap hoặc fixed height
+// shrinkWrap: Cho ListView tự co kích thước theo nội dung của nó, thay vì chiếm toàn bộ không gian có thể
+// fixed height: Chiều cao cố định
 ListView(
   children: [
     Column(
@@ -474,7 +479,7 @@ Row(
     Expanded(
       child: Text(
         'Very very very long text...',
-        overflow: TextOverflow.ellipsis,
+        overflow: TextOverflow.ellipsis, // Hiển thị dấu ba chấm khi text quá dài
       ),
     ),
     Icon(Icons.star),

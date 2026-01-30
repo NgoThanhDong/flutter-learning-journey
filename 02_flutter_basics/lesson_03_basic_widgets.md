@@ -12,14 +12,14 @@
 ### 1.1 Cơ bản
 
 ```dart
-Text('Hello World')
+Text('Hello World') // // Text - Widget để hiển thị chữ
 
 Text(
   'Hello Flutter',
-  style: TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: Colors.blue,
+  style: TextStyle( // TextStyle - Widget để hiển thị chữ
+    fontSize: 24, // Kích thước chữ
+    fontWeight: FontWeight.bold, // Độ đậm của chữ
+    color: Colors.blue, // Màu chữ
   ),
 )
 ```

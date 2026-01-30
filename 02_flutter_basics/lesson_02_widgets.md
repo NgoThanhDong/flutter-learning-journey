@@ -79,14 +79,15 @@ class ProductCard extends StatelessWidget {
     required this.imageUrl,
   });
   
+  // build() - Phương thức để build UI
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
+    return Card( // Card - Widget để hiển thị thông tin sản phẩm
+      child: Column( // Column - Widget để hiển thị các widget theo chiều dọc
         children: [
-          Image.network(imageUrl),
-          Text(name),
-          Text('\$${price.toStringAsFixed(2)}'),
+          Image.network(imageUrl), // Image.network - Widget để hiển thị hình ảnh
+          Text(name), // Text - Widget để hiển thị chữ
+          Text('\$${price.toStringAsFixed(2)}'), // Text - Widget để hiển thị chữ
         ],
       ),
     );
@@ -117,13 +118,14 @@ ProductCard(
 - Có thể tự cập nhật UI khi state thay đổi
 - Phù hợp cho UI động, có tương tác
 
-### 3.2 Cấu trúc (2 class)
-
 ```dart
 // Class 1: Widget (immutable)
+// Widget - Lớp cha của StatefulWidget
 class CounterWidget extends StatefulWidget {
+  // Constructor
   const CounterWidget({super.key});
   
+  // createState() - Phương thức để tạo state
   @override
   State<CounterWidget> createState() => _CounterWidgetState();
 }
@@ -140,14 +142,15 @@ class _CounterWidgetState extends State<CounterWidget> {
     });
   }
   
+  // build() - Phương thức để build UI
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Column( // Column - Widget để hiển thị các widget theo chiều dọc
       children: [
-        Text('Count: $_count'),
-        ElevatedButton(
-          onPressed: _increment,
-          child: Text('Increment'),
+        Text('Count: $_count'), // Text - Widget để hiển thị chữ
+        ElevatedButton( // Nút bấm
+          onPressed: _increment, // Khi bấm nút thì gọi hàm _increment
+          child: Text('Increment'), // Nội dung nút bấm
         ),
       ],
     );
@@ -175,40 +178,46 @@ void _increment() {
 1. Chạy code bên trong `() { }`
 2. Gọi lại `build()` để vẽ lại UI
 
-### 3.4 Ví dụ hoàn chỉnh: Toggle Button
-
 ```dart
+// ToggleButton - Widget để hiển thị nút bấm
 class ToggleButton extends StatefulWidget {
+  // Constructor
   const ToggleButton({super.key});
   
+  // createState() - Phương thức để tạo state
   @override
   State<ToggleButton> createState() => _ToggleButtonState();
 }
 
+// _ToggleButtonState - State của ToggleButton
 class _ToggleButtonState extends State<ToggleButton> {
+  // State variables
   bool _isOn = false;
   
+  // Methods
   void _toggle() {
     setState(() {
       _isOn = !_isOn;
     });
   }
   
+  // build() - Phương thức để build UI
   @override
   Widget build(BuildContext context) {
+    // GestureDetector - Widget để xử lý sự kiện chạm
     return GestureDetector(
-      onTap: _toggle,
-      child: Container(
+      onTap: _toggle, // Khi chạm vào thì gọi hàm _toggle
+      child: Container( // Container - Widget để hiển thị hình ảnh
         width: 100,
         height: 50,
-        decoration: BoxDecoration(
-          color: _isOn ? Colors.green : Colors.grey,
-          borderRadius: BorderRadius.circular(25),
+        decoration: BoxDecoration( // BoxDecoration - Widget để hiển thị hình ảnh
+          color: _isOn ? Colors.green : Colors.grey, // Màu sắc của container
+          borderRadius: BorderRadius.circular(25), // Bo góc của container
         ),
-        child: Center(
-          child: Text(
-            _isOn ? 'ON' : 'OFF',
-            style: TextStyle(color: Colors.white),
+        child: Center( // Center - Widget để hiển thị widget ở giữa
+          child: Text( // Text - Widget để hiển thị chữ
+            _isOn ? 'ON' : 'OFF', // Hiển thị chữ ON hoặc OFF
+            style: TextStyle(color: Colors.white), // Màu chữ
           ),
         ),
       ),
@@ -230,13 +239,16 @@ class _ToggleButtonState extends State<ToggleButton> {
 ## 4. Lifecycle của StatefulWidget
 
 ```dart
+// MyWidget - Widget có trạng thái
 class MyWidget extends StatefulWidget {
+  // createState() - Phương thức để tạo state
   @override
   State<MyWidget> createState() => _MyWidgetState();
 }
 
+// _MyWidgetState - State của MyWidget
 class _MyWidgetState extends State<MyWidget> {
-  
+
   @override
   void initState() {
     super.initState();

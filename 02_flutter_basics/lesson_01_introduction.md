@@ -69,22 +69,29 @@ flutter_basics/
 ### 2.1 lib/main.dart - Entry Point
 
 ```dart
+// Cho phép bạn dùng toàn bộ widget & theme theo Material Design của Flutter
 import 'package:flutter/material.dart';
 
+// Hàm main() - Điểm bắt đầu của ứng dụng
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp()); // Khởi chạy app
 }
 
+// MyApp - Root widget của app
 class MyApp extends StatelessWidget {
+  // Constructor
   const MyApp({super.key});
 
+  // build() - Phương thức để build UI
   @override
   Widget build(BuildContext context) {
+    // MaterialApp - Wrapper cho Material Design
     return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-        appBar: AppBar(title: Text('Hello Flutter')),
-        body: Center(child: Text('Hello World!')),
+      title: 'Flutter Demo', // Tiêu đề của app
+      // home - Màn hình đầu tiên khi mở app
+      home: Scaffold( // Scaffold - Cấu trúc màn hình chuẩn
+        appBar: AppBar(title: Text('Hello Flutter')), // AppBar - Thanh tiêu đề
+        body: Center(child: Text('Hello World!')), // body - Nội dung chính
       ),
     );
   }
