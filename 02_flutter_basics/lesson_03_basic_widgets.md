@@ -419,7 +419,7 @@ Center(
 
 ```dart
 Align(
-  alignment: Alignment.topRight,
+  alignment: Alignment.topRight, // Căn chỉnh vị trí của widget con
   child: Text('Top Right'),
 )
 // Alignment.center, topLeft, bottomCenter...
@@ -440,9 +440,9 @@ Opacity(
 
 ```dart
 Card(
-  elevation: 4,
-  margin: EdgeInsets.all(8),
-  shape: RoundedRectangleBorder(
+  elevation: 4, // Độ cao của card
+  margin: EdgeInsets.all(8), // Khoảng cách với các widget khác
+  shape: RoundedRectangleBorder( // Bo góc
     borderRadius: BorderRadius.circular(12),
   ),
   child: Padding(
@@ -464,10 +464,10 @@ Card(
 ```dart
 Divider(
   height: 20,
-  thickness: 1,
-  color: Colors.grey,
-  indent: 16,
-  endIndent: 16,
+  thickness: 1, // Độ dày của đường kẻ
+  color: Colors.grey, // Màu của đường kẻ
+  indent: 16, // Khoảng cách từ lề trái
+  endIndent: 16, // Khoảng cách từ lề phải
 )
 ```
 
