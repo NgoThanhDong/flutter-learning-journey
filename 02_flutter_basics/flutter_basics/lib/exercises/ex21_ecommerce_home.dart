@@ -15,8 +15,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Implement theo hướng dẫn trong lesson_08_practice.md
-
 class Ex21EcommerceHome extends StatelessWidget {
   const Ex21EcommerceHome({super.key});
 
@@ -24,6 +22,7 @@ class Ex21EcommerceHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // Custom Title Area: Chứa Search Bar
         title: Container(
           height: 40,
           decoration: BoxDecoration(
@@ -34,7 +33,7 @@ class Ex21EcommerceHome extends StatelessWidget {
             decoration: InputDecoration(
               hintText: 'Search products...',
               prefixIcon: Icon(Icons.search),
-              border: InputBorder.none,
+              border: InputBorder.none, // Bỏ viền mặc định
               contentPadding: EdgeInsets.symmetric(vertical: 10),
             ),
           ),
@@ -56,18 +55,30 @@ class Ex21EcommerceHome extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
-                child: Text('Summer Sale 50% OFF', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Summer Sale 50% OFF',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
-            
+
             // 2. Categories
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text('Categories', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(
+                'Categories',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
             SizedBox(height: 8),
+            // ListView ngang
             SizedBox(
-              height: 90,
+              height:
+                  90, // Bắt buộc set height cố định vì ListView nằm trong Column
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -80,29 +91,38 @@ class Ex21EcommerceHome extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             SizedBox(height: 16),
-            
-            // 3. Popular Products
+
+            // 3. Popular Products header
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Popular Products', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Popular Products',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   TextButton(onPressed: () {}, child: Text('See All')),
                 ],
               ),
             ),
-            
+
+            // 4. Products Grid
+            // [Thủ thuật] Nested Scrolling:
+            // GridView nằm trong SingleChildScrollView -> Xung đột cuộn.
+            // Giải pháp:
+            // - shrinkWrap: true (Thu gọn Grid bằng nội dung)
+            // - physics: NeverScrollableScrollPhysics() (Tắt cuộn Grid, dùng cuộn của SingleChildScrollView cha)
             GridView.builder(
-              shrinkWrap: true, // Quan trọng: Để GridView nằm trong ScrollView
-              physics: NeverScrollableScrollPhysics(), // Tắt cuộn riêng của GridView
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: 16),
               itemCount: 4,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.7,
+                childAspectRatio: 0.7, // Hình chữ nhật đứng
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
               ),
@@ -116,23 +136,37 @@ class Ex21EcommerceHome extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Ảnh sản phẩm
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.grey[100],
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(12),
+                            ),
                           ),
                           alignment: Alignment.center,
-                          child: Icon(Icons.image, size: 50, color: Colors.grey),
+                          child: Icon(
+                            Icons.image,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
+                      // Thông tin
                       Padding(
                         padding: EdgeInsets.all(8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Product Name', style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text('\$99.00', style: TextStyle(color: Colors.blue)),
+                            Text(
+                              'Product Name',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '\$99.00',
+                              style: TextStyle(color: Colors.blue),
+                            ),
                           ],
                         ),
                       ),
@@ -141,23 +175,26 @@ class Ex21EcommerceHome extends StatelessWidget {
                 );
               },
             ),
-            
+
             SizedBox(height: 20),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.fixed, // Hiển thị label cho cả 4 items
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Saved'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'News'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'News',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
         ],
       ),
     );
   }
-  
+
   Widget _buildCategoryItem(IconData icon, String label) {
     return Container(
       width: 70,
@@ -173,7 +210,11 @@ class Ex21EcommerceHome extends StatelessWidget {
             child: Icon(icon, color: Colors.blue),
           ),
           SizedBox(height: 4),
-          Text(label, style: TextStyle(fontSize: 12), textAlign: TextAlign.center),
+          Text(
+            label,
+            style: TextStyle(fontSize: 12),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

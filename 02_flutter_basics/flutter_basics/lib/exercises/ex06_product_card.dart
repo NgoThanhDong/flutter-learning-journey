@@ -19,22 +19,21 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex06ProductCard extends StatelessWidget {
   const Ex06ProductCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[200], // Nền xám nhạt làm nổi bật Card trắng
       appBar: AppBar(title: Text('Product Card')),
       body: Center(
         child: Container(
-          width: 250,
+          width: 250, // Cố định chiều rộng card
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
+            // BoxShadow đẹp: bóng mờ, blur rộng, lệch xuống dưới
             boxShadow: [
               BoxShadow(
                 color: Colors.black12,
@@ -44,21 +43,26 @@ class Ex06ProductCard extends StatelessWidget {
             ],
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // Căn lề trái nội dung
             mainAxisSize: MainAxisSize.min,
             children: [
               // 1. Ảnh sản phẩm
+              // ClipRRect: Cắt con (Image) theo hình bo tròn
+              // Cần thiết vì Image thường là hình chữ nhật vuông góc
               ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ), // Chỉ bo 2 góc trên
                 child: Image.network(
                   'https://picsum.photos/300/300', // Random image
                   height: 200,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                  width: double.infinity, // Rộng bằng cha (250)
+                  fit: BoxFit.cover, // Cắt ảnh để lấp đầy khung (crop center)
                 ),
               ),
-              
-              // 2. Nội dung text
+
+              // 2. Nội dung text (Padding tách biệt với viền)
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -73,7 +77,7 @@ class Ex06ProductCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8),
-                    
+
                     // Rating
                     Row(
                       children: [
@@ -86,9 +90,10 @@ class Ex06ProductCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 16),
-                    
+
                     // Giá và Nút mua
                     Row(
+                      // MainAxisAlignment.spaceBetween: Đẩy 2 con ra xa nhau nhất có thể (trái & phải)
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -99,14 +104,19 @@ class Ex06ProductCard extends StatelessWidget {
                             color: Colors.blue,
                           ),
                         ),
+                        // Nút Add cart tùy chỉnh
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.blue,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: IconButton(
-                            icon: Icon(Icons.add_shopping_cart, color: Colors.white),
+                            icon: Icon(
+                              Icons.add_shopping_cart,
+                              color: Colors.white,
+                            ),
                             onPressed: () {},
+                            // Tinh chỉnh kích thước nút bấm
                             constraints: BoxConstraints.tightFor(
                               width: 40,
                               height: 40,

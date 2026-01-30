@@ -14,8 +14,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex07SocialPostCard extends StatelessWidget {
   const Ex07SocialPostCard({super.key});
 
@@ -36,13 +34,15 @@ class Ex07SocialPostCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. Header
+                // 1. Header (Avatar + Info + More icon)
                 Padding(
                   padding: EdgeInsets.all(12),
                   child: Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: NetworkImage('https://i.pravatar.cc/100'),
+                        backgroundImage: NetworkImage(
+                          'https://i.pravatar.cc/100',
+                        ),
                       ),
                       SizedBox(width: 12),
                       Column(
@@ -58,12 +58,13 @@ class Ex07SocialPostCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Spacer(), // Đẩy icon more sang phải
+                      // Spacer: Chiếm hết khoảng trống thừa còn lại -> Đẩy icon cuối cùng sang sát lề phải
+                      Spacer(),
                       Icon(Icons.more_horiz),
                     ],
                   ),
                 ),
-                
+
                 // 2. Content Text
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12),
@@ -72,38 +73,52 @@ class Ex07SocialPostCard extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
-                
+
                 SizedBox(height: 12),
-                
+
                 // 3. Image
                 Image.network(
                   'https://picsum.photos/600/300',
                   height: 200,
                   width: double.infinity,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.cover, // Resize ảnh chuẩn đẹp
                 ),
-                
+
                 SizedBox(height: 8),
-                
+
                 // 4. Footer Actions
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround, // Chia đều
+                    mainAxisAlignment: MainAxisAlignment
+                        .spaceAround, // Chia đều không gian cho 3 nút
                     children: [
+                      // TextButton.icon: Nút có cả icon và chữ
                       TextButton.icon(
-                        icon: Icon(Icons.thumb_up_alt_outlined, color: Colors.grey),
-                        label: Text('Like', style: TextStyle(color: Colors.grey)),
+                        icon: Icon(
+                          Icons.thumb_up_alt_outlined,
+                          color: Colors.grey,
+                        ),
+                        label: Text(
+                          'Like',
+                          style: TextStyle(color: Colors.grey),
+                        ),
                         onPressed: () {},
                       ),
                       TextButton.icon(
                         icon: Icon(Icons.comment_outlined, color: Colors.grey),
-                        label: Text('Comment', style: TextStyle(color: Colors.grey)),
+                        label: Text(
+                          'Comment',
+                          style: TextStyle(color: Colors.grey),
+                        ),
                         onPressed: () {},
                       ),
                       TextButton.icon(
                         icon: Icon(Icons.share_outlined, color: Colors.grey),
-                        label: Text('Share', style: TextStyle(color: Colors.grey)),
+                        label: Text(
+                          'Share',
+                          style: TextStyle(color: Colors.grey),
+                        ),
                         onPressed: () {},
                       ),
                     ],

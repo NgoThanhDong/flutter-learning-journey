@@ -16,8 +16,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex16RegistrationForm extends StatefulWidget {
   const Ex16RegistrationForm({super.key});
 
@@ -29,10 +27,8 @@ enum Gender { male, female, other }
 
 class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
-  Gender? _gender = Gender.male;
+  Gender? _gender = Gender.male; // Lưu giá trị Radio đang chọn
   bool _agreedToTerms = false;
-
-  // Controllers (nếu cần lấy giá trị)
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +43,7 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
             children: [
               TextFormField(
                 decoration: InputDecoration(labelText: 'Full Name'),
+                // Validator rút gọn
                 validator: (v) => v!.isEmpty ? 'Required' : null,
               ),
               SizedBox(height: 16),
@@ -58,57 +55,65 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
               ),
               SizedBox(height: 16),
 
-              // Gender Radio
+              // [Radio Button Logic]
+              // Flutter hoạt động theo cơ chế groupValue và value.
+              // - value: Giá trị của BUTTON đó (vd: Male)
+              // - groupValue: Giá trị hiện tại của NHÓM (vd: đang là Male)
+              // Nếu value == groupValue -> Radio đó được check.
               Text(
                 'Gender',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              RadioGroup<Gender>(
-                groupValue: _gender,
-                onChanged: (value) => setState(() => _gender = value),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: RadioListTile<Gender>(
-                        title: Text('Male'),
-                        value: Gender.male,
-                        contentPadding: EdgeInsets.zero,
-                      ),
+              Row(
+                children: [
+                  Expanded(
+                    child: RadioListTile<Gender>(
+                      title: Text('Male'),
+                      value: Gender.male, // Giá trị của nút này
+                      groupValue: _gender, // So sánh với giá trị đang chọn
+                      // Khi chọn -> Cập nhật _gender
+                      onChanged: (value) => setState(() => _gender = value),
+                      contentPadding: EdgeInsets.zero,
                     ),
-                    Expanded(
-                      child: RadioListTile<Gender>(
-                        title: Text('Female'),
-                        value: Gender.female,
-                        contentPadding: EdgeInsets.zero,
-                      ),
+                  ),
+                  Expanded(
+                    child: RadioListTile<Gender>(
+                      title: Text('Female'),
+                      value: Gender.female,
+                      groupValue: _gender,
+                      onChanged: (value) => setState(() => _gender = value),
+                      contentPadding: EdgeInsets.zero,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
 
-              // Terms Checkbox
+              // CheckboxListTile: Tiện lợi hơn Checkbox + Text vì bấm được cả text
               CheckboxListTile(
                 title: Text('I agree to Terms & Conditions'),
                 value: _agreedToTerms,
                 onChanged: (v) => setState(() => _agreedToTerms = v ?? false),
-                controlAffinity: ListTileControlAffinity.leading,
+                controlAffinity:
+                    ListTileControlAffinity.leading, // Checkbox nằm bên trái
                 contentPadding: EdgeInsets.zero,
               ),
 
               SizedBox(height: 24),
 
               SizedBox(
-                width: double.infinity,
+                width: double.infinity, // Nút full width
                 child: ElevatedButton(
                   onPressed: () {
+                    // Logic validate Custom
                     if (_formKey.currentState!.validate()) {
+                      // Validate Checkbox riêng (vì nó không nằm trong TextFormField)
                       if (!_agreedToTerms) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Please agree to terms')),
                         );
                         return;
                       }
-                      // Submit
+                      // Submit thành công
                       ScaffoldMessenger.of(
                         context,
                       ).showSnackBar(SnackBar(content: Text('Processing...')));

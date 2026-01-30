@@ -13,8 +13,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex11GridLayout extends StatelessWidget {
   const Ex11GridLayout({super.key});
 
@@ -25,10 +23,11 @@ class Ex11GridLayout extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       body: Padding(
         padding: EdgeInsets.all(16),
-        // Cách 1: Dùng Wrap (Tự động xuống dòng)
+        // [Concept] Wrap: Giống Row nhưng tự động xuống dòng khi hết chỗ.
+        // Rất tiện để làm layout dạng lưới đơn giản mà không cần tính toán nhiều như GridView.
         child: Wrap(
-          spacing: 16,    // Khoảng cách ngang
-          runSpacing: 16, // Khoảng cách dọc
+          spacing: 16, // Khoảng cách ngang giữa các phần tử
+          runSpacing: 16, // Khoảng cách dọc giữa các dòng
           children: [
             _buildCard(Icons.people, '1,204', 'Users', Colors.blue),
             _buildCard(Icons.shopping_bag, '340', 'Orders', Colors.orange),
@@ -36,18 +35,14 @@ class Ex11GridLayout extends StatelessWidget {
             _buildCard(Icons.star, '4.8', 'Rating', Colors.purple),
           ],
         ),
-        
-        // Cách 2: Dùng Row + Column (Thủ công)
-        // child: Column( ... )
       ),
     );
   }
 
   Widget _buildCard(IconData icon, String value, String label, Color color) {
-    // Tính toán width: (Màn hình - padding - spacing) / 2
-    // Để đơn giản, ta dùng fix width hoặc LayoutBuilder
     return Container(
-      width: 160, // Fixed width cho demo
+      width:
+          160, // [Lưu ý] Wrap cần biết width con để xác định khi nào xuống dòng.
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -59,6 +54,7 @@ class Ex11GridLayout extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
+              // make color transparent: 10% opacity
               color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
@@ -69,10 +65,7 @@ class Ex11GridLayout extends StatelessWidget {
             value,
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          Text(
-            label,
-            style: TextStyle(color: Colors.grey),
-          ),
+          Text(label, style: TextStyle(color: Colors.grey)),
         ],
       ),
     );

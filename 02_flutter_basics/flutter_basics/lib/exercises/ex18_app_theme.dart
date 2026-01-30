@@ -13,8 +13,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex18AppTheme extends StatelessWidget {
   const Ex18AppTheme({super.key});
 
@@ -22,11 +20,15 @@ class Ex18AppTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     // Custom logic to show theme
     return Theme(
+      // [Concept] ThemeData: Nơi định nghĩa toàn bộ giao diện của App (Màu sắc, Font chữ, Style nút bấm...)
       data: ThemeData(
+        // ColorScheme: Hệ thống màu chuẩn của Material 3
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
+          seedColor: Colors
+              .deepPurple, // Màu chủ đạo -> Flutter sẽ tự sinh ra các màu phụ khác
           brightness: Brightness.light,
         ),
+        // TextTheme: Quy định font chữ cho toàn bộ Text trong app
         textTheme: TextTheme(
           headlineLarge: TextStyle(
             fontSize: 32,
@@ -35,6 +37,7 @@ class Ex18AppTheme extends StatelessWidget {
           ),
           bodyLarge: TextStyle(fontSize: 18),
         ),
+        // Custom style cho các component cụ thể (cục bộ)
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.deepPurple,
@@ -52,34 +55,42 @@ class Ex18AppTheme extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Headline Large', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)), // Sẽ dùng style mặc định nếu không set
+              Text(
+                'Headline Large',
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              ), // Sẽ dùng style mặc định nếu không set
               SizedBox(height: 16),
-              // Builder để lấy context có Theme mới
-              Builder(builder: (context) {
-                return Column(
-                  children: [
-                    Text(
-                      'Themed Headline',
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'This is body text using app theme.',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    SizedBox(height: 32),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Primary Button'),
-                    ),
-                    SizedBox(height: 16),
-                    FilledButton(
-                      onPressed: () {},
-                      child: Text('Filled Button'),
-                    ),
-                  ],
-                );
-              }),
+
+              // [Quan trọng] Builder: Để tạo một context MỚI nằm bên dưới Theme widget.
+              // Nếu không dùng Builder, Theme.of(context) có thể lấy context của widget cha (chưa có theme mới).
+              Builder(
+                builder: (context) {
+                  return Column(
+                    children: [
+                      Text(
+                        'Themed Headline',
+                        // Truy cập style đã định nghĩa trong Theme
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'This is body text using app theme.',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      SizedBox(height: 32),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text('Primary Button'),
+                      ),
+                      SizedBox(height: 16),
+                      FilledButton(
+                        onPressed: () {},
+                        child: Text('Filled Button'),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ],
           ),
         ),

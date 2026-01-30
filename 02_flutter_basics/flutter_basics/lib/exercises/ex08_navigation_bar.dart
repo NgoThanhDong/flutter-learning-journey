@@ -14,8 +14,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex08NavigationBar extends StatelessWidget {
   const Ex08NavigationBar({super.key});
 
@@ -24,18 +22,26 @@ class Ex08NavigationBar extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Custom Nav Bar')),
       body: Center(child: Text('Content')),
-      
-      // Nav bar ở bottom
+
+      // bottomNavigationBar: Slot đặc biệt của Scaffold dành cho thanh điều hướng dưới cùng
       bottomNavigationBar: Container(
-        height: 70,
+        height: 70, // Chiều cao cố định
         decoration: BoxDecoration(
           color: Colors.white,
+          // Bóng đổ ngược lên trên (offset y = -2) để tách biệt với body
           boxShadow: [
-            BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, -2)),
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              offset: Offset(0, -2),
+            ),
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround, // Chia đều khoảng cách
+          // [Quan trọng]
+          // spaceAround: Chia đều khoảng cách giữa các phần tử và cả 2 đầu
+          // Home -- Search -- Fav -- Profile
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(Icons.home, 'Home', true),
             _buildNavItem(Icons.search, 'Search', false),
@@ -46,14 +52,16 @@ class Ex08NavigationBar extends StatelessWidget {
       ),
     );
   }
-  
-  // Helper widget để code gọn hơn
+
+  // Helper method: Tách code lặp lại ra hàm riêng -> Code gọn, dễ bảo trì
   Widget _buildNavItem(IconData icon, String label, bool isActive) {
     return Column(
+      // Căn giữa nội dung trong Column (Icon và Text)
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
           icon,
+          // Active thì màu xanh, in-active màu xám
           color: isActive ? Colors.blue : Colors.grey,
           size: 28,
         ),

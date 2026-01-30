@@ -14,8 +14,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex05ProfileCard extends StatelessWidget {
   const Ex05ProfileCard({super.key});
 
@@ -26,37 +24,42 @@ class Ex05ProfileCard extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(16),
+          // Card: Widget có sẵn shadow và bo góc nhẹ, thường dùng để group thông tin
           child: Card(
-            elevation: 4,
+            elevation: 4, // Độ nổi của Card (bóng đổ đậm hơn nếu số to)
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
               padding: EdgeInsets.all(24),
               child: Column(
+                // [Quan trọng]
+                // MainAxisSize.min: Column chỉ cao vừa đủ nội dung.
+                // Nếu không dùng cái này, Column sẽ chiếm hết height màn hình -> Card bị kéo dài vô duyên.
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // CircleAvatar: Widget tạo ảnh tròn tiện lợi
                   CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage('https://i.pravatar.cc/150'),
+                    radius: 50, // Bán kính
+                    backgroundImage: NetworkImage(
+                      'https://i.pravatar.cc/150',
+                    ), // Load ảnh từ mạng
                   ),
                   SizedBox(height: 16),
                   Text(
                     'John Doe',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Text(
                     'Flutter Developer | Tech Enthusiast',
                     style: TextStyle(color: Colors.grey, fontSize: 14),
-                    textAlign: TextAlign.center,
+                    textAlign:
+                        TextAlign.center, // Căn giữa text nếu nó dài quá 1 dòng
                   ),
                   SizedBox(height: 16),
                   Row(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.min, // Row cũng chỉ rộng vừa đủ
                     children: [
                       Icon(Icons.location_on, color: Colors.grey, size: 16),
                       SizedBox(width: 4),

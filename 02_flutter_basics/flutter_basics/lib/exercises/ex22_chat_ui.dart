@@ -13,8 +13,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex22ChatUI extends StatefulWidget {
   const Ex22ChatUI({super.key});
 
@@ -24,6 +22,7 @@ class Ex22ChatUI extends StatefulWidget {
 
 class _Ex22ChatUIState extends State<Ex22ChatUI> {
   final _controller = TextEditingController();
+  // Fake data tin nhắn
   final List<Map<String, dynamic>> _messages = [
     {'text': 'Hi, how are you?', 'isMe': false},
     {'text': 'I am good, thanks! And you?', 'isMe': true},
@@ -34,6 +33,8 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
   void _sendMessage() {
     if (_controller.text.trim().isEmpty) return;
     setState(() {
+      // insert(0, ...): Thêm tin mới vào ĐẦU list
+      // Tại sao? Vì ListView đang dùng reverse: true -> Đầu list là Dưới cùng màn hình.
       _messages.insert(0, {'text': _controller.text, 'isMe': true});
     });
     _controller.clear();
@@ -51,7 +52,10 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Alice', style: TextStyle(fontSize: 16)),
-                Text('Online', style: TextStyle(fontSize: 12, color: Colors.green)),
+                Text(
+                  'Online',
+                  style: TextStyle(fontSize: 12, color: Colors.green),
+                ),
               ],
             ),
           ],
@@ -63,21 +67,29 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
       ),
       body: Column(
         children: [
+          // Expanded: Chiếm phần lớn màn hình cho danh sách tin nhắn
           Expanded(
             child: ListView.builder(
-              reverse: true, // Tin nhắn mới ở dưới cùng
+              reverse:
+                  true, // [Quan trọng] Đảo ngược list: Item 0 nằm dưới cùng. Khi có tin nhắn mới, nó sẽ hiện ngay ngón tay người dùng.
               padding: EdgeInsets.all(16),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final msg = _messages[index];
                 final isMe = msg['isMe'] as bool;
+                // Align: Căn trái nếu là người khác, căn phải nếu là tôi
                 return Align(
-                  alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: isMe
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 4),
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
-                      color: isMe ? Colors.blue : Colors.grey[300],
+                      color: isMe
+                          ? Colors.blue
+                          : Colors.grey[300], // Màu nền khác nhau
+                      // Bo góc bất đối xứng (tạo hiệu ứng bong bóng chat)
                       borderRadius: BorderRadius.circular(20).copyWith(
                         bottomRight: isMe ? Radius.zero : null,
                         bottomLeft: isMe ? null : Radius.zero,
@@ -94,7 +106,8 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
               },
             ),
           ),
-          
+
+          // Khu vực nhập tin nhắn
           Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(

@@ -14,8 +14,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex09PriceRow extends StatelessWidget {
   const Ex09PriceRow({super.key});
 
@@ -28,7 +26,7 @@ class Ex09PriceRow extends StatelessWidget {
         child: Column(
           children: [
             _buildItem('MacBook Pro M3 Max 16 inch', 1, 3499.00),
-            Divider(),
+            Divider(), // Đường kẻ ngang phân cách
             _buildItem('Magic Mouse', 2, 79.00),
             Divider(),
             _buildItem('USB-C Adapter', 5, 19.99),
@@ -43,17 +41,19 @@ class Ex09PriceRow extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 12),
       child: Row(
         children: [
-          // 1. Tên sản phẩm - Chiếm hết không gian còn lại
+          // [Quan trọng]
+          // Expanded: Bắt buộc `name` phải chiếm HẾT khoảng trống còn lại trong Row.
+          // Nếu tên dài quá, nó sẽ tự xuống dòng hoặc cắt bớt (ellipsis) chứ không gây lỗi Overflow.
           Expanded(
             child: Text(
               name,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // ... nếu dài quá
+              maxLines: 1, // Chỉ hiện 1 dòng
+              overflow: TextOverflow.ellipsis, // Nếu dài quá thì hiện dấu ...
             ),
           ),
-          
-          // 2. Số lượng
+
+          // Số lượng (Width tự động theo nội dung)
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
@@ -62,14 +62,15 @@ class Ex09PriceRow extends StatelessWidget {
             ),
             child: Text('x$qty'),
           ),
-          
+
           SizedBox(width: 16),
-          
-          // 3. Giá tiền
+
+          // Giá tiền (Width tự động)
           Text(
+            // toStringAsFixed(2): Định dạng số thập phân có 2 số sau dấu phẩy (19.99)
             '\$${(price * qty).toStringAsFixed(2)}',
             style: TextStyle(
-              fontSize: 16, 
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.blue[800],
             ),

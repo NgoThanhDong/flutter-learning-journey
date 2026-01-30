@@ -13,8 +13,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex13ProductGrid extends StatelessWidget {
   const Ex13ProductGrid({super.key});
 
@@ -23,36 +21,45 @@ class Ex13ProductGrid extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Product Grid')),
       backgroundColor: Colors.grey[100],
+      // [Concept] GridView: Hiển thị danh sách dạng lưới
       body: GridView.builder(
         padding: EdgeInsets.all(10),
+        // gridDelegate: Quy định cấu trúc lưới
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // 2 cột
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 0.75, // Tỷ lệ rộng/cao (0.75 = cao hơn rộng)
+          crossAxisCount: 2, // Số cột: 2
+          mainAxisSpacing: 10, // Khoảng cách dọc
+          crossAxisSpacing: 10, // Khoảng cách ngang
+          childAspectRatio:
+              0.75, // Tỷ lệ Chiều Rộng / Chiều Cao (0.75 -> Cao > Rộng)
         ),
         itemCount: 20,
         itemBuilder: (context, index) {
           return Card(
             elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Ảnh (chiếm phần lớn không gian, dùng Expanded)
+                // Expanded: Phần ảnh chiếm hết khoảng trống còn lại phía trên Text
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[300],
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(10),
+                      ), // Chỉ bo góc trên
                       image: DecorationImage(
-                        image: NetworkImage('https://picsum.photos/200?random=$index'),
-                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          'https://picsum.photos/200?random=$index',
+                        ),
+                        fit: BoxFit.cover, // Lấp đầy khung
                       ),
                     ),
                   ),
                 ),
-                // Thông tin
+                // Phần Text bên dưới
                 Padding(
                   padding: EdgeInsets.all(8),
                   child: Column(

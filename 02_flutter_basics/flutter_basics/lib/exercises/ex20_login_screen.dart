@@ -9,8 +9,6 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện
-
 class Ex20LoginScreen extends StatefulWidget {
   const Ex20LoginScreen({super.key});
 
@@ -33,26 +31,31 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // SafeArea: Đảm bảo nội dung không bị che bởi tai thỏ (notch) hoặc thanh điều hướng
       body: SafeArea(
         child: SingleChildScrollView(
+          // Cho phép cuộn trên màn hình nhỏ
           padding: EdgeInsets.all(24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment:
+                CrossAxisAlignment.stretch, // Kéo dãn các con theo chiều ngang
             children: [
               SizedBox(height: 60),
-              
+
               // Logo
               Icon(
                 Icons.flutter_dash,
                 size: 80,
+                // Lấy màu primary từ theme hiện tại -> Hỗ trợ cả Dark/Light mode tự động
                 color: Theme.of(context).colorScheme.primary,
               ),
-              
+
               SizedBox(height: 40),
-              
+
               // Welcome text
               Text(
                 'Welcome Back!',
+                // Copy style từ theme và chỉnh sửa thêm (copyWith)
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -64,9 +67,9 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
                 style: TextStyle(color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
-              
+
               SizedBox(height: 40),
-              
+
               // Email field
               TextField(
                 controller: _emailController,
@@ -79,9 +82,9 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
                   ),
                 ),
               ),
-              
+
               SizedBox(height: 16),
-              
+
               // Password field
               TextField(
                 controller: _passwordController,
@@ -104,10 +107,10 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
                   ),
                 ),
               ),
-              
+
               SizedBox(height: 8),
-              
-              // Forgot password
+
+              // Forgot password (Align right)
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -115,9 +118,9 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
                   child: Text('Forgot Password?'),
                 ),
               ),
-              
+
               SizedBox(height: 24),
-              
+
               // Login button
               ElevatedButton(
                 onPressed: () {},
@@ -129,10 +132,10 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
                 ),
                 child: Text('LOGIN'),
               ),
-              
+
               SizedBox(height: 24),
-              
-              // OR divider
+
+              // OR divider (Dùng Row + Divider)
               Row(
                 children: [
                   Expanded(child: Divider()),
@@ -143,10 +146,10 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
                   Expanded(child: Divider()),
                 ],
               ),
-              
+
               SizedBox(height: 24),
-              
-              // Social login
+
+              // Social login keys
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -157,18 +160,15 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
                   _buildSocialButton(Icons.apple),
                 ],
               ),
-              
+
               SizedBox(height: 40),
-              
+
               // Sign up link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Don't have an account?"),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('Sign Up'),
-                  ),
+                  TextButton(onPressed: () {}, child: Text('Sign Up')),
                 ],
               ),
             ],
@@ -177,13 +177,14 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
       ),
     );
   }
-  
+
+  // Helper widget cho Social Button
   Widget _buildSocialButton(IconData icon) {
     return OutlinedButton(
       onPressed: () {},
       style: OutlinedButton.styleFrom(
         padding: EdgeInsets.all(12),
-        shape: CircleBorder(),
+        shape: CircleBorder(), // Nút hình tròn
       ),
       child: Icon(icon, size: 24),
     );

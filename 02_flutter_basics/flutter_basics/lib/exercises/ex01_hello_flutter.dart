@@ -19,41 +19,50 @@ library;
 
 import 'package:flutter/material.dart';
 
-// -TODO: Uncomment và hoàn thiện code bên dưới
-
+// [Giải thích concept]
+// StatelessWidget: Widget tĩnh, không thay đổi nội dung khi người dùng tương tác.
+// Dùng cho các màn hình chỉ hiển thị thông tin.
 class Ex01HelloFlutter extends StatelessWidget {
   const Ex01HelloFlutter({super.key});
 
+  // Hàm build: Nơi vẽ UI. Hàm này trả về 1 Widget tree.
   @override
   Widget build(BuildContext context) {
+    // Scaffold: Khung sườn chuẩn của Material Design (gồm AppBar, Body, FAB...)
     return Scaffold(
+      // AppBar: Thanh tiêu đề phía trên
       appBar: AppBar(
         title: Text('My First App'),
+        // actions: Nơi chứa các nút bấm ở góc phải AppBar
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              // Hiện snackbar khi click
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Settings clicked!')),
-              );
+              // [Thủ thuật]
+              // ScaffoldMessenger dùng để hiển thị thông báo SnackBar (popup nhỏ bên dưới)
+              // context giúp Flutter biết vị trí của widget trong tree
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Settings clicked!')));
             },
           ),
         ],
       ),
+      // Body: Phần nội dung chính của màn hình
+      // Center: Widget giúp căn giữa con của nó theo cả dọc và ngang
       body: Center(
         child: Text(
           'Hello, Dong!', // Thay tên của bạn
+          // TextStyle: Định dạng font chữ, màu sắc, size...
           style: TextStyle(
             fontSize: 24,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.bold, // Chữ đậm
           ),
         ),
       ),
     );
   }
 }
-
 
 // ============================================
 // GỢI Ý
