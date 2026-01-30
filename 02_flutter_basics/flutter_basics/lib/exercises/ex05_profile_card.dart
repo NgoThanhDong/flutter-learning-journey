@@ -14,6 +14,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex05ProfileCard - Widget để tạo thẻ thông tin cá nhân
 class Ex05ProfileCard extends StatelessWidget {
   const Ex05ProfileCard({super.key});
 

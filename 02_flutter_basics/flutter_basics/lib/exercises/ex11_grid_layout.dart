@@ -13,6 +13,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex11GridLayout - Widget để tạo dashboard grid
 class Ex11GridLayout extends StatelessWidget {
   const Ex11GridLayout({super.key});
 
@@ -39,6 +40,7 @@ class Ex11GridLayout extends StatelessWidget {
     );
   }
 
+  // _buildCard - Widget để tạo card thống kê
   Widget _buildCard(IconData icon, String value, String label, Color color) {
     return Container(
       width:
@@ -47,9 +49,16 @@ class Ex11GridLayout extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow( // Tạo bóng đổ
+            color: Colors.blue.withValues(alpha: 0.1),
+            blurRadius: 10, // Độ mờ của bóng
+            offset: Offset(0, 2), // Vị trí của bóng
+          ),
+        ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start, // Căn trái
         children: [
           Container(
             padding: EdgeInsets.all(8),

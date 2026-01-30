@@ -19,6 +19,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex06ProductCard - Widget để tạo thẻ sản phẩm
 class Ex06ProductCard extends StatelessWidget {
   const Ex06ProductCard({super.key});
 

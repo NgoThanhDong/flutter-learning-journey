@@ -13,6 +13,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex10ProfileHeader - Widget để tạo header hồ sơ
 class Ex10ProfileHeader extends StatelessWidget {
   const Ex10ProfileHeader({super.key});
 
@@ -32,7 +33,7 @@ class Ex10ProfileHeader extends StatelessWidget {
               // 1. Layer dưới cùng: Cover Image
               Container(
                 height: 200,
-                width: double.infinity,
+                width: double.infinity, // Chiều rộng bằng màn hình
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage('https://picsum.photos/800/400'),
@@ -50,11 +51,17 @@ class Ex10ProfileHeader extends StatelessWidget {
                   padding: EdgeInsets.all(4), // Tạo viền trắng dày 4px
                   decoration: BoxDecoration(
                     color: Colors.white, // Màu viền
-                    shape: BoxShape.circle,
+                    shape:
+                        BoxShape.circle, // Bắt widget có hình dạng là hình tròn
                   ),
                   child: CircleAvatar(
-                    radius: 50,
+                    radius: 50, // Bán kính của ảnh
                     backgroundImage: NetworkImage('https://i.pravatar.cc/300'),
+                    child: Icon(Icons.person, size: 50),
+                    // Xử lý lỗi khi load ảnh
+                    onBackgroundImageError: (exception, stackTrace) {
+                      debugPrint('Error loading image: $exception');
+                    },
                   ),
                 ),
               ),
@@ -73,6 +80,50 @@ class Ex10ProfileHeader extends StatelessWidget {
           Text(
             'UX/UI Designer',
             style: TextStyle(color: Colors.grey, fontSize: 16),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'I am a Flutter Developer',
+              style: TextStyle(
+                // Kích thước
+                fontSize: 20,
+
+                // Font weight
+                fontWeight: FontWeight.w600, // 100-900, normal, bold
+                // Màu sắc
+                color: Colors.black87,
+                backgroundColor: Colors.blueAccent,
+
+                // Font family
+                fontFamily: 'Roboto',
+
+                // Style
+                fontStyle: FontStyle.italic,
+
+                // Decoration
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.pinkAccent,
+                decorationStyle: TextDecorationStyle.wavy,
+
+                // Letter & Word spacing
+                letterSpacing: 2.0,
+                wordSpacing: 5.0,
+
+                // Line height (1.0 = normal)
+                height: 1.5,
+
+                // Shadow
+                shadows: [
+                  Shadow(
+                    color: Colors.grey,
+                    offset: Offset(2, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

@@ -14,6 +14,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex07SocialPostCard - Widget để tạo thẻ bài đăng mạng xã hội
 class Ex07SocialPostCard extends StatelessWidget {
   const Ex07SocialPostCard({super.key});
 

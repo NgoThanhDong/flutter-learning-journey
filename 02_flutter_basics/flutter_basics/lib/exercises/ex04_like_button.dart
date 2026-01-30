@@ -16,6 +16,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex04LikeButton - Widget để tạo nút like
 class Ex04LikeButton extends StatefulWidget {
   const Ex04LikeButton({super.key});
 

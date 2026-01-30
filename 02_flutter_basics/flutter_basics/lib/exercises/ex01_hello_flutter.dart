@@ -22,6 +22,8 @@ import 'package:flutter/material.dart';
 // [Giải thích concept]
 // StatelessWidget: Widget tĩnh, không thay đổi nội dung khi người dùng tương tác.
 // Dùng cho các màn hình chỉ hiển thị thông tin.
+
+// Ex01HelloFlutter - Widget để tạo màn hình chào mừng
 class Ex01HelloFlutter extends StatelessWidget {
   const Ex01HelloFlutter({super.key});
 

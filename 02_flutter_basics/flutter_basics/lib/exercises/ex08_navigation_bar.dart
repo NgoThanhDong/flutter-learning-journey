@@ -14,14 +14,17 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex08NavigationBar - Widget để tạo thanh điều hướng tùy chỉnh
 class Ex08NavigationBar extends StatelessWidget {
   const Ex08NavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Scaffold: Widget cơ bản của Material Design, cung cấp cấu trúc màn hình
+    // (AppBar, Body, BottomNavigationBar...)
     return Scaffold(
       appBar: AppBar(title: Text('Custom Nav Bar')),
-      body: Center(child: Text('Content')),
+      body: Center(child: Text('Content', style: TextStyle(fontSize: 24))),
 
       // bottomNavigationBar: Slot đặc biệt của Scaffold dành cho thanh điều hướng dưới cùng
       bottomNavigationBar: Container(
@@ -59,11 +62,14 @@ class Ex08NavigationBar extends StatelessWidget {
       // Căn giữa nội dung trong Column (Icon và Text)
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          icon,
+        IconButton(
+          icon: Icon(icon),
           // Active thì màu xanh, in-active màu xám
           color: isActive ? Colors.blue : Colors.grey,
-          size: 28,
+          iconSize: 28,
+          onPressed: () {
+            debugPrint('Pressed $label');
+          },
         ),
         SizedBox(height: 4),
         Text(

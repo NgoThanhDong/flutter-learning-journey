@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 // [Giải thích concept]
 // StatefulWidget: Widget có thể thay đổi trạng thái (state) khi chạy (dynamic).
 // Cần 2 class: 1 cái extends StatefulWidget, 1 cái extends State.
+
+// Ex02Counter - Widget để tạo bộ đếm
 class Ex02Counter extends StatefulWidget {
   const Ex02Counter({super.key});
 
