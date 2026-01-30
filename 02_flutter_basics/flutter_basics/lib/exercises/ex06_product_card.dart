@@ -31,14 +31,19 @@ class Ex06ProductCard extends StatelessWidget {
         child: Container(
           width: 250, // Cố định chiều rộng card
           decoration: BoxDecoration(
+            // BoxDecoration: Cấu hình viền và đổ bóng
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
             // BoxShadow đẹp: bóng mờ, blur rộng, lệch xuống dưới
             boxShadow: [
               BoxShadow(
                 color: Colors.black12,
-                blurRadius: 10,
-                offset: Offset(0, 4),
+                blurRadius:
+                    10, // blurRadius = độ mờ của bóng (Số càng lớn → bóng càng mềm)
+                offset: Offset(
+                  0,
+                  4,
+                ), // offset = vị trí của bóng (bóng đổ xuống dưới 4px)
               ),
             ],
           ),
@@ -66,7 +71,8 @@ class Ex06ProductCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start, // Căn lề trái nội dung
                   children: [
                     // Tên
                     Text(

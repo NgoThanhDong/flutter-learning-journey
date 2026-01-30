@@ -20,13 +20,14 @@ class Ex07SocialPostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100], // Màu nền xám nhạt
       appBar: AppBar(title: Text('Social Post')),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Card(
             elevation: 2,
+            // Xác định hình dạng (shape) của widget Card
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -39,6 +40,7 @@ class Ex07SocialPostCard extends StatelessWidget {
                   padding: EdgeInsets.all(12),
                   child: Row(
                     children: [
+                      // CircleAvatar: Ảnh đại diện tròn
                       CircleAvatar(
                         backgroundImage: NetworkImage(
                           'https://i.pravatar.cc/100',
@@ -60,14 +62,22 @@ class Ex07SocialPostCard extends StatelessWidget {
                       ),
                       // Spacer: Chiếm hết khoảng trống thừa còn lại -> Đẩy icon cuối cùng sang sát lề phải
                       Spacer(),
-                      Icon(Icons.more_horiz),
+                      // IconButton: Nút có icon
+                      IconButton(
+                        onPressed: () {
+                          debugPrint('More');
+                        },
+                        icon: Icon(Icons.more_horiz),
+                      ),
                     ],
                   ),
                 ),
 
                 // 2. Content Text
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12,
+                  ), // Padding 2 bên
                   child: Text(
                     'Just arrived in Paris! The weather is amazing. 🗼☕ #travel #paris #france',
                     style: TextStyle(fontSize: 16),
@@ -77,10 +87,11 @@ class Ex07SocialPostCard extends StatelessWidget {
                 SizedBox(height: 12),
 
                 // 3. Image
+                // Image.network: Hiển thị ảnh từ URL
                 Image.network(
                   'https://picsum.photos/600/300',
                   height: 200,
-                  width: double.infinity,
+                  width: double.infinity, // Chiều rộng full màn hình
                   fit: BoxFit.cover, // Resize ảnh chuẩn đẹp
                 ),
 
@@ -88,7 +99,7 @@ class Ex07SocialPostCard extends StatelessWidget {
 
                 // 4. Footer Actions
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 8), // Padding 2 bên
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment
                         .spaceAround, // Chia đều không gian cho 3 nút
@@ -103,7 +114,9 @@ class Ex07SocialPostCard extends StatelessWidget {
                           'Like',
                           style: TextStyle(color: Colors.grey),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          debugPrint('Like');
+                        },
                       ),
                       TextButton.icon(
                         icon: Icon(Icons.comment_outlined, color: Colors.grey),
@@ -111,7 +124,9 @@ class Ex07SocialPostCard extends StatelessWidget {
                           'Comment',
                           style: TextStyle(color: Colors.grey),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          debugPrint('Comment');
+                        },
                       ),
                       TextButton.icon(
                         icon: Icon(Icons.share_outlined, color: Colors.grey),
@@ -119,7 +134,9 @@ class Ex07SocialPostCard extends StatelessWidget {
                           'Share',
                           style: TextStyle(color: Colors.grey),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          debugPrint('Share');
+                        },
                       ),
                     ],
                   ),
