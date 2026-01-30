@@ -12,10 +12,11 @@
 ### 1.1 Cơ bản
 
 ```dart
+// TextField là widget để nhập liệu
 TextField(
-  decoration: InputDecoration(
-    labelText: 'Username',
-    hintText: 'Enter your username',
+  decoration: InputDecoration( // InputDecoration là widget để trang trí TextField
+    labelText: 'Username', // Label text
+    hintText: 'Enter your username', // Hint text
   ),
 )
 ```
@@ -25,16 +26,18 @@ TextField(
 ```dart
 class _MyFormState extends State<MyForm> {
   // Khai báo controller
+  // TextEditingController là widget để quản lý nội dung của TextField
   final TextEditingController _nameController = TextEditingController();
   
   @override
   void dispose() {
-    _nameController.dispose(); // QUAN TRỌNG: Dispose!
+    _nameController.dispose(); // QUAN TRỌNG: Dispose! vì nếu không dispose thì sẽ bị rò rỉ bộ nhớ
     super.dispose();
   }
   
+  // Hàm submit để lấy giá trị của TextField
   void _submit() {
-    String name = _nameController.text;
+    String name = _nameController.text; // Lấy giá trị của TextField
     print('Name: $name');
   }
   
@@ -42,13 +45,13 @@ class _MyFormState extends State<MyForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          controller: _nameController,
-          decoration: InputDecoration(labelText: 'Name'),
+        TextField( // TextField là widget để nhập liệu
+          controller: _nameController, // TextEditingController là widget để quản lý nội dung của TextField
+          decoration: InputDecoration(labelText: 'Name'), // InputDecoration là widget để trang trí TextField
         ),
-        ElevatedButton(
-          onPressed: _submit,
-          child: Text('Submit'),
+        ElevatedButton( // ElevatedButton là widget để tạo nút bấm
+          onPressed: _submit, // Hàm submit để lấy giá trị của TextField
+          child: Text('Submit'), // Text là widget để hiển thị chữ
         ),
       ],
     );
@@ -60,65 +63,65 @@ class _MyFormState extends State<MyForm> {
 
 ```dart
 TextField(
-  controller: _controller,
+  controller: _controller, // TextEditingController là widget để quản lý nội dung của TextField
   
-  decoration: InputDecoration(
+  decoration: InputDecoration( // InputDecoration là widget để trang trí TextField
     // Label
-    labelText: 'Email',
-    labelStyle: TextStyle(color: Colors.grey),
+    labelText: 'Email', // Label text là text hiển thị trên TextField
+    labelStyle: TextStyle(color: Colors.grey), // Label style là style của label text
     
     // Hint
-    hintText: 'example@email.com',
-    hintStyle: TextStyle(color: Colors.grey[400]),
+    hintText: 'example@email.com', // Hint text là text hiển thị khi chưa nhập gì
+    hintStyle: TextStyle(color: Colors.grey[400]), // Hint style là style của hint text
     
     // Helper text
-    helperText: 'Enter a valid email',
+    helperText: 'Enter a valid email', // Helper text là text hiển thị dưới TextField
     
     // Error text
-    errorText: _hasError ? 'Invalid email' : null,
+    errorText: _hasError ? 'Invalid email' : null, // Error text là text hiển thị khi có lỗi
     
     // Prefix
-    prefixIcon: Icon(Icons.email),
-    prefixText: '+84 ',
+    prefixIcon: Icon(Icons.email), // Prefix icon là icon ở đầu TextField
+    prefixText: '+84 ', // Prefix text là text ở đầu TextField
     
     // Suffix
-    suffixIcon: IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: () => _controller.clear(),
+    suffixIcon: IconButton( // Suffix icon là icon ở cuối TextField
+      icon: Icon(Icons.clear), // Clear icon
+      onPressed: () => _controller.clear(), // Clear text
     ),
     
     // Counter
-    counterText: '${_controller.text.length}/50',
+    counterText: '${_controller.text.length}/50', // Counter text là text hiển thị số ký tự
     
     // Border
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
+    border: OutlineInputBorder( // Border là viền của TextField
+      borderRadius: BorderRadius.circular(12), // Border radius là bo góc của TextField
     ),
     
     // Focused border
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: Colors.blue, width: 2),
+    focusedBorder: OutlineInputBorder( // Focused border là viền của TextField khi được focus
+      borderRadius: BorderRadius.circular(12), // Border radius là bo góc của TextField
+      borderSide: BorderSide(color: Colors.blue, width: 2), // Border side là viền của TextField
     ),
     
     // Enabled border
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: Colors.grey),
+    enabledBorder: OutlineInputBorder( // Enabled border là viền của TextField khi được enable
+      borderRadius: BorderRadius.circular(12), // Border radius là bo góc của TextField
+      borderSide: BorderSide(color: Colors.grey), // Border side là viền của TextField
     ),
     
     // Error border
-    errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: Colors.red),
+    errorBorder: OutlineInputBorder( // Error border là viền của TextField khi có lỗi
+      borderRadius: BorderRadius.circular(12), // Border radius là bo góc của TextField
+      borderSide: BorderSide(color: Colors.red), // Border side là viền của TextField
     ),
     
     // Filled
-    filled: true,
-    fillColor: Colors.grey[100],
+    filled: true, // Filled là true khi TextField được filled (điền đầy nội dung)
+    fillColor: Colors.grey[100], // Fill color là màu nền của TextField
     
-    // Content padding
-    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    // Content padding là khoảng cách giữa nội dung và viền của TextField
+    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), 
   ),
 )
 ```
@@ -127,14 +130,14 @@ TextField(
 
 ```dart
 TextField(
-  controller: _controller,
+  controller: _controller, // TextEditingController là widget để quản lý nội dung của TextField
   
   // Keyboard type
-  keyboardType: TextInputType.emailAddress,
+  keyboardType: TextInputType.emailAddress, // TextInputType là widget để xác định loại bàn phím
   // TextInputType.text, number, phone, url, multiline
   
   // Text input action (nút trên keyboard)
-  textInputAction: TextInputAction.next,
+  textInputAction: TextInputAction.next, // TextInputAction là widget để xác định hành động của nút trên keyboard
   // TextInputAction.done, search, send, go
   
   // Max lines
@@ -146,29 +149,29 @@ TextField(
   maxLength: 100,
   
   // Obscure text (password)
-  obscureText: true,
+  obscureText: true, // Obscure text là true khi TextField được obscure (ẩn nội dung)
   
   // Auto focus
-  autofocus: true,
+  autofocus: true, // Auto focus là true khi TextField được focus
   
   // Enabled/Disabled
-  enabled: true,
+  enabled: true, // Enabled là true khi TextField được enable
   
   // Read only
-  readOnly: false,
+  readOnly: false, // Read only là true khi TextField được read only
   
   // Text capitalization
-  textCapitalization: TextCapitalization.words,
+  textCapitalization: TextCapitalization.words, // Text capitalization là widget để xác định cách viết hoa của text
   // TextCapitalization.sentences, characters, none
   
   // Callbacks
-  onChanged: (value) {
+  onChanged: (value) { // On changed là callback được gọi khi nội dung của TextField thay đổi
     print('Changed: $value');
   },
-  onSubmitted: (value) {
+  onSubmitted: (value) { // On submitted là callback được gọi khi nội dung của TextField được submit
     print('Submitted: $value');
   },
-  onTap: () {
+  onTap: () { // On Tap là callback được gọi khi nội dung của TextField được tap (click) 
     print('Tapped');
   },
 )
@@ -178,24 +181,24 @@ TextField(
 
 ```dart
 class _PasswordFieldState extends State<PasswordField> {
-  bool _obscureText = true;
-  final _controller = TextEditingController();
+  bool _obscureText = true; // _obscureText là biến để xác định nội dung của TextField có được ẩn hay không
+  final _controller = TextEditingController(); // _controller là TextEditingController để quản lý nội dung của TextField
   
   @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller,
-      obscureText: _obscureText,
-      decoration: InputDecoration(
-        labelText: 'Password',
-        prefixIcon: Icon(Icons.lock),
-        suffixIcon: IconButton(
+  Widget build(BuildContext context) { // Build là phương thức để xây dựng giao diện của widget
+    return TextField( // TextField là widget để nhập văn bản
+      controller: _controller, // Controller là widget để quản lý nội dung của TextField
+      obscureText: _obscureText, // Obscure text là true khi TextField được obscure (ẩn nội dung)
+      decoration: InputDecoration( // InputDecoration là widget để trang trí TextField
+        labelText: 'Password', // Label text là text hiển thị trên TextField
+        prefixIcon: Icon(Icons.lock), // Prefix icon là icon ở đầu TextField
+        suffixIcon: IconButton( // Suffix icon là icon ở cuối TextField
           icon: Icon(
             _obscureText ? Icons.visibility : Icons.visibility_off,
           ),
-          onPressed: () {
-            setState(() {
-              _obscureText = !_obscureText;
+          onPressed: () { // On pressed là callback được gọi khi icon được tap (click)
+            setState(() { // Set state là phương thức để cập nhật trạng thái của widget
+              _obscureText = !_obscureText; // _obscureText được cập nhật
             });
           },
         ),
@@ -209,14 +212,14 @@ class _PasswordFieldState extends State<PasswordField> {
 
 ## 2. Button Widgets
 
-### 2.1 ElevatedButton (Primary)
+### 2.1 ElevatedButton (Primary) - Nút chính (Primary action) - Có nền + đổ bóng
 
 ```dart
 ElevatedButton(
-  onPressed: () {
-    print('Pressed!');
+  onPressed: () { // On pressed là callback được gọi khi nút được tap (click)
+    print('Pressed!'); // Print là phương thức để in ra nội dung
   },
-  child: Text('Submit'),
+  child: Text('Submit'), // Child là widget con của ElevatedButton
 )
 
 // Disabled
@@ -227,21 +230,21 @@ ElevatedButton(
 
 // Styled
 ElevatedButton(
-  onPressed: () {},
+  onPressed: () {}, // On pressed là callback được gọi khi nút được tap (click)
   style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.blue,
-    foregroundColor: Colors.white,
-    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
+    backgroundColor: Colors.blue, // Background color là màu nền của ElevatedButton
+    foregroundColor: Colors.white, // Foreground color là màu chữ của ElevatedButton
+    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16), // Padding là khoảng cách giữa nội dung và viền của ElevatedButton
+    shape: RoundedRectangleBorder( // Shape là widget để tạo hình dạng của ElevatedButton
+      borderRadius: BorderRadius.circular(12), // Border radius là góc bo tròn của ElevatedButton
     ),
-    elevation: 4,
+    elevation: 4, // Elevation là độ cao của ElevatedButton
   ),
-  child: Text('Styled Button'),
+  child: Text('Styled Button'), // Child là widget con của ElevatedButton
 )
 ```
 
-### 2.2 TextButton (Flat)
+### 2.2 TextButton (Flat) - Nút phụ / hành động nhẹ - Không nền, không viền
 
 ```dart
 TextButton(
@@ -250,16 +253,16 @@ TextButton(
 )
 
 TextButton(
-  onPressed: () {},
-  style: TextButton.styleFrom(
-    foregroundColor: Colors.blue,
-    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  onPressed: () {}, // On pressed là callback được gọi khi nút được tap (click)
+  style: TextButton.styleFrom( // Style là widget để tạo kiểu cho TextButton
+    foregroundColor: Colors.blue, // Foreground color là màu chữ của TextButton
+    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Padding là khoảng cách giữa nội dung và viền của TextButton
   ),
-  child: Text('Cancel'),
+  child: Text('Cancel'), // Child là widget con của TextButton
 )
 ```
 
-### 2.3 OutlinedButton
+### 2.3 OutlinedButton - Nút trung gian - Có viền, không nền
 
 ```dart
 OutlinedButton(
@@ -269,29 +272,30 @@ OutlinedButton(
 
 OutlinedButton(
   onPressed: () {},
-  style: OutlinedButton.styleFrom(
-    foregroundColor: Colors.blue,
-    side: BorderSide(color: Colors.blue, width: 2),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
+  style: OutlinedButton.styleFrom( // Style là widget để tạo kiểu cho OutlinedButton
+    foregroundColor: Colors.blue, // Foreground color là màu chữ của OutlinedButton
+    side: BorderSide(color: Colors.blue, width: 2), // Side là viền của OutlinedButton
+    shape: RoundedRectangleBorder( // Shape là widget để tạo hình dạng của OutlinedButton
+      borderRadius: BorderRadius.circular(12), // Border radius là góc bo tròn của OutlinedButton
     ),
   ),
   child: Text('Outlined'),
 )
 ```
 
-### 2.4 IconButton
+### 2.4 IconButton - Nút chỉ có icon
 
 ```dart
 IconButton(
-  icon: Icon(Icons.favorite),
-  iconSize: 30,
-  color: Colors.red,
-  onPressed: () {},
+  icon: Icon(Icons.favorite), // Icon là widget để hiển thị icon
+  iconSize: 30, // Icon size là kích thước của icon
+  color: Colors.red, // Color là màu của icon
+  onPressed: () {}, // On pressed là callback được gọi khi nút được tap (click)
 )
 ```
 
-### 2.5 FloatingActionButton
+### 2.5 FloatingActionButton - Hành động nổi bật nhất toàn màn hình
+Nút tròn, nổi trên UI. Thường chỉ 1 FAB / screen
 
 ```dart
 FloatingActionButton(
@@ -327,7 +331,7 @@ TextButton.icon(
 
 ```dart
 SizedBox(
-  width: double.infinity,
+  width: double.infinity, // double.infinity = full width
   child: ElevatedButton(
     onPressed: () {},
     child: Text('Full Width Button'),
@@ -339,14 +343,14 @@ SizedBox(
 
 ## 3. GestureDetector & InkWell
 
-### 3.1 GestureDetector
+### 3.1 GestureDetector - Bắt gesture thuần (tap, double tap, long press, drag, scale…), Ko hiệu ứng (splash, ripple)
 
 ```dart
 GestureDetector(
-  onTap: () => print('Tap'),
-  onDoubleTap: () => print('Double tap'),
-  onLongPress: () => print('Long press'),
-  onPanUpdate: (details) => print('Drag: ${details.delta}'),
+  onTap: () => print('Tap'), // sự kiện tap (nhấn và thả)
+  onDoubleTap: () => print('Double tap'), // sự kiện double tap (nhấn 2 lần)
+  onLongPress: () => print('Long press'), // sự kiện nhấn giữ
+  onPanUpdate: (details) => print('Drag: ${details.delta}'), // sự kiện kéo (drag) khi ngón tay / chuột đang DI CHUYỂN
   
   child: Container(
     width: 100,
@@ -356,15 +360,14 @@ GestureDetector(
   ),
 )
 ```
-
-### 3.2 InkWell - Với hiệu ứng ripple
+### 3.2 InkWell - Với hiệu ứng ripple (sóng nước)
 
 ```dart
 InkWell(
   onTap: () => print('Tapped'),
-  borderRadius: BorderRadius.circular(12),
-  splashColor: Colors.blue.withOpacity(0.3),
-  highlightColor: Colors.blue.withOpacity(0.1),
+  borderRadius: BorderRadius.circular(12), // bo góc
+  splashColor: Colors.blue.withOpacity(0.3), // màu hiệu ứng ripple
+  highlightColor: Colors.blue.withOpacity(0.1), // màu hiệu ứng khi nhấn
   
   child: Container(
     padding: EdgeInsets.all(16),
@@ -391,22 +394,23 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   // Form key
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(); // GlobalKey là widget để quản lý trạng thái của Form
   
   // Controllers
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  
+  final _emailController = TextEditingController(); // TextEditingController là widget để quản lý trạng thái của TextField
+  final _passwordController = TextEditingController(); 
+
   @override
   void dispose() {
-    _emailController.dispose();
+    _emailController.dispose(); // dispose() là phương thức để giải phóng tài nguyên của widget
     _passwordController.dispose();
     super.dispose();
   }
   
+  // Submit form để validate và in ra kết quả
   void _submit() {
     // Validate
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) { // validate() là phương thức để kiểm tra trạng thái của Form
       // Form is valid
       print('Email: ${_emailController.text}');
       print('Password: ${_passwordController.text}');
@@ -416,20 +420,20 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: _formKey, // Gán form key cho Form
       child: Column(
         children: [
           // Email field
           TextFormField(
-            controller: _emailController,
-            decoration: InputDecoration(labelText: 'Email'),
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter email';
+            controller: _emailController, // Gán controller cho TextField
+            decoration: InputDecoration(labelText: 'Email'), // InputDecoration là widget để tạo kiểu cho TextField
+            keyboardType: TextInputType.emailAddress, // TextInputType là widget để tạo kiểu cho TextField
+            validator: (value) { // Validator là widget để kiểm tra trạng thái của TextField
+              if (value == null || value.isEmpty) { // Kiểm tra nếu value rỗng
+                return 'Please enter email'; // Trả về thông báo lỗi
               }
-              if (!value.contains('@')) {
-                return 'Please enter valid email';
+              if (!value.contains('@')) { // Kiểm tra nếu value không chứa @
+                return 'Please enter valid email'; // Trả về thông báo lỗi
               }
               return null; // Valid
             },
@@ -439,17 +443,17 @@ class _LoginFormState extends State<LoginForm> {
           
           // Password field
           TextFormField(
-            controller: _passwordController,
-            decoration: InputDecoration(labelText: 'Password'),
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter password';
+            controller: _passwordController, // Gán controller cho TextField
+            decoration: InputDecoration(labelText: 'Password'), // InputDecoration là widget để tạo kiểu cho TextField
+            obscureText: true, // obscureText là widget để ẩn password
+            validator: (value) { // Validator là widget để kiểm tra trạng thái của TextField
+              if (value == null || value.isEmpty) { // Kiểm tra nếu value rỗng
+                return 'Please enter password'; // Trả về thông báo lỗi
               }
-              if (value.length < 6) {
-                return 'Password must be at least 6 characters';
+              if (value.length < 6) { // Kiểm tra nếu value có ít hơn 6 ký tự
+                return 'Password must be at least 6 characters'; // Trả về thông báo lỗi
               }
-              return null;
+              return null; // Valid
             },
           ),
           
@@ -457,10 +461,10 @@ class _LoginFormState extends State<LoginForm> {
           
           // Submit button
           SizedBox(
-            width: double.infinity,
+            width: double.infinity, // double.infinity = full width
             child: ElevatedButton(
-              onPressed: _submit,
-              child: Text('Login'),
+              onPressed: _submit, // Gán callback cho button
+              child: Text('Login'), // Text là widget để hiển thị text
             ),
           ),
         ],
@@ -483,40 +487,40 @@ class _LoginFormState extends State<LoginForm> {
 ```dart
 // Email validator
 String? validateEmail(String? value) {
-  if (value == null || value.isEmpty) {
-    return 'Email is required';
+  if (value == null || value.isEmpty) { // Kiểm tra nếu value rỗng
+    return 'Email is required'; // Trả về thông báo lỗi
   }
-  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-  if (!emailRegex.hasMatch(value)) {
-    return 'Enter a valid email';
+  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'); // Regex để kiểm tra email
+  if (!emailRegex.hasMatch(value)) { // Kiểm tra nếu value không chứa @
+    return 'Enter a valid email'; // Trả về thông báo lỗi
   }
   return null;
 }
 
 // Password validator
 String? validatePassword(String? value) {
-  if (value == null || value.isEmpty) {
-    return 'Password is required';
+  if (value == null || value.isEmpty) { // Kiểm tra nếu value rỗng
+    return 'Password is required'; // Trả về thông báo lỗi
   }
-  if (value.length < 8) {
-    return 'Password must be at least 8 characters';
+  if (value.length < 8) { // Kiểm tra nếu value có ít hơn 8 ký tự
+    return 'Password must be at least 8 characters'; // Trả về thông báo lỗi
   }
-  if (!value.contains(RegExp(r'[A-Z]'))) {
-    return 'Password must contain uppercase letter';
+  if (!value.contains(RegExp(r'[A-Z]'))) { // Kiểm tra nếu value không chứa chữ hoa
+    return 'Password must contain uppercase letter'; // Trả về thông báo lỗi
   }
-  if (!value.contains(RegExp(r'[0-9]'))) {
-    return 'Password must contain number';
+  if (!value.contains(RegExp(r'[0-9]'))) { // Kiểm tra nếu value không chứa số
+    return 'Password must contain number'; // Trả về thông báo lỗi
   }
-  return null;
+  return null; // Valid
 }
 
 // Phone validator
 String? validatePhone(String? value) {
-  if (value == null || value.isEmpty) {
-    return 'Phone is required';
+  if (value == null || value.isEmpty) { // Kiểm tra nếu value rỗng
+    return 'Phone is required'; // Trả về thông báo lỗi
   }
-  if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-    return 'Enter valid 10-digit phone';
+  if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) { // Kiểm tra nếu value không chứa số
+    return 'Enter valid 10-digit phone'; // Trả về thông báo lỗi
   }
   return null;
 }
@@ -530,28 +534,29 @@ String? validatePhone(String? value) {
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
-  bool _isChecked = false;
+  bool _isChecked = false; // Khai báo biến để lưu trạng thái của checkbox
   
   @override
   Widget build(BuildContext context) {
+    // Checkbox là widget để tạo checkbox
     return Checkbox(
-      value: _isChecked,
-      onChanged: (bool? value) {
-        setState(() {
-          _isChecked = value ?? false;
+      value: _isChecked, // Giá trị của checkbox
+      onChanged: (bool? value) { // Callback khi checkbox thay đổi
+        setState(() { // setState để cập nhật trạng thái của widget
+          _isChecked = value ?? false; // Cập nhật giá trị của checkbox
         });
       },
     );
   }
 }
 
-// CheckboxListTile
+// CheckboxListTile là widget để tạo checkbox với tiêu đề và mô tả
 CheckboxListTile(
-  title: Text('Accept terms'),
-  subtitle: Text('I agree to the terms and conditions'),
-  value: _isChecked,
-  onChanged: (value) {
-    setState(() => _isChecked = value ?? false);
+  title: Text('Accept terms'), // Tiêu đề của checkbox
+  subtitle: Text('I agree to the terms and conditions'), // Mô tả của checkbox
+  value: _isChecked, // Giá trị của checkbox
+  onChanged: (value) { // Callback khi checkbox thay đổi
+    setState(() => _isChecked = value ?? false); // Cập nhật giá trị của checkbox
   },
 )
 ```
@@ -562,26 +567,26 @@ CheckboxListTile(
 enum Gender { male, female, other }
 
 class _MyWidgetState extends State<MyWidget> {
-  Gender? _selectedGender;
+  Gender? _selectedGender; // Khai báo biến để lưu trạng thái của radio
   
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        RadioListTile<Gender>(
-          title: Text('Male'),
-          value: Gender.male,
-          groupValue: _selectedGender,
-          onChanged: (Gender? value) {
-            setState(() => _selectedGender = value);
+        RadioListTile<Gender>( // RadioListTile là widget để tạo radio với tiêu đề và mô tả
+          title: Text('Male'), // Tiêu đề của radio
+          value: Gender.male, // Giá trị của radio
+          groupValue: _selectedGender, // Giá trị của group
+          onChanged: (Gender? value) { // Callback khi radio thay đổi
+            setState(() => _selectedGender = value); // Cập nhật giá trị của radio
           },
         ),
         RadioListTile<Gender>(
-          title: Text('Female'),
-          value: Gender.female,
-          groupValue: _selectedGender,
-          onChanged: (Gender? value) {
-            setState(() => _selectedGender = value);
+          title: Text('Female'), // Tiêu đề của radio
+          value: Gender.female, // Giá trị của radio
+          groupValue: _selectedGender, // Giá trị của group
+          onChanged: (Gender? value) { // Callback khi radio thay đổi
+            setState(() => _selectedGender = value); // Cập nhật giá trị của radio
           },
         ),
       ],
@@ -594,18 +599,18 @@ class _MyWidgetState extends State<MyWidget> {
 
 ```dart
 Switch(
-  value: _isEnabled,
-  onChanged: (bool value) {
-    setState(() => _isEnabled = value);
+  value: _isEnabled, // Giá trị của switch
+  onChanged: (bool value) { // Callback khi switch thay đổi
+    setState(() => _isEnabled = value); // Cập nhật giá trị của switch
   },
 )
 
-// SwitchListTile
+// SwitchListTile là widget để tạo switch với tiêu đề và mô tả
 SwitchListTile(
-  title: Text('Enable notifications'),
-  subtitle: Text('Receive push notifications'),
-  value: _isEnabled,
-  onChanged: (value) {
+  title: Text('Enable notifications'), // Tiêu đề của switch
+  subtitle: Text('Receive push notifications'), // Mô tả của switch
+  value: _isEnabled, // Giá trị của switch
+  onChanged: (value) { // Callback khi switch thay đổi
     setState(() => _isEnabled = value);
   },
 )
@@ -617,38 +622,38 @@ SwitchListTile(
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
-  String? _selectedItem;
-  final List<String> _items = ['Option 1', 'Option 2', 'Option 3'];
+  String? _selectedItem; // Khai báo biến để lưu trạng thái của dropdown
+  final List<String> _items = ['Option 1', 'Option 2', 'Option 3']; // Danh sách các item
   
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: _selectedItem,
-      hint: Text('Select an option'),
-      isExpanded: true,
-      items: _items.map((String item) {
-        return DropdownMenuItem<String>(
-          value: item,
-          child: Text(item),
+    return DropdownButton<String>( // DropdownButton là widget để tạo dropdown
+      value: _selectedItem, // Giá trị của dropdown
+      hint: Text('Select an option'), // Hint của dropdown
+      isExpanded: true, // Dropdown mở rộng
+      items: _items.map((String item) { // Map các item
+        return DropdownMenuItem<String>( // DropdownMenuItem là widget để tạo item
+          value: item, // Giá trị của item
+          child: Text(item), // Text của item
         );
-      }).toList(),
-      onChanged: (String? value) {
-        setState(() => _selectedItem = value);
+      }).toList(), // Convert sang list
+      onChanged: (String? value) { // Callback khi dropdown thay đổi
+        setState(() => _selectedItem = value); // Cập nhật giá trị của dropdown
       },
     );
   }
 }
 
 // DropdownButtonFormField (trong Form)
-DropdownButtonFormField<String>(
-  value: _selectedItem,
-  decoration: InputDecoration(labelText: 'Category'),
-  items: _items.map((item) => DropdownMenuItem(
-    value: item,
-    child: Text(item),
-  )).toList(),
-  onChanged: (value) => setState(() => _selectedItem = value),
-  validator: (value) => value == null ? 'Please select' : null,
+DropdownButtonFormField<String>( // DropdownButtonFormField là widget để tạo dropdown trong form
+  value: _selectedItem, // Giá trị của dropdown
+  decoration: InputDecoration(labelText: 'Category'), // Decoration của dropdown
+  items: _items.map((item) => DropdownMenuItem( // Map các item
+    value: item, // Giá trị của item
+    child: Text(item), // Text của item
+  )).toList(), // Convert sang list
+  onChanged: (value) => setState(() => _selectedItem = value), // Callback khi dropdown thay đổi
+  validator: (value) => value == null ? 'Please select' : null, // Validator của dropdown
 )
 ```
 
