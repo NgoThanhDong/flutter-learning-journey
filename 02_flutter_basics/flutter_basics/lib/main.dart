@@ -37,15 +37,18 @@ import 'exercises/ex19_dark_mode_toggle.dart';
 import 'exercises/ex20_login_screen.dart';
 import 'exercises/ex21_ecommerce_home.dart';
 import 'exercises/ex22_chat_ui.dart';
+
 /// Hàm main() là cửa ngõ đầu tiên.
 /// Nó gọi runApp() để khởi động widget root của ứng dụng.
 void main() {
   runApp(const MyApp());
 }
+
 /// MyApp là Widget gốc (Root Widget) của cả ứng dụng.
 /// Thường nó là một Stateless widget chứa MaterialApp.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     // MaterialApp: Widget bao bọc toàn bộ ứng dụng theo phong cách Material Design (Google).
@@ -64,9 +67,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 /// Màn hình hiển thị danh sách tất cả các bài tập
 class ExerciseListScreen extends StatelessWidget {
   const ExerciseListScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,6 +151,7 @@ class ExerciseListScreen extends StatelessWidget {
       ),
     );
   }
+
   /// Hàm helper để xây dựng giao diện cho từng nhóm bài học
   /// Giúp code gọn gàng hơn, tránh lặp lại code tạo Card/ListTile nhiều lần.
   Widget _buildLessonSection(
@@ -215,9 +221,11 @@ class ExerciseListScreen extends StatelessWidget {
     );
   }
 }
+
 /// Class đơn giản chứa thông tin mỗi bài tập
 class _ExerciseItem {
   final String name; // Tên hiển thị
   final Widget? widget; // Màn hình bài tập tương ứng
+  
   _ExerciseItem(this.name, this.widget);
 }

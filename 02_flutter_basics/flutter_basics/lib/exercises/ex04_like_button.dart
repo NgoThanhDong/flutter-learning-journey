@@ -49,6 +49,7 @@ class _Ex04LikeButtonState extends State<Ex04LikeButton> {
         child: Container(
           // Padding bên trong Container
           padding: EdgeInsets.all(16),
+
           // Decoration: Trang trí cho Container (màu nền, bo góc, bóng đổ)
           decoration: BoxDecoration(
             color: Colors.white,
@@ -65,6 +66,7 @@ class _Ex04LikeButtonState extends State<Ex04LikeButton> {
               ),
             ],
           ),
+
           child: Row(
             // mainAxisSize.min: Row chỉ rộng bằng nội dung bên trong (không chiếm hết chiều ngang)
             mainAxisSize: MainAxisSize.min,
@@ -72,10 +74,24 @@ class _Ex04LikeButtonState extends State<Ex04LikeButton> {
               // Nút like
               IconButton(
                 // Icon thay đổi tùy theo state
-                icon: Icon(
-                  _isLiked ? Icons.favorite : Icons.favorite_border,
-                  color: _isLiked ? Colors.red : Colors.grey, // Màu cũng đổi
-                  size: 40,
+                // Sử dụng AnimatedSwitcher để làm animation đơn giản khi Widget con thay đổi
+                icon: AnimatedSwitcher(
+                  // Thời gian chạy animation (300ms)
+                  duration: const Duration(milliseconds: 300),
+                  // Hiệu ứng chuyển đổi: Scale (phóng to/thu nhỏ) khi đổi icon
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                        return ScaleTransition(scale: animation, child: child);
+                      },
+                  // Widget con hiển thị (Icon)
+                  child: Icon(
+                    _isLiked ? Icons.favorite : Icons.favorite_border,
+                    // QUAN TRỌNG: Key giúp Flutter nhận biết đây là Widget mới để chạy animation
+                    // Nếu không có key, Flutter tưởng là cùng 1 icon nên không chạy hiệu ứng
+                    key: ValueKey<bool>(_isLiked),
+                    color: _isLiked ? Colors.red : Colors.grey,
+                    size: 40,
+                  ),
                 ),
                 onPressed: _toggleLike,
               ),

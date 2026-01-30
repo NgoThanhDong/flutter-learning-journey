@@ -281,11 +281,11 @@ class _MyWidgetState extends State<MyWidget> {
 ```
 createState() → initState() → didChangeDependencies() → build()
                                                            ↓
-                         setState() ─────────────────→ build()
+                         setState() ───────────────── → build()
                                                            ↓
-parent rebuild ────→ didUpdateWidget() ───────────→ build()
+parent rebuild ──── → didUpdateWidget() ───────────── → build()
                                                            ↓
-                              remove from tree ────→ dispose()
+                        remove from tree ──────────── → dispose()
 ```
 
 ---

@@ -44,8 +44,8 @@ class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
       appBar: AppBar(
         title: Text('Toggle Theme'),
         // AppBar cũng đổi màu theo theme
-        backgroundColor: _isDark ? Colors.grey[900] : Colors.blue,
-        foregroundColor: Colors.white,
+        backgroundColor: _isDark ? Colors.grey[900] : Colors.blue, // màu nền của AppBar
+        foregroundColor: Colors.white, // màu nội dung phía trước, bao gồm: chữ title, icon (menu, back, action icons), icon leading
       ),
 
       body: Center(

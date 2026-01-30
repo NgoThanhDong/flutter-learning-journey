@@ -48,6 +48,7 @@ class Ex01HelloFlutter extends StatelessWidget {
           ),
         ],
       ),
+
       // Body: Phần nội dung chính của màn hình
       // Center: Widget giúp căn giữa con của nó theo cả dọc và ngang
       body: Center(

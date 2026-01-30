@@ -67,6 +67,7 @@ class _Ex02CounterState extends State<Ex02Counter> {
               '$_count',
               style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
             ),
+
             SizedBox(height: 32), // Khoảng cách giữa số và hàng nút bấm
             // Row: Xếp các nút nằm ngang
             Row(
@@ -90,6 +91,7 @@ class _Ex02CounterState extends State<Ex02Counter> {
           ],
         ),
       ),
+
       // FloatingActionButton: Nút nổi đặc trưng của Material Design (thường dùng cho hành động chính)
       floatingActionButton: FloatingActionButton(
         // Reset counter về 0
