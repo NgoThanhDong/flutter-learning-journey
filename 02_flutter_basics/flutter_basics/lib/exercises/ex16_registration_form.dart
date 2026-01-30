@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 
 class Ex16RegistrationForm extends StatefulWidget {
   const Ex16RegistrationForm({super.key});
-
   @override
   State<Ex16RegistrationForm> createState() => _Ex16RegistrationFormState();
 }
@@ -29,7 +28,6 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
   Gender? _gender = Gender.male; // Lưu giá trị Radio đang chọn
   bool _agreedToTerms = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,47 +45,42 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
                 validator: (v) => v!.isEmpty ? 'Required' : null,
               ),
               SizedBox(height: 16),
-
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
                 validator: (v) => !v!.contains('@') ? 'Invalid email' : null,
               ),
               SizedBox(height: 16),
-
-              // [Radio Button Logic]
-              // Flutter hoạt động theo cơ chế groupValue và value.
-              // - value: Giá trị của BUTTON đó (vd: Male)
-              // - groupValue: Giá trị hiện tại của NHÓM (vd: đang là Male)
-              // Nếu value == groupValue -> Radio đó được check.
+              // [Radio Button - CÁCH MỚI]
+              // Flutter bản cập nhật mới (>= 3.32) yêu cầu dùng RadioGroup thay vì groupValue lẻ tẻ.
+              // RadioGroup sẽ quản lý việc chọn 1 trong nhiều options.
               Text(
                 'Gender',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: RadioListTile<Gender>(
-                      title: Text('Male'),
-                      value: Gender.male, // Giá trị của nút này
-                      groupValue: _gender, // So sánh với giá trị đang chọn
-                      // Khi chọn -> Cập nhật _gender
-                      onChanged: (value) => setState(() => _gender = value),
-                      contentPadding: EdgeInsets.zero,
+              RadioGroup<Gender>(
+                // Thay đổi từ 'value' thành 'groupValue' cho đúng chuẩn
+                groupValue: _gender,
+                onChanged: (value) => setState(() => _gender = value),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile<Gender>(
+                        title: Text('Male'),
+                        value: Gender.male,
+                        contentPadding: EdgeInsets.zero,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: RadioListTile<Gender>(
-                      title: Text('Female'),
-                      value: Gender.female,
-                      groupValue: _gender,
-                      onChanged: (value) => setState(() => _gender = value),
-                      contentPadding: EdgeInsets.zero,
+                    Expanded(
+                      child: RadioListTile<Gender>(
+                        title: Text('Female'),
+                        value: Gender.female,
+                        contentPadding: EdgeInsets.zero,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-
               // CheckboxListTile: Tiện lợi hơn Checkbox + Text vì bấm được cả text
               CheckboxListTile(
                 title: Text('I agree to Terms & Conditions'),
@@ -97,9 +90,7 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
                     ListTileControlAffinity.leading, // Checkbox nằm bên trái
                 contentPadding: EdgeInsets.zero,
               ),
-
               SizedBox(height: 24),
-
               SizedBox(
                 width: double.infinity, // Nút full width
                 child: ElevatedButton(
