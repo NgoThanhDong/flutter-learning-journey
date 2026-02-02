@@ -87,7 +87,7 @@ class _CounterScreen extends StatelessWidget {
           children: [
             // [context.watch] Đọc VÀ lắng nghe thay đổi
             // Khi count thay đổi → widget này rebuild
-            Consumer<CounterNotifier>(
+            Consumer<CounterNotifier>( // Chỉ đọc, KHÔNG lắng nghe
               builder: (context, counter, child) {
                 debugPrint('🔄 Consumer rebuild, count = ${counter.count}');
                 return Text(
@@ -117,7 +117,7 @@ class _CounterScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Cách 1: context.read
-                    context.read<CounterNotifier>().decrement();
+                    context.read<CounterNotifier>().decrement(); // Chỉ đọc, KHÔNG lắng nghe
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red.shade100,
@@ -130,7 +130,7 @@ class _CounterScreen extends StatelessWidget {
 
                 ElevatedButton(
                   onPressed: () {
-                    context.read<CounterNotifier>().increment();
+                    context.read<CounterNotifier>().increment(); // Chỉ đọc, KHÔNG lắng nghe
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green.shade100,
@@ -144,7 +144,7 @@ class _CounterScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             TextButton.icon(
-              onPressed: () => context.read<CounterNotifier>().reset(),
+              onPressed: () => context.read<CounterNotifier>().reset(), // Chỉ đọc, KHÔNG lắng nghe
               icon: const Icon(Icons.refresh),
               label: const Text('Reset'),
             ),
@@ -188,11 +188,12 @@ class _WatchReadDemo extends StatelessWidget {
           const SizedBox(height: 12),
 
           // Demo: Dùng watch trong build
-          Builder(
+          Builder( // Builder widget để tránh rebuild
             builder: (context) {
-              final count = context.watch<CounterNotifier>().count;
+              // Không cần rebuild khi count thay đổi
+              final count = context.watch<CounterNotifier>().count; // Lắng nghe thay đổi
               return Text(
-                'Count hiện tại (watch): $count',
+                'Count hiện tại (watch): $count', // Chỉ đọc state
                 style: const TextStyle(color: Colors.purple),
               );
             },
