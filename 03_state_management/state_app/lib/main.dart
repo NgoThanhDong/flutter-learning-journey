@@ -69,7 +69,7 @@ class ExerciseListScreen extends StatelessWidget {
         children: [
           // Phần 1: setState & InheritedWidget
           _buildSectionHeader(context, '📦 Phần 1: setState & InheritedWidget'),
-          _ExerciseCard(
+          _ExerciseCard( // <--- Widget hiển thị exercise
             number: 1,
             title: 'Counter với setState',
             subtitle: 'Ôn lại setState cơ bản',
@@ -203,6 +203,7 @@ class ExerciseListScreen extends StatelessWidget {
     );
   }
 
+  // Widget hiển thị section header
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -210,7 +211,7 @@ class ExerciseListScreen extends StatelessWidget {
         title,
         style: Theme.of(
           context,
-        ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold), // <--- Style header
       ),
     );
   }
@@ -237,7 +238,7 @@ class _ExerciseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 8), // <--- Margin bottom
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: color,
@@ -247,8 +248,8 @@ class _ExerciseCard extends StatelessWidget {
         title: Text(title),
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.chevron_right),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: builder));
+        onTap: () { // <--- Khi nhấn vào card
+          Navigator.push(context, MaterialPageRoute(builder: builder)); // <--- Push màn hình
         },
       ),
     );

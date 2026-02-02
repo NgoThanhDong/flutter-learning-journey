@@ -44,10 +44,13 @@ class ThemeInherited extends InheritedWidget {
   ///
   /// dependOnInheritedWidgetOfExactType:
   /// - Tìm InheritedWidget gần nhất có type ThemeInherited
-  /// - Đăng ký widget gọi là "dependent" -> sẽ rebuild khi ThemeInherited thay đổi
+  /// - Đăng ký widget gọi là "dependent" (sự phụ thuộc) -> sẽ rebuild khi ThemeInherited thay đổi
   static ThemeInherited of(BuildContext context) {
     final result = context.dependOnInheritedWidgetOfExactType<ThemeInherited>();
-    assert(result != null, 'ThemeInherited not found in widget tree!');
+    assert(
+      result != null,
+      'ThemeInherited not found in widget tree!',
+    ); // <--- Assert chỉ chạy khi debug
     return result!;
   }
 
@@ -64,10 +67,10 @@ class ThemeInherited extends InheritedWidget {
 /// ===========================================
 /// BƯỚC 2: TẠO STATEFUL WRAPPER
 /// ===========================================
-/// Vì InheritedWidget là immutable, ta cần StatefulWidget bao ngoài
+/// Vì InheritedWidget là immutable (bất biến), ta cần StatefulWidget bao ngoài
 /// để quản lý state (isDarkMode) và rebuild khi thay đổi.
 class ThemeProvider extends StatefulWidget {
-  final Widget child;
+  final Widget child; // <--- Child widget là widget con của ThemeProvider
   const ThemeProvider({super.key, required this.child});
 
   @override
@@ -89,7 +92,7 @@ class _ThemeProviderState extends State<ThemeProvider> {
     return ThemeInherited(
       isDarkMode: _isDarkMode,
       toggleTheme: _toggleTheme,
-      child: widget.child,
+      child: widget.child, // <--- widget.child là widget con của ThemeProvider
     );
   }
 }
@@ -115,12 +118,25 @@ class _ThemeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Lấy theme từ InheritedWidget
     // Không cần truyền qua constructor!
-    final theme = ThemeInherited.of(context);
+    final theme = ThemeInherited.of(
+      context,
+    ); // <--- Lấy theme từ InheritedWidget
 
     return Scaffold(
       backgroundColor: theme.isDarkMode ? Colors.grey[900] : Colors.white,
       appBar: AppBar(
-        title: const Text('Ex02: InheritedWidget Theme'),
+        // Title thay đổi theo theme
+        title: Text(
+          'Ex02: InheritedWidget Theme',
+          style: TextStyle(
+            color: theme.isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+        // Icon thay đổi theo theme
+        iconTheme: IconThemeData(
+          color: theme.isDarkMode ? Colors.white : Colors.black,
+        ),
+        // Background color thay đổi theo theme
         backgroundColor: theme.isDarkMode ? Colors.grey[800] : Colors.blue,
       ),
       body: Center(
@@ -155,8 +171,11 @@ class _ThemeScreen extends StatelessWidget {
 
             // Toggle button
             ElevatedButton.icon(
+              // Gọi hàm toggleTheme từ InheritedWidget
               onPressed: theme.toggleTheme,
+              // Icon thay đổi theo theme
               icon: Icon(theme.isDarkMode ? Icons.light_mode : Icons.dark_mode),
+              // Text thay đổi theo theme
               label: Text(
                 theme.isDarkMode ? 'Bật Light Mode' : 'Bật Dark Mode',
               ),
@@ -201,6 +220,7 @@ class _ThemeCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
+              // <--- Lấy theme.isDarkMode từ InheritedWidget để thay đổi màu chữ
               color: theme.isDarkMode ? Colors.white : Colors.black,
             ),
           ),
@@ -208,6 +228,7 @@ class _ThemeCard extends StatelessWidget {
           Text(
             'Card này tự động đổi màu theo theme vì nó lấy isDarkMode từ ThemeInherited.of(context)',
             textAlign: TextAlign.center,
+            // <--- Lấy theme.isDarkMode từ InheritedWidget để thay đổi màu nền
             style: TextStyle(
               color: theme.isDarkMode ? Colors.grey[400] : Colors.grey[600],
             ),

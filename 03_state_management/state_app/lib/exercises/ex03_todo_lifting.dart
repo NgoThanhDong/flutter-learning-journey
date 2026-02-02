@@ -3,7 +3,7 @@
 /// ===========================================
 ///
 /// 🎯 Mục tiêu:
-/// - Áp dụng pattern "Lifting State Up"
+/// - Áp dụng pattern "Lifting State Up" (Nâng cấp trạng thái)
 /// - Tách UI thành nhiều widget nhưng dùng chung state
 ///
 /// 📝 Yêu cầu:
@@ -17,9 +17,9 @@ import 'package:flutter/material.dart';
 
 /// [Model] Đại diện cho 1 Todo item
 class Todo {
-  final String id;
-  final String title;
-  bool isCompleted;
+  final String id; // ID duy nhất của todo
+  final String title; // Tiêu đề task
+  bool isCompleted; // Trạng thái hoàn thành
 
   Todo({required this.id, required this.title, this.isCompleted = false});
 }
@@ -42,7 +42,7 @@ class _Ex03TodoLiftingState extends State<Ex03TodoLifting> {
   /// [State] List todos được giữ ở đây
   /// Tại sao không để trong TodoList?
   /// → Vì TodoInput cũng cần thêm vào list này
-  final List<Todo> _todos = [];
+  final List<Todo> _todos = []; // Danh sách todos
 
   /// [Callback] Để TodoInput gọi khi thêm todo mới
   void _addTodo(String title) {
@@ -50,9 +50,11 @@ class _Ex03TodoLiftingState extends State<Ex03TodoLifting> {
 
     setState(() {
       _todos.add(
+        // Thêm todo mới vào danh sách
         Todo(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          title: title.trim(),
+          id: DateTime.now().millisecondsSinceEpoch
+              .toString(), // ID tạo bằng thời gian hiện tại
+          title: title.trim(), // Tiêu đề task
         ),
       );
     });
@@ -61,15 +63,15 @@ class _Ex03TodoLiftingState extends State<Ex03TodoLifting> {
   /// [Callback] Để TodoList gọi khi toggle complete
   void _toggleTodo(String id) {
     setState(() {
-      final todo = _todos.firstWhere((t) => t.id == id);
-      todo.isCompleted = !todo.isCompleted;
+      final todo = _todos.firstWhere((t) => t.id == id); // Tìm todo bằng ID
+      todo.isCompleted = !todo.isCompleted; // Đảo ngược trạng thái hoàn thành
     });
   }
 
   /// [Callback] Để TodoList gọi khi xóa todo
   void _deleteTodo(String id) {
     setState(() {
-      _todos.removeWhere((t) => t.id == id);
+      _todos.removeWhere((t) => t.id == id); // Xóa todo bằng ID
     });
   }
 
@@ -84,31 +86,35 @@ class _Ex03TodoLiftingState extends State<Ex03TodoLifting> {
         children: [
           // Widget con 1: Input
           // Truyền callback để thêm todo
-          _TodoInput(onAdd: _addTodo),
+          _TodoInput(
+            onAdd: _addTodo,
+          ), // Truyền callback _addTodo vào _TodoInput
 
-          const Divider(),
-
+          const Divider(), // Đường kẻ ngang
           // Widget con 2: List
           // Truyền data VÀ callbacks
           Expanded(
             child: _TodoList(
-              todos: _todos,
-              onToggle: _toggleTodo,
-              onDelete: _deleteTodo,
+              todos: _todos, // Truyền danh sách todos
+              onToggle: _toggleTodo, // Truyền callback _toggleTodo
+              onDelete: _deleteTodo, // Truyền callback _deleteTodo
             ),
           ),
 
           // Footer hiển thị tổng số
           Container(
-            padding: const EdgeInsets.all(16),
-            color: Colors.grey[100],
+            padding: const EdgeInsets.all(16), // Padding 16
+            color: Colors.grey[100], // Màu nền xám nhạt
             child: Row(
+              // Căn đều hai bên, ko chừa khoảng trống 2 bên
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Tổng: ${_todos.length} tasks'),
+                Text('Tổng: ${_todos.length} tasks'), // Tổng số tasks
                 Text(
-                  'Hoàn thành: ${_todos.where((t) => t.isCompleted).length}',
-                  style: const TextStyle(color: Colors.green),
+                  'Hoàn thành: ${_todos.where((t) => t.isCompleted).length}', // Số tasks đã hoàn thành
+                  style: const TextStyle(
+                    color: Colors.green,
+                  ), // Text màu xanh lá
                 ),
               ],
             ),
@@ -145,9 +151,11 @@ class _TodoInputState extends State<_TodoInput> {
     super.dispose();
   }
 
+  // Hàm xử lý khi submit
   void _submit() {
     final text = _controller.text;
     if (text.isNotEmpty) {
+      // Kiểm tra text có rỗng không
       widget.onAdd(text); // Gọi callback từ parent
       _controller.clear(); // Clear input sau khi add
     }
@@ -161,10 +169,12 @@ class _TodoInputState extends State<_TodoInput> {
         children: [
           Expanded(
             child: TextField(
+              // Ô nhập liệu
               controller: _controller,
               decoration: InputDecoration(
                 hintText: 'Thêm task mới...',
                 border: OutlineInputBorder(
+                  // Viền bo góc
                   borderRadius: BorderRadius.circular(12),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
@@ -178,12 +188,12 @@ class _TodoInputState extends State<_TodoInput> {
           ),
           const SizedBox(width: 12),
           ElevatedButton(
-            onPressed: _submit,
+            onPressed: _submit, // Gọi hàm _submit khi nhấn nút
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(16),
               backgroundColor: Colors.teal,
             ),
-            child: const Icon(Icons.add, color: Colors.white),
+            child: const Icon(Icons.add, color: Colors.white), // Icon nút bấm
           ),
         ],
       ),
@@ -201,9 +211,9 @@ class _TodoInputState extends State<_TodoInput> {
 ///
 /// Widget này KHÔNG sở hữu data, chỉ hiển thị và gọi callbacks.
 class _TodoList extends StatelessWidget {
-  final List<Todo> todos;
-  final void Function(String) onToggle;
-  final void Function(String) onDelete;
+  final List<Todo> todos; // Danh sách todos
+  final void Function(String) onToggle; // Callback khi toggle complete
+  final void Function(String) onDelete; // Callback khi xóa
 
   const _TodoList({
     required this.todos,
@@ -214,11 +224,12 @@ class _TodoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (todos.isEmpty) {
+      // Kiểm tra danh sách todos có rỗng không
       return const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.inbox, size: 64, color: Colors.grey),
+            Icon(Icons.inbox, size: 64, color: Colors.grey), // Icon rỗng
             SizedBox(height: 16),
             Text(
               'Chưa có task nào.\nThêm task mới ở trên!',
@@ -230,27 +241,33 @@ class _TodoList extends StatelessWidget {
       );
     }
 
+    // Hiển thị danh sách todos
     return ListView.builder(
-      itemCount: todos.length,
+      itemCount: todos.length, // Số lượng item
       itemBuilder: (context, index) {
-        final todo = todos[index];
+        // Hàm build từng item
+        final todo = todos[index]; // Lấy todo tại index
         return ListTile(
+          // Widget hiển thị từng item
           leading: Checkbox(
-            value: todo.isCompleted,
-            onChanged: (_) => onToggle(todo.id),
+            // Checkbox để đánh dấu hoàn thành
+            value: todo.isCompleted, // Giá trị checkbox
+            onChanged: (_) => onToggle(todo.id), // Callback khi toggle
           ),
           title: Text(
-            todo.title,
+            todo.title, // Tiêu đề task
             style: TextStyle(
+              // Nếu đã hoàn thành thì gạch ngang
               decoration: todo.isCompleted
                   ? TextDecoration.lineThrough
                   : TextDecoration.none,
+              // Nếu đã hoàn thành thì màu xám
               color: todo.isCompleted ? Colors.grey : Colors.black,
             ),
           ),
           trailing: IconButton(
-            icon: const Icon(Icons.delete, color: Colors.red),
-            onPressed: () => onDelete(todo.id),
+            icon: const Icon(Icons.delete, color: Colors.red), // Icon xóa
+            onPressed: () => onDelete(todo.id), // Callback khi xóa
           ),
         );
       },

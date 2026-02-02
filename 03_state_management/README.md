@@ -17,7 +17,7 @@ Sau khi hoàn thành, bạn sẽ:
 
 | Bài | Chủ đề | File lý thuyết | Exercises |
 |-----|--------|----------------|-----------|
-| 1 | State Management Overview | [lesson_01_overview.md](lesson_01_overview.md) | 2 |
+| 1 | State Management Overview | [lesson_01_overview.md](lesson_01_overview.md) | 0 |
 | 2 | setState & InheritedWidget | [lesson_02_setstate.md](lesson_02_setstate.md) | 3 |
 | 3 | Provider Basics | [lesson_03_provider_basics.md](lesson_03_provider_basics.md) | 4 |
 | 4 | Provider Advanced | [lesson_04_provider_advanced.md](lesson_04_provider_advanced.md) | 3 |

@@ -49,9 +49,9 @@ class _Ex01CounterSetstateState extends State<Ex01CounterSetstate> {
     if (_count <= 0) {
       // Hiện thông báo nếu count đã là 0
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Counter không thể âm!'),
-          duration: Duration(seconds: 1),
+        const SnackBar( // SnackBar là widget hiển thị thông báo ở bottom app
+          content: Text('Counter không thể âm!'), // Nội dung thông báo
+          duration: Duration(seconds: 1), // Hiển thị 1 giây
         ),
       );
       return; // Thoát sớm, không thực hiện gì thêm
@@ -61,6 +61,7 @@ class _Ex01CounterSetstateState extends State<Ex01CounterSetstate> {
     });
   }
 
+  // Hàm reset lại count bằng 0
   void _reset() {
     setState(() {
       _count = 0;
@@ -96,7 +97,7 @@ class _Ex01CounterSetstateState extends State<Ex01CounterSetstate> {
               children: [
                 // Nút giảm
                 ElevatedButton(
-                  onPressed: _decrement,
+                  onPressed: _decrement, // Gọi hàm giảm
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red.shade100,
                     padding: const EdgeInsets.all(20),
@@ -108,7 +109,7 @@ class _Ex01CounterSetstateState extends State<Ex01CounterSetstate> {
 
                 // Nút tăng
                 ElevatedButton(
-                  onPressed: _increment,
+                  onPressed: _increment, // Gọi hàm tăng
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green.shade100,
                     padding: const EdgeInsets.all(20),
@@ -122,7 +123,7 @@ class _Ex01CounterSetstateState extends State<Ex01CounterSetstate> {
 
             // Nút Reset
             TextButton.icon(
-              onPressed: _reset,
+              onPressed: _reset, // Gọi hàm reset
               icon: const Icon(Icons.refresh),
               label: const Text('Reset'),
             ),

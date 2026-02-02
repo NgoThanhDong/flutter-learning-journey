@@ -216,16 +216,6 @@ Bài 6: Practice Projects
 
 ---
 
-## 📝 Bài tập
-
-### Ex01: Counter với setState (Ôn tập)
-Tạo Counter app đơn giản với setState để nhớ lại kiến thức Phase 2.
-
-### Ex02: Theme Toggle với InheritedWidget
-Tạo Theme switcher sử dụng InheritedWidget để hiểu cách Provider hoạt động bên dưới.
-
----
-
 ## 🔑 Tóm tắt
 
 1. **State** = Dữ liệu thay đổi → UI cập nhật
