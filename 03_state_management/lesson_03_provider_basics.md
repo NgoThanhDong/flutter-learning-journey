@@ -22,7 +22,7 @@
 | Prop Drilling | Widget con lấy state trực tiếp |
 | Boilerplate InheritedWidget | Cung cấp API đơn giản |
 | Widget rebuild không cần thiết | Chỉ rebuild widget lắng nghe |
-| Test khó | Dễ dàng mock và test |
+| Test khó | Dễ dàng mock (mô phỏng) và test |
 
 ### 1.3. Cài đặt
 
@@ -82,8 +82,8 @@ class CounterNotifier extends ChangeNotifier {
 | Quy tắc | Mô tả |
 |---------|-------|
 | **Luôn gọi notifyListeners()** | Sau khi thay đổi state, PHẢI gọi để UI cập nhật |
-| **State nên private** | Dùng `_` prefix, expose qua getter |
-| **Immutable khi cần** | Với List/Map, tạo bản copy mới thay vì mutate |
+| **State nên private** | Dùng `_` prefix (tiền tố), expose (phơi ra) qua getter |
+| **Immutable (bất biến) khi cần** | Với List/Map, tạo bản copy mới thay vì mutate |
 
 ### 2.4. Ví dụ với List
 
