@@ -234,7 +234,7 @@ ElevatedButton(
   style: ElevatedButton.styleFrom(
     backgroundColor: Colors.blue, // Background color là màu nền của ElevatedButton
     foregroundColor: Colors.white, // Foreground color là màu chữ của ElevatedButton
-    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16), // Padding là khoảng cách giữa nội dung và viền của ElevatedButton
+    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16), // Padding là khoảng cách giữa nội dung và viền
     shape: RoundedRectangleBorder( // Shape là widget để tạo hình dạng của ElevatedButton
       borderRadius: BorderRadius.circular(12), // Border radius là góc bo tròn của ElevatedButton
     ),
@@ -491,7 +491,7 @@ String? validateEmail(String? value) {
     return 'Email is required'; // Trả về thông báo lỗi
   }
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'); // Regex để kiểm tra email
-  if (!emailRegex.hasMatch(value)) { // Kiểm tra nếu value không chứa @
+  if (!emailRegex.hasMatch(value)) { // Kiểm tra nếu value có match với regex
     return 'Enter a valid email'; // Trả về thông báo lỗi
   }
   return null;
@@ -531,6 +531,7 @@ String? validatePhone(String? value) {
 ## 5. Checkbox, Radio, Switch
 
 ### 5.1 Checkbox
+Chọn nhiều lựa chọn độc lập. Mỗi checkbox tự bật/tắt. Không ảnh hưởng cái khác.
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
@@ -562,7 +563,7 @@ CheckboxListTile(
 ```
 
 ### 5.2 Radio
-
+Chọn 1 trong nhiều lựa chọn (mutually exclusive). Các Radio dùng chung 1 group. Chọn cái này → cái khác tự bỏ.
 ```dart
 enum Gender { male, female, other }
 
@@ -596,6 +597,7 @@ class _MyWidgetState extends State<MyWidget> {
 ```
 
 ### 5.3 Switch
+Switch là widget bật / tắt (ON–OFF toggle) trong Flutter.
 
 ```dart
 Switch(
@@ -619,6 +621,7 @@ SwitchListTile(
 ---
 
 ## 6. DropdownButton
+DropdownButton là widget chọn 1 giá trị trong danh sách xổ xuống (dropdown / select box) trong Flutter.
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
