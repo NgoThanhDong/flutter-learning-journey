@@ -460,7 +460,7 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 // Avatar (overlapping)
-                // Transform.translate là widget dùng để dịch chuyển (move) widget theo trục X / Y mà KHÔNG làm ảnh hưởng layout
+                // Transform.translate là widget dùng để dịch chuyển (move) widget theo trục X/Y mà KO làm ảnh hưởng layout
                 Transform.translate(
                   offset: Offset(0, -50), // offset là khoảng cách dịch chuyển của widget theo trục X / Y
                   child: CircleAvatar( // CircleAvatar là widget dùng để hiển thị avatar hình tròn
@@ -511,7 +511,8 @@ class ProfileScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 32),
                   child: Row(
                     // mainAxisAlignment là thuộc tính của widget Row dùng để căn chỉnh các widget con theo chiều ngang
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly, // căn chỉnh các widget con ở hai đầu, khoảng cách giữa các widget con bằng nhau
+                    // spaceEvenly để căn chỉnh các widget con ở hai đầu, khoảng cách giữa các widget con bằng nhau
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _StatItem(count: '128', label: 'Posts'),
                       _StatItem(count: '5.2K', label: 'Followers'),
