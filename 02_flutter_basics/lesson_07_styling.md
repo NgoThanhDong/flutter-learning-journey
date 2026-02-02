@@ -433,9 +433,17 @@ IconButton(
 ### 5.3 Check Dark Mode
 
 ```dart
+// Kiểm tra theme ĐANG ĐƯỢC APP sử dụng
+// Tôn trọng: themeMode, user toggle trong app
+// Chuẩn nhất khi app có Dark/Light riêng
+// Dùng khi: App có setting Dark Mode
 bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
 // Hoặc
+// Kiểm tra Dark Mode của HỆ ĐIỀU HÀNH
+// iOS / Android / Windows / macOS
+// Không quan tâm app đang dùng theme gì
+// Dùng khi: App không có setting riêng, theo hệ thống
 bool isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
 ```
 
@@ -468,6 +476,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
   }
   
   // Hàm nội suy (lerp = linear interpolation) cho ThemeExtension
+  // Mỗi màu được blend (trộn, đổi màu) mượt khi đổi theme
   @override
   CustomColors lerp(ThemeExtension<CustomColors>? other, double t) {
     if (other is! CustomColors) return this;
