@@ -183,9 +183,9 @@ class UserAvatar extends StatelessWidget {
 | **Riverpod** | ⭐⭐⭐ | App mới, team có kinh nghiệm | Compile-safe, testable | Cú pháp mới lạ hơn |
 | **BLoC** | ⭐⭐⭐⭐ | App enterprise, logic phức tạp | Tách biệt rõ ràng, reactive | Boilerplate nhiều |
 
-🔹 Boilerplate = phần code “thủ tục bắt buộc”
-🔹 Càng nhiều boilerplate → càng mệt khi viết & đọc
-🔹 Dev chê “boilerplate nhiều” = “viết mỏi tay mà logic chẳng bao nhiêu” 😆
+- Boilerplate = phần code “thủ tục bắt buộc”
+- Càng nhiều boilerplate → càng mệt khi viết & đọc
+- Dev chê “boilerplate nhiều” = “viết mỏi tay mà logic chẳng bao nhiêu” 😆
 
 ### 4.2. Khuyến nghị theo loại project
 
