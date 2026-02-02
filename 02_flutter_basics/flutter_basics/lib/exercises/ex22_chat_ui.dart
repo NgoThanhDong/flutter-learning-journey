@@ -9,7 +9,7 @@
 /// - Input area: TextField + Send Button
 /// - Bong bóng chat (Chat Bubble) khác màu cho Sender/Receiver
 
-library;
+library; // library là widget dùng để tạo thư viện
 
 import 'package:flutter/material.dart';
 
@@ -39,8 +39,9 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
 
   // Hàm gửi tin nhắn
   void _sendMessage() {
-    if (_controller.text.trim().isEmpty)
+    if (_controller.text.trim().isEmpty) {
       return; // Nếu ô nhập rỗng thì không gửi
+    }
     setState(() {
       // insert(0, ...): Thêm tin mới vào ĐẦU list
       // Tại sao? Vì ListView đang dùng reverse: true -> Đầu list là Dưới cùng màn hình.
@@ -174,11 +175,14 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
             child: Row(
               children: [
                 IconButton(
+                  // IconButton: là widget dùng để tạo nút bấm có icon
                   icon: Icon(Icons.attach_file),
                   onPressed: () {
                     debugPrint('Attach file');
                   },
-                ), // IconButton: là widget dùng để tạo nút bấm có icon
+                ),
+
+                // Expanded: Chiếm phần lớn màn hình cho ô nhập văn bản
                 Expanded(
                   child: TextField(
                     controller:
@@ -199,6 +203,7 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
                     ),
                   ),
                 ),
+
                 SizedBox(width: 8),
                 CircleAvatar(
                   // CircleAvatar: là widget dùng để tạo hình tròn
