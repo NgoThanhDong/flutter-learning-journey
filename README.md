@@ -17,8 +17,8 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 | Phase | Thời gian | Chủ đề | Nội dung chính | Trạng thái |
 |-------|-----------|--------|----------------|------------|
 | 1 | 1-2 tuần | **Dart Fundamentals** | 5 bài: Variables, OOP, Async, Collections, Enums | ✅ Hoàn thành |
-| 2 | 2-3 tuần | **Flutter Basics** | 8 bài: Widget, Layout, Input, Styling | 🔄 Đang học |
-| 3 | 2 tuần | State Management | setState, Provider | ⏳ Chờ |
+| 2 | 2-3 tuần | **Flutter Basics** | 8 bài: Widget, Layout, Input, Styling | ✅ Hoàn thành |
+| 3 | 2 tuần | **State Management** | 6 bài: setState, Provider, Riverpod | 🔄 Đang học |
 | 4 | 1 tuần | Navigation | Routing, GoRouter | ⏳ Chờ |
 | 5 | 2 tuần | API & Data | REST API, Local Storage | ⏳ Chờ |
 | 6 | 2 tuần | Clean Architecture | SOLID, Layers | ⏳ Chờ |
@@ -59,8 +59,23 @@ white-nebula/
 │       ├── pubspec.yaml
 │       └── web/
 │
-├── 📂 03_state_management/         ← PHASE 3 (sắp tới)
-└── ...
+├── 📂 03_state_management/         ← PHASE 3: State Management 🔄
+│   ├── 📄 README.md
+│   ├── 📖 6 bài học
+│   │   ├── lesson_01_overview.md        ← State types, Prop Drilling
+│   │   ├── lesson_02_setstate.md        ← setState, InheritedWidget
+│   │   ├── lesson_03_provider_basics.md ← ChangeNotifier, Provider
+│   │   ├── lesson_04_provider_advanced.md ← MultiProvider, Selector
+│   │   ├── lesson_05_riverpod.md        ← StateProvider, StateNotifier
+│   │   └── lesson_06_practice.md        ← Practice Projects
+│   │
+│   └── 📂 state_app/              ← Flutter Project
+│       ├── lib/
+│       │   ├── main.dart
+│       │   └── exercises/         ← 16 bài tập
+│       └── pubspec.yaml           ← provider, flutter_riverpod
+│
+└── 📂 04_navigation/               ← PHASE 4 (sắp tới)
 ```
 
 ---
@@ -137,15 +152,23 @@ Tôi sẽ giải thích chi tiết hơn.
 - [x] Bài 4: Collections & Generics
 - [x] Bài 5: Enums & Error Handling
 
-### Phase 2: Flutter Basics 🔄
-- [ ] Bài 1: Introduction & Project Structure
-- [ ] Bài 2: Widget Fundamentals (Stateless/Stateful)
-- [ ] Bài 3: Basic Widgets (Text, Container, Image)
-- [ ] Bài 4: Layout (Row, Column, Stack)
-- [ ] Bài 5: Scrollable Widgets (ListView, GridView)
-- [ ] Bài 6: Input Widgets (TextField, Button, Form)
-- [ ] Bài 7: Styling & Theming
-- [ ] Bài 8: Real UI Practice
+### Phase 2: Flutter Basics ✅
+- [x] Bài 1: Introduction & Project Structure
+- [x] Bài 2: Widget Fundamentals (Stateless/Stateful)
+- [x] Bài 3: Basic Widgets (Text, Container, Image)
+- [x] Bài 4: Layout (Row, Column, Stack)
+- [x] Bài 5: Scrollable Widgets (ListView, GridView)
+- [x] Bài 6: Input Widgets (TextField, Button, Form)
+- [x] Bài 7: Styling & Theming
+- [x] Bài 8: Real UI Practice
+
+### Phase 3: State Management 🔄
+- [ ] Bài 1: State Overview (Local vs Global)
+- [ ] Bài 2: setState & InheritedWidget
+- [ ] Bài 3: Provider Basics
+- [ ] Bài 4: Provider Advanced (MultiProvider, Selector)
+- [ ] Bài 5: Riverpod
+- [ ] Bài 6: Practice Projects
 
 ---
 
@@ -176,13 +199,13 @@ C:\Users\User\.gemini\antigravity\playground\white-nebula
 
 ---
 
-## ▶️ Bắt Đầu Phase 2!
+## ▶️ Bắt Đầu Phase 3!
 
-1. Mở thư mục `02_flutter_basics`
+1. Mở thư mục `03_state_management`
 2. Đọc file `README.md` trong đó
 3. Chạy Flutter app:
 ```bash
-cd 02_flutter_basics/flutter_basics
+cd 03_state_management/state_app
 flutter run -d chrome
 ```
 

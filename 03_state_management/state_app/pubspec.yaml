@@ -1,0 +1,32 @@
+name: state_app
+description: "Phase 3: State Management - Flutter Learning Journey"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.8
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  
+  # ========================================
+  # STATE MANAGEMENT PACKAGES
+  # ========================================
+  
+  # Provider: Package phổ biến nhất để quản lý state
+  # Được Google recommend, dễ học, đủ mạnh cho hầu hết apps
+  provider: ^6.1.5
+  
+  # Flutter Riverpod: Phiên bản cải tiến của Provider
+  # Compile-time safe, không cần BuildContext, testable hơn
+  flutter_riverpod: ^2.6.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
