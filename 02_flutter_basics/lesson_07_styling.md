@@ -13,19 +13,28 @@
 ### 1.1 Cơ bản
 
 ```dart
-MaterialApp(
-  theme: ThemeData(
+MaterialApp( // MaterialApp là widget gốc (root) của app Flutter dùng Material Design
+  theme: ThemeData( // ThemeData chứa các theme cho toàn app
     // Primary color
+    // Bảng màu chính kiểu cũ
+    // Chỉ dùng cho Material 2
+    // Kiểu Colors.blue, Colors.red
+    // Ít linh hoạt, đang bị thay thế
     primarySwatch: Colors.blue,
     
-    // Color scheme
+    // Color scheme - Bộ màu đầy đủ cho toàn app
+    // Gồm: primary, secondary, surface, background, error…
+    // Dùng cho Material 3
+    // Kiểm soát màu chuẩn & đồng bộ
     colorScheme: ColorScheme.fromSeed(
+      // Màu gốc để Flutter tự sinh colorScheme
+      // Flutter tự tính toán các màu còn lại
       seedColor: Colors.blue,
-      brightness: Brightness.light,
+      brightness: Brightness.light, // Tối ưu cho màn hình sáng
     ),
     
     // Use Material 3
-    useMaterial3: true,
+    useMaterial3: true, // Sử dụng Material 3
   ),
   home: MyHomePage(),
 )
@@ -45,22 +54,24 @@ ThemeData(
   ),
   
   // Scaffold
-  scaffoldBackgroundColor: Colors.grey[50],
+  scaffoldBackgroundColor: Colors.grey[50], // Màu nền của Scaffold
   
   // AppBar
+  // AppBarTheme chứa các theme cho AppBar
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.white,
-    foregroundColor: Colors.black,
-    elevation: 0,
-    centerTitle: true,
-    titleTextStyle: TextStyle(
+    backgroundColor: Colors.white, // Màu nền của AppBar
+    foregroundColor: Colors.black, // Màu text, icon của AppBar
+    elevation: 0, // Loại bỏ bóng của AppBar
+    centerTitle: true, // Center title
+    titleTextStyle: TextStyle( // TextStyle cho title của AppBar
       color: Colors.black,
       fontSize: 18,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w600, // Bold
     ),
   ),
   
   // Card
+  // CardTheme chứa các theme cho Card
   cardTheme: CardTheme(
     elevation: 2,
     shape: RoundedRectangleBorder(
@@ -69,6 +80,7 @@ ThemeData(
   ),
   
   // ElevatedButton
+  // ElevatedButtonThemeData chứa các theme cho ElevatedButton
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -79,13 +91,15 @@ ThemeData(
   ),
   
   // TextButton
+  // TextButtonThemeData chứa các theme cho TextButton
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: Colors.blue,
+      foregroundColor: Colors.blue, // Màu text của TextButton
     ),
   ),
   
   // OutlinedButton
+  // OutlinedButtonThemeData chứa các theme cho OutlinedButton
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       shape: RoundedRectangleBorder(
@@ -95,12 +109,13 @@ ThemeData(
   ),
   
   // Input (TextField)
+  // InputDecorationTheme chứa các theme cho TextField
   inputDecorationTheme: InputDecorationTheme(
-    filled: true,
-    fillColor: Colors.grey[100],
+    filled: true, // Bật fill
+    fillColor: Colors.grey[100], // Màu fill
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.circular(12), // Bán kính của border
+      borderSide: BorderSide.none, // Loại bỏ border
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
@@ -110,39 +125,51 @@ ThemeData(
   ),
   
   // FloatingActionButton
+  // FloatingActionButtonThemeData chứa các theme cho FloatingActionButton
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: Colors.blue,
     foregroundColor: Colors.white,
   ),
   
   // ListTile
+  // ListTileThemeData chứa các theme cho ListTile
   listTileTheme: ListTileThemeData(
-    contentPadding: EdgeInsets.symmetric(horizontal: 16),
+    contentPadding: EdgeInsets.symmetric(horizontal: 16), // Padding nội dung của ListTile
   ),
   
   // Divider
+  // DividerThemeData chứa các theme cho Divider
   dividerTheme: DividerThemeData(
-    thickness: 1,
-    color: Colors.grey[300],
+    thickness: 1, // Độ dày của Divider
+    color: Colors.grey[300], // Màu của Divider
   ),
   
   // Icon
+  // IconThemeData chứa các theme cho Icon
   iconTheme: IconThemeData(
     color: Colors.grey[700],
     size: 24,
   ),
   
   // Text
+  // TextTheme chứa các theme cho Text
   textTheme: TextTheme(
+    // Text style cho displayLarge
     displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+    // Text style cho displayMedium
     displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+    // Text style cho displaySmall
     displaySmall: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    // Text style cho headlineMedium
     headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+    // Text style cho titleLarge
     titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+    // Text style cho titleMedium
     titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-    bodyLarge: TextStyle(fontSize: 16),
-    bodyMedium: TextStyle(fontSize: 14),
-    bodySmall: TextStyle(fontSize: 12),
+    bodyLarge: TextStyle(fontSize: 16), // Text style cho bodyLarge
+    bodyMedium: TextStyle(fontSize: 14), // Text style cho bodyMedium
+    bodySmall: TextStyle(fontSize: 12), // Text style cho bodySmall
+    // Text style cho labelLarge
     labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
   ),
 )
@@ -150,11 +177,12 @@ ThemeData(
 
 ---
 
-## 2. ColorScheme
+## 2. ColorScheme - bản đồ màu toàn app
 
 ### 2.1 Tạo từ seed color
 
 ```dart
+// Tạo ColorScheme từ seed color
 ColorScheme.fromSeed(
   seedColor: Color(0xFF6750A4), // Tím
   brightness: Brightness.light,
@@ -169,13 +197,13 @@ ColorScheme colors = Theme.of(context).colorScheme;
 
 colors.primary        // Màu chính
 colors.onPrimary      // Màu text/icon trên primary
-colors.primaryContainer
-colors.onPrimaryContainer
+colors.primaryContainer // Màu container
+colors.onPrimaryContainer // Màu text trên container
 
 colors.secondary      // Màu phụ
-colors.onSecondary
-colors.secondaryContainer
-colors.onSecondaryContainer
+colors.onSecondary      // Màu text/icon trên secondary
+colors.secondaryContainer // Màu container
+colors.onSecondaryContainer // Màu text trên container
 
 colors.tertiary       // Màu thứ 3
 colors.error          // Màu lỗi
@@ -184,7 +212,7 @@ colors.onError
 colors.background     // Màu nền
 colors.onBackground   // Màu text trên nền
 colors.surface        // Màu bề mặt (card, dialog)
-colors.onSurface
+colors.onSurface      // Màu text trên bề mặt
 
 colors.outline        // Màu viền
 colors.shadow         // Màu bóng
@@ -206,7 +234,7 @@ Container(
 
 ---
 
-## 3. TextTheme
+## 3. TextTheme - bộ style chữ chuẩn dùng chung cho toàn app
 
 ### 3.1 Sử dụng TextTheme
 
@@ -371,6 +399,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.light;
   
+  // Hàm thay đổi Theme
   void _toggleTheme() {
     setState(() {
       _themeMode = _themeMode == ThemeMode.light 
@@ -428,6 +457,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.info,
   });
   
+  // Hàm copyWith dùng để tạo bản sao có chỉnh sửa một phần
   @override
   CustomColors copyWith({Color? success, Color? warning, Color? info}) {
     return CustomColors(
@@ -437,6 +467,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     );
   }
   
+  // Hàm nội suy (lerp = linear interpolation) cho ThemeExtension
   @override
   CustomColors lerp(ThemeExtension<CustomColors>? other, double t) {
     if (other is! CustomColors) return this;
