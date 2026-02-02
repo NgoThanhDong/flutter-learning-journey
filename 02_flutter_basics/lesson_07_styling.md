@@ -345,10 +345,26 @@ Text(
   ),
 )
 
-// Toàn app
+// Đổi font chữ cho TOÀN BỘ app sang Poppins (Google Fonts)
+// GoogleFonts.xxxTextTheme = thay font cho cả hệ thống chữ
 ThemeData(
+  textTheme: GoogleFonts.poppinsTextTheme(), // Dùng style mặc định của Poppins
+)
+
+// Chuẩn hơn
+ThemeData(
+  textTheme: GoogleFonts.poppinsTextTheme(
+    Theme.of(context).textTheme,
+  ),
+)
+
+// Hoặc chuẩn Material 3
+ThemeData(
+  useMaterial3: true,
+  colorSchemeSeed: Colors.blue,
   textTheme: GoogleFonts.poppinsTextTheme(),
 )
+
 ```
 
 ---
@@ -397,11 +413,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode _themeMode = ThemeMode.light; // Khởi tạo theme mode là light
   
   // Hàm thay đổi Theme
   void _toggleTheme() {
     setState(() {
+      // Kiểm tra theme đang được app sử dụng
       _themeMode = _themeMode == ThemeMode.light 
           ? ThemeMode.dark 
           : ThemeMode.light;
@@ -422,6 +439,7 @@ class _MyAppState extends State<MyApp> {
 // Trong HomeScreen
 IconButton(
   icon: Icon(
+    // Kiểm tra theme đang được app sử dụng
     Theme.of(context).brightness == Brightness.dark
         ? Icons.light_mode
         : Icons.dark_mode,
@@ -448,11 +466,11 @@ bool isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
 ```
 
 ---
-
 ## 6. Custom Theme Extension
 
 ```dart
 // Định nghĩa extension
+// @immutable: Đánh dấu class là immutable (không thể thay đổi)
 @immutable
 class CustomColors extends ThemeExtension<CustomColors> {
   final Color success;

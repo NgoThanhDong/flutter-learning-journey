@@ -13,8 +13,9 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex18AppTheme - Widget định nghĩa custom theme cho toàn bộ app
 class Ex18AppTheme extends StatelessWidget {
-  const Ex18AppTheme({super.key});
+  const Ex18AppTheme({super.key}); // Key là tham số bắt buộc của Widget
 
   @override
   Widget build(BuildContext context) {
@@ -28,27 +29,35 @@ class Ex18AppTheme extends StatelessWidget {
               .deepPurple, // Màu chủ đạo -> Flutter sẽ tự sinh ra các màu phụ khác
           brightness: Brightness.light,
         ),
+
         // TextTheme: Quy định font chữ cho toàn bộ Text trong app
         textTheme: TextTheme(
           headlineLarge: TextStyle(
+            // headlineLarge = Tiêu đề lớn
             fontSize: 32,
             fontWeight: FontWeight.bold,
             color: Colors.deepPurple,
           ),
-          bodyLarge: TextStyle(fontSize: 18),
+          bodyLarge: TextStyle(fontSize: 18), // bodyLarge = Thân bài
         ),
+
         // Custom style cho các component cụ thể (cục bộ)
         elevatedButtonTheme: ElevatedButtonThemeData(
+          // ElevatedButtonThemeData = Theme cho nút bấm ElevatedButton
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.deepPurple,
-            foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            backgroundColor: Colors.deepPurple, // Màu nền
+            foregroundColor: Colors.white, // Màu chữ
+            padding: EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 12,
+            ), // Khoảng cách bên trong
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20), // Bo góc
             ),
           ),
         ),
       ),
+
       child: Scaffold(
         appBar: AppBar(title: Text('App Theme')),
         body: Center(
@@ -79,12 +88,18 @@ class Ex18AppTheme extends StatelessWidget {
                       ),
                       SizedBox(height: 32),
                       ElevatedButton(
-                        onPressed: () {},
+                        // ElevatedButton = Nút bấm có viền
+                        onPressed: () {
+                          debugPrint('Primary Button pressed');
+                        },
                         child: Text('Primary Button'),
                       ),
                       SizedBox(height: 16),
                       FilledButton(
-                        onPressed: () {},
+                        // FilledButton = Nút bấm filled
+                        onPressed: () {
+                          debugPrint('Filled Button pressed');
+                        },
                         child: Text('Filled Button'),
                       ),
                     ],
@@ -95,7 +110,10 @@ class Ex18AppTheme extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          // FloatingActionButton = Nút bấm nổi
+          onPressed: () {
+            debugPrint('Floating Action Button pressed');
+          },
           child: Icon(Icons.add),
         ),
       ),
