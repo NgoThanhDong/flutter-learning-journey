@@ -18,8 +18,8 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 |-------|-----------|--------|----------------|------------|
 | 1 | 1-2 tuần | **Dart Fundamentals** | 5 bài: Variables, OOP, Async, Collections, Enums | ✅ Hoàn thành |
 | 2 | 2-3 tuần | **Flutter Basics** | 8 bài: Widget, Layout, Input, Styling | ✅ Hoàn thành |
-| 3 | 2 tuần | **State Management** | 6 bài: setState, Provider, Riverpod | 🔄 Đang học |
-| 4 | 1 tuần | Navigation | Routing, GoRouter | ⏳ Chờ |
+| 3 | 2 tuần | **State Management** | 6 bài: setState, Provider, Riverpod | ✅ Hoàn thành |
+| 4 | 1 tuần | **Navigation** | 7 bài: Navigator, go_router, Deep Link | 🔄 Đang học |
 | 5 | 2 tuần | API & Data | REST API, Local Storage | ⏳ Chờ |
 | 6 | 2 tuần | Clean Architecture | SOLID, Layers | ⏳ Chờ |
 | 7 | 2 tuần | BLoC Pattern | Cubit, BLoC | ⏳ Chờ |
@@ -75,7 +75,14 @@ white-nebula/
 │       │   └── exercises/         ← 16 bài tập
 │       └── pubspec.yaml           ← provider, flutter_riverpod
 │
-└── 📂 04_navigation/               ← PHASE 4 (sắp tới)
+├── 📂 04_navigation/               ← PHASE 4: Navigation 🔄
+│   ├── 📄 README.md
+│   ├── 📖 7 bài học (Navigator & go_router)
+│   ├── 📂 nav_app/                 ← Flutter Project
+│   │   ├── lib/exercises/          ← 18 bài tập
+│   │   └── pubspec.yaml            ← go_router
+│
+└── 📂 05_api_data/                 ← PHASE 5 (sắp tới)
 ```
 
 ---
@@ -162,13 +169,22 @@ Tôi sẽ giải thích chi tiết hơn.
 - [x] Bài 7: Styling & Theming
 - [x] Bài 8: Real UI Practice
 
-### Phase 3: State Management 🔄
-- [ ] Bài 1: State Overview (Local vs Global)
-- [ ] Bài 2: setState & InheritedWidget
-- [ ] Bài 3: Provider Basics
-- [ ] Bài 4: Provider Advanced (MultiProvider, Selector)
-- [ ] Bài 5: Riverpod
-- [ ] Bài 6: Practice Projects
+### Phase 3: State Management ✅
+- [x] Bài 1: State Overview (Local vs Global)
+- [x] Bài 2: setState & InheritedWidget
+- [x] Bài 3: Provider Basics
+- [x] Bài 4: Provider Advanced (MultiProvider, Selector)
+- [x] Bài 5: Riverpod
+- [x] Bài 6: Practice Projects
+
+### Phase 4: Navigation 🔄
+- [ ] Bài 1: Overview
+- [ ] Bài 2: Navigator Basics
+- [ ] Bài 3: Named Routes
+- [ ] Bài 4: go_router Intro
+- [ ] Bài 5: go_router Advanced
+- [ ] Bài 6: Deep Linking
+- [ ] Bài 7: Practice Projects
 
 ---
 
@@ -199,13 +215,13 @@ C:\Users\User\.gemini\antigravity\playground\white-nebula
 
 ---
 
-## ▶️ Bắt Đầu Phase 3!
+## ▶️ Bắt Đầu Phase 4!
 
-1. Mở thư mục `03_state_management`
+1. Mở thư mục `04_navigation`
 2. Đọc file `README.md` trong đó
 3. Chạy Flutter app:
 ```bash
-cd 03_state_management/state_app
+cd 04_navigation/nav_app
 flutter run -d chrome
 ```
 
