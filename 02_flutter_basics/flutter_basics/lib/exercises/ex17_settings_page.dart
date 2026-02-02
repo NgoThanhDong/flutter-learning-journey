@@ -13,6 +13,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex17SettingsPage - Widget hiển thị trang cài đặt
 class Ex17SettingsPage extends StatefulWidget {
   const Ex17SettingsPage({super.key});
 
@@ -22,10 +23,11 @@ class Ex17SettingsPage extends StatefulWidget {
 
 class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
   // State quản lý các cài đặt
-  bool _notifications = true;
-  bool _darkMode = false;
-  String _language = 'English';
+  bool _notifications = true; // Cài đặt thông báo
+  bool _darkMode = false; // Cài đặt mode tối
+  String _language = 'English'; // Cài đặt ngôn ngữ
   final List<String> _languages = [
+    // Danh sách ngôn ngữ
     'English',
     'Vietnamese',
     'French',
@@ -40,14 +42,14 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
       body: ListView(
         children: [
           // Section 1: General
-          _buildSectionHeader('General'),
-
+          _buildSectionHeader('General'), // Tiêu đề section
           // SwitchListTile: Widget gồm Text + Switch
           SwitchListTile(
             secondary: Icon(Icons.notifications), // Icon bên trái
             title: Text('Notifications'),
             value: _notifications, // Giá trị true/false
-            onChanged: (val) => setState(() => _notifications = val),
+            onChanged: (val) =>
+                setState(() => _notifications = val), // Khi thay đổi giá trị
           ),
 
           SwitchListTile(
@@ -59,8 +61,9 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
 
           // DropdownButton: Menu thả xuống
           ListTile(
-            leading: Icon(Icons.language),
-            title: Text('Language'),
+            // Widget gồm Text + DropdownButton
+            leading: Icon(Icons.language), // Icon bên trái
+            title: Text('Language'), // Text
             trailing: DropdownButton<String>(
               value: _language, // Giá trị đang chọn
               underline:
@@ -68,23 +71,29 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
               // map: Chuyển list String -> list DropdownMenuItem
               items: _languages
                   .map(
-                    (lang) => DropdownMenuItem(value: lang, child: Text(lang)),
+                    (lang) => DropdownMenuItem(
+                      value: lang,
+                      child: Text(lang),
+                    ), // Chuyển list String -> list DropdownMenuItem
                   )
                   .toList(),
               // Khi chọn item mới
-              onChanged: (val) => setState(() => _language = val!),
+              onChanged: (val) =>
+                  setState(() => _language = val!), // Khi chọn item mới
             ),
           ),
 
           Divider(), // Kẻ ngang phân cách
           // Section 2: Account
-          _buildSectionHeader('Account'),
+          _buildSectionHeader('Account'), // Tiêu đề section
 
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Edit Profile'),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () {},
+            leading: Icon(Icons.person), // Icon bên trái
+            title: Text('Edit Profile'), // Text
+            trailing: Icon(Icons.arrow_forward_ios, size: 16), // Icon bên phải
+            onTap: () {
+              debugPrint('Edit Profile'); // Khi click vào
+            },
           ),
 
           ListTile(
@@ -97,9 +106,10 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
     );
   }
 
+  // Hàm tạo section header
   Widget _buildSectionHeader(String title) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, 8), // Padding cho section header
       child: Text(
         title,
         style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
@@ -113,8 +123,8 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
       context: context,
       // Builder trả về Widget Dialog
       builder: (context) => AlertDialog(
-        title: Text('Logout'),
-        content: Text('Are you sure you want to logout?'),
+        title: Text('Logout'), // Tiêu đề dialog
+        content: Text('Are you sure you want to logout?'), // Nội dung dialog
         actions: [
           // Nút Cancel
           TextButton(
@@ -127,6 +137,7 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
             onPressed: () {
               Navigator.pop(context); // Đóng dialog
               // Thêm logic logout ở đây...
+              debugPrint('Logout');
             },
             child: Text('Logout', style: TextStyle(color: Colors.red)),
           ),
