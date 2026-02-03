@@ -69,7 +69,8 @@ class ExerciseListScreen extends StatelessWidget {
         children: [
           // Phần 1: setState & InheritedWidget
           _buildSectionHeader(context, '📦 Phần 1: setState & InheritedWidget'),
-          _ExerciseCard( // <--- Widget hiển thị exercise
+          _ExerciseCard(
+            // <--- Widget hiển thị exercise
             number: 1,
             title: 'Counter với setState',
             subtitle: 'Ôn lại setState cơ bản',
@@ -97,51 +98,51 @@ class ExerciseListScreen extends StatelessWidget {
           _buildSectionHeader(context, '🏪 Phần 2: Provider'),
           _ExerciseCard(
             number: 4,
-            title: 'Counter với Provider',
+            title: 'Counter với Provider (Basic)',
             subtitle: 'ChangeNotifier & ChangeNotifierProvider',
             color: Colors.green,
             builder: (_) => const Ex04CounterProvider(),
           ),
           _ExerciseCard(
             number: 5,
-            title: 'Theme với Provider',
+            title: 'Theme với Provider (Basic)',
             subtitle: 'App-level state management',
             color: Colors.green,
             builder: (_) => const Ex05ThemeProvider(),
           ),
           _ExerciseCard(
             number: 6,
-            title: 'Todo với Provider',
+            title: 'Todo với Provider (Basic)',
             subtitle: 'CRUD operations với ChangeNotifier',
             color: Colors.green,
             builder: (_) => const Ex06TodoProvider(),
           ),
           _ExerciseCard(
             number: 7,
-            title: 'Shopping Cart',
+            title: 'Shopping Cart (Basic)',
             subtitle: 'Complex state với derived values',
             color: Colors.green,
             builder: (_) => const Ex07CartProvider(),
           ),
           _ExerciseCard(
             number: 8,
-            title: 'MultiProvider',
+            title: 'MultiProvider (Advanced)',
             subtitle: 'Quản lý nhiều state',
-            color: Colors.green,
+            color: Colors.green[900]!,
             builder: (_) => const Ex08MultiProvider(),
           ),
           _ExerciseCard(
             number: 9,
-            title: 'Selector',
+            title: 'Selector (Advanced)',
             subtitle: 'Tối ưu rebuild với select',
-            color: Colors.green,
+            color: Colors.green[900]!,
             builder: (_) => const Ex09Selector(),
           ),
           _ExerciseCard(
             number: 10,
-            title: 'Consumer với Child',
+            title: 'Consumer với Child (Advanced)',
             subtitle: 'Tối ưu với child parameter',
-            color: Colors.green,
+            color: Colors.green[900]!,
             builder: (_) => const Ex10ConsumerWidget(),
           ),
 
@@ -209,9 +210,9 @@ class ExerciseListScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         title,
-        style: Theme.of(
-          context,
-        ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold), // <--- Style header
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+        ), // <--- Style header
       ),
     );
   }
@@ -248,8 +249,12 @@ class _ExerciseCard extends StatelessWidget {
         title: Text(title),
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.chevron_right),
-        onTap: () { // <--- Khi nhấn vào card
-          Navigator.push(context, MaterialPageRoute(builder: builder)); // <--- Push màn hình
+        onTap: () {
+          // <--- Khi nhấn vào card
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: builder),
+          ); // <--- Push màn hình
         },
       ),
     );

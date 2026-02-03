@@ -20,12 +20,14 @@ import 'package:provider/provider.dart';
 /// ===========================================
 /// THEME NOTIFIER
 /// ===========================================
+// Kế thừa ChangeNotifier để thông báo thay đổi
 class ThemeNotifier extends ChangeNotifier {
   /// [State] Chế độ theme hiện tại
   ThemeMode _themeMode = ThemeMode.light;
 
   /// [Getters]
   ThemeMode get themeMode => _themeMode;
+  // Kiểm tra xem có phải dark mode không
   bool get isDark => _themeMode == ThemeMode.dark;
 
   /// [Method] Toggle theme
@@ -42,13 +44,19 @@ class ThemeNotifier extends ChangeNotifier {
 
   /// [Getter] Light theme data
   ThemeData get lightTheme => ThemeData(
+    // Brightness là enum, có 2 giá trị: light và dark
     brightness: Brightness.light,
+    // ColorScheme.fromSeed() là cách tạo ColorScheme từ một màu seed
     colorScheme: ColorScheme.fromSeed(
+      // Màu seed là màu gốc, từ đó tạo ra các màu khác
       seedColor: Colors.indigo,
+      // Màu sắc sẽ thay đổi tùy thuộc vào brightness
       brightness: Brightness.light,
     ),
-    useMaterial3: true,
+    useMaterial3: true, // Sử dụng Material 3
+    // Cấu hình AppBar
     appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
+    // Cấu hình Card
     cardTheme: CardThemeData(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -81,6 +89,11 @@ class Ex05ThemeProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ChangeNotifierProvider là widget của thư viện provider
+    // Nó quản lý state của ThemeNotifier
+    // create: (_) => ThemeNotifier() là cách tạo instance của ThemeNotifier
+    // (_) là tham số của hàm create, không sử dụng
+    // _ThemedApp là widget con sẽ sử dụng state của ThemeNotifier
     return ChangeNotifierProvider(
       create: (_) => ThemeNotifier(),
       child: const _ThemedApp(),
@@ -91,22 +104,26 @@ class Ex05ThemeProvider extends StatelessWidget {
 /// Vì cần rebuild MaterialApp khi theme thay đổi,
 /// tách ra thành widget riêng với Consumer
 class _ThemedApp extends StatelessWidget {
-  const _ThemedApp();
+  const _ThemedApp(); // Constructor
 
   @override
   Widget build(BuildContext context) {
     /// [Consumer] Wrap MaterialApp để rebuild khi theme thay đổi
     return Consumer<ThemeNotifier>(
+      // builder là hàm sẽ được gọi khi state thay đổi
+      // context là context của widget
+      // themeNotifier là instance của ThemeNotifier
+      // child là child của widget
       builder: (context, themeNotifier, child) {
         return MaterialApp(
-          title: 'Theme Provider Demo',
-          debugShowCheckedModeBanner: false,
-
+          // MaterialApp là widget gốc của app
+          title: 'Theme Provider Demo', // Tiêu đề app
+          debugShowCheckedModeBanner: false, // Tắt banner debug
           /// [Theme properties]
-          theme: themeNotifier.lightTheme,
-          darkTheme: themeNotifier.darkTheme,
-          themeMode: themeNotifier.themeMode,
-          home: const _ThemeScreen(),
+          theme: themeNotifier.lightTheme, // Theme sáng
+          darkTheme: themeNotifier.darkTheme, // Theme tối
+          themeMode: themeNotifier.themeMode, // Chế độ theme
+          home: const _ThemeScreen(), // Màn hình chính
         );
       },
     );
@@ -117,47 +134,59 @@ class _ThemedApp extends StatelessWidget {
 /// THEME SCREEN
 /// ===========================================
 class _ThemeScreen extends StatelessWidget {
-  const _ThemeScreen();
+  const _ThemeScreen(); // Constructor
 
   @override
   Widget build(BuildContext context) {
+    // context.watch<ThemeNotifier>() là cách lấy state từ ThemeNotifier
     final theme = context.watch<ThemeNotifier>();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ex05: Theme Provider'),
+        title: const Text('Ex05: Theme Provider'), // Tiêu đề
         actions: [
           // Toggle button trên app bar
           IconButton(
+            // Icon thay đổi tùy thuộc vào chế độ theme
             icon: Icon(theme.isDark ? Icons.light_mode : Icons.dark_mode),
+            // Khi nhấn nút, gọi hàm toggleTheme() của ThemeNotifier
             onPressed: () => theme.toggleTheme(),
           ),
         ],
       ),
+
+      /// [Body] Scrollable content, có thể cuộn khi nội dung vượt quá màn hình
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        // Widget cho phép cuộn nội dung
+        padding: const EdgeInsets.all(16), // Padding cho toàn bộ body
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment:
+              CrossAxisAlignment.stretch, // Stretch column to full width
           children: [
             // Status card
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20), // Padding cho card
                 child: Column(
                   children: [
                     Icon(
+                      // Icon thay đổi tùy thuộc vào chế độ theme
                       theme.isDark ? Icons.nightlight_round : Icons.wb_sunny,
-                      size: 64,
+                      size: 64, // Kích thước icon
+                      // Màu icon thay đổi tùy thuộc vào chế độ theme
                       color: theme.isDark ? Colors.yellow : Colors.orange,
                     ),
                     const SizedBox(height: 16),
                     Text(
+                      // Text thay đổi tùy thuộc vào chế độ theme
                       theme.isDark ? 'Chế độ Tối' : 'Chế độ Sáng',
+                      // Style thay đổi tùy thuộc vào chế độ theme
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Theme được quản lý bởi Provider',
+                      // Style thay đổi tùy thuộc vào chế độ theme
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
@@ -179,10 +208,15 @@ class _ThemeScreen extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 12),
+
+                    // _ThemeModeOption widget là widget con của _ThemeScreen
+                    // Nó hiển thị một option cho theme mode
                     _ThemeModeOption(
-                      title: 'Light Mode',
-                      icon: Icons.light_mode,
+                      title: 'Light Mode', // Tiêu đề option
+                      icon: Icons.light_mode, // Icon option
+                      // isSelected là true nếu theme mode là light
                       isSelected: theme.themeMode == ThemeMode.light,
+                      // onTap là hàm sẽ được gọi khi nhấn vào option
                       onTap: () => theme.setThemeMode(ThemeMode.light),
                     ),
                     _ThemeModeOption(
@@ -216,33 +250,47 @@ class _ThemeScreen extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 16),
+
                     // Các button demo theme
+                    // Wrap là widget hiển thị các widget con theo chiều ngang
                     Wrap(
+                      // Khoảng cách giữa các widget con theo chiều ngang
                       spacing: 8,
+                      // Khoảng cách giữa các widget con theo chiều dọc
                       runSpacing: 8,
                       children: [
+                        // ElevatedButton là widget button có nền và bóng đổ
                         ElevatedButton(
                           onPressed: () {},
                           child: const Text('Elevated'),
                         ),
+                        // FilledButton là widget button có nền và màu sắc nổi bật
                         FilledButton(
                           onPressed: () {},
                           child: const Text('Filled'),
                         ),
+                        // OutlinedButton là widget button có viền và không có nền
                         OutlinedButton(
                           onPressed: () {},
                           child: const Text('Outlined'),
                         ),
+                        // TextButton là widget button không có nền và viền
                         TextButton(onPressed: () {}, child: const Text('Text')),
                       ],
                     ),
                     const SizedBox(height: 16),
+
                     // Demo slider
+                    // Slider là widget hiển thị thanh trượt
                     Slider(value: 0.5, onChanged: (v) {}),
+
                     // Demo switch
+                    // SwitchListTile là widget hiển thị switch
                     SwitchListTile(
                       title: const Text('Demo Switch'),
+                      // value là giá trị của switch
                       value: theme.isDark,
+                      // onChanged là hàm sẽ được gọi khi switch được bật/tắt
                       onChanged: (_) => theme.toggleTheme(),
                     ),
                   ],
@@ -256,6 +304,7 @@ class _ThemeScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
+                // primaryContainer là màu của container khi background là primary
                 color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -266,6 +315,7 @@ class _ThemeScreen extends StatelessWidget {
                     '💡 Provider Tips',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      // onPrimaryContainer là màu của text khi background là primaryContainer
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
                   ),
@@ -290,10 +340,10 @@ class _ThemeScreen extends StatelessWidget {
 
 /// Widget cho mỗi theme mode option
 class _ThemeModeOption extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final bool isSelected;
-  final VoidCallback onTap;
+  final String title; // Tiêu đề option
+  final IconData icon; // Icon option
+  final bool isSelected; // True nếu option được chọn
+  final VoidCallback onTap; // Hàm được gọi khi nhấn vào option
 
   const _ThemeModeOption({
     required this.title,
@@ -305,16 +355,19 @@ class _ThemeModeOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      trailing: isSelected
+      // ListTile là widget hiển thị danh sách
+      leading: Icon(icon), // Icon hiển thị ở đầu danh sách
+      title: Text(title), // Tiêu đề danh sách
+      trailing: // Icon hiển thị ở cuối danh sách
+          isSelected // True nếu option được chọn
           ? Icon(
               Icons.check_circle,
+              // Màu icon bằng màu primary của theme
               color: Theme.of(context).colorScheme.primary,
             )
           : null,
-      onTap: onTap,
-      selected: isSelected,
+      onTap: onTap, // Hàm được gọi khi nhấn vào option
+      selected: isSelected, // True nếu option được chọn
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     );
   }
