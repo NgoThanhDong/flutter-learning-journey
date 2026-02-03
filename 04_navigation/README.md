@@ -98,12 +98,12 @@ dependencies:
 ├── lesson_05_go_router_advanced.md
 ├── lesson_06_deep_linking.md
 ├── lesson_07_practice.md
+├── screenshots/                ← ảnh chụp UI của 18 bài tập
+│   └── README.md
 └── nav_app/
     ├── lib/
     │   ├── main.dart
     │   └── exercises/           ← 18 bài tập
-    ├── screenshots/
-    │   └── README.md
     └── pubspec.yaml
 ```
 
