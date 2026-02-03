@@ -21,6 +21,7 @@ class ScreenArguments {
   ScreenArguments(this.title, this.message);
 }
 
+// Ex07RouteArguments là widget màn hình chính của bài tập 7
 class Ex07RouteArguments extends StatelessWidget {
   const Ex07RouteArguments({super.key});
 
@@ -37,6 +38,7 @@ class Ex07RouteArguments extends StatelessWidget {
   }
 }
 
+// HomeScreen là màn hình đầu tiên, màn hình Home
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -53,8 +55,8 @@ class HomeScreen extends StatelessWidget {
               context,
               '/extract',
               arguments: ScreenArguments(
-                'Extract Arguments Screen',
-                'Đây là message được truyền từ Home.',
+                'Extract Arguments Screen', // title
+                'Đây là message được truyền từ Home.', // message
               ),
             );
           },
@@ -65,6 +67,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// ExtractArgumentsScreen là màn hình thứ hai, màn hình nhận data
 class ExtractArgumentsScreen extends StatelessWidget {
   const ExtractArgumentsScreen({super.key});
 
@@ -97,13 +100,15 @@ class ExtractArgumentsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  args.message,
+                  args.message, // Sử dụng message từ arguments
                   style: const TextStyle(fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
               ),
               const SizedBox(height: 30),
               OutlinedButton(
+                // [Navigator.pop]
+                // Quay về màn hình trước đó
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Quay lại'),
               ),

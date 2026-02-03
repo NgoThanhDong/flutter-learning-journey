@@ -14,6 +14,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex06NamedRoutes là widget màn hình chính của bài tập 6
 class Ex06NamedRoutes extends StatelessWidget {
   const Ex06NamedRoutes({super.key});
 
@@ -38,6 +39,7 @@ class Ex06NamedRoutes extends StatelessWidget {
   }
 }
 
+// HomeScreen là màn hình đầu tiên
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -59,6 +61,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// SecondScreen là màn hình thứ hai
 class SecondScreen extends StatelessWidget {
   const SecondScreen({super.key});
 
@@ -73,12 +76,16 @@ class SecondScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                // [Navigator.pushNamed]
+                // Sử dụng tên route đã định nghĩa
                 Navigator.pushNamed(context, '/third');
               },
               child: const Text('Go to Third Screen 👉'),
             ),
             const SizedBox(height: 20),
             OutlinedButton(
+              // [Navigator.pop]
+              // Quay lại màn hình trước đó
               onPressed: () => Navigator.pop(context),
               child: const Text('Quay lại 👈'),
             ),
@@ -89,6 +96,7 @@ class SecondScreen extends StatelessWidget {
   }
 }
 
+// ThirdScreen là màn hình thứ ba
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
 
@@ -105,6 +113,7 @@ class ThirdScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                // [Navigator.popUntil]
                 // Quay về màn hình đầu tiên (xóa hết stack trừ màn hình '/')
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               },

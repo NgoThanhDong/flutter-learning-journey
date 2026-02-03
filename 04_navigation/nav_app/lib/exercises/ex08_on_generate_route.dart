@@ -14,6 +14,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex08OnGenerateRoute là widget màn hình chính của bài tập 8
 class Ex08OnGenerateRoute extends StatelessWidget {
   const Ex08OnGenerateRoute({super.key});
 
@@ -22,8 +23,7 @@ class Ex08OnGenerateRoute extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'OnGenerateRoute Demo',
-      initialRoute: '/',
-
+      initialRoute: '/', // initialRoute: route đầu tiên khi app được khởi chạy
       /// [onGenerateRoute]
       /// Kiểm soát toàn bộ logic điều hướng
       onGenerateRoute: (settings) {
@@ -31,7 +31,9 @@ class Ex08OnGenerateRoute extends StatelessWidget {
         // settings.arguments: arguments truyền theo
         debugPrint('Navigating to: ${settings.name}');
 
+        // Xử lý route '/'
         if (settings.name == '/') {
+          // Trả về màn hình HomeScreen
           return MaterialPageRoute(builder: (_) => const HomeScreen());
         }
 
@@ -39,7 +41,7 @@ class Ex08OnGenerateRoute extends StatelessWidget {
         if (settings.name == '/detail') {
           // Lấy argument, nếu không có thì gán mặc định
           final args = settings.arguments as String? ?? 'Không có ID';
-
+          // Trả về màn hình DetailScreen
           return MaterialPageRoute(builder: (_) => DetailScreen(id: args));
         }
 
@@ -49,12 +51,14 @@ class Ex08OnGenerateRoute extends StatelessWidget {
 
       /// [onUnknownRoute] (Giống trang 404 trên Web)
       onUnknownRoute: (settings) {
+        // Trả về màn hình NotFoundScreen
         return MaterialPageRoute(builder: (_) => const NotFoundScreen());
       },
     );
   }
 }
 
+// HomeScreen: Màn hình chính
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -67,6 +71,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              // Push named route '/detail' với argument 'Product-123'
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -94,6 +99,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// DetailScreen: Màn hình chi tiết
 class DetailScreen extends StatelessWidget {
   final String id;
 
@@ -110,6 +116,7 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
+// NotFoundScreen: Màn hình lỗi 404
 class NotFoundScreen extends StatelessWidget {
   const NotFoundScreen({super.key});
 
