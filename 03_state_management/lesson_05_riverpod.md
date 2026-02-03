@@ -237,6 +237,18 @@ Widget build(BuildContext context, WidgetRef ref) {
 }
 ```
 
+- [WidgetRef ref] là tham số bắt buộc của ConsumerWidget
+- [ref] giống như [Provider.of(context)] nhưng có thêm các method tiện ích
+- [ref.watch] Đọc VÀ lắng nghe thay đổi
+- [ref.read] Chỉ đọc, KHÔNG lắng nghe
+- [ref.invalidate] Reset provider về giá trị ban đầu
+- [ref.keepAlive] Giữ provider sống khi không còn lắng nghe
+- [ref.dispose] Dispose provider
+- [ref.listen] Lắng nghe thay đổi và thực hiện hành động
+- [ref.family] Tạo provider với tham số
+- [ref.autoDispose] Tự động dispose khi không còn lắng nghe
+- [ref.family.autoDispose] Tạo provider với tham số và tự động dispose
+
 ### 4.4. Bảng so sánh
 
 | Phương thức | Rebuild? | Dùng ở đâu |

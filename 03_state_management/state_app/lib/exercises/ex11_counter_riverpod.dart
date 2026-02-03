@@ -59,6 +59,18 @@ class Ex11CounterRiverpod extends StatelessWidget {
 class _CounterScreen extends ConsumerWidget {
   const _CounterScreen();
 
+  // [WidgetRef ref] là tham số bắt buộc của ConsumerWidget
+  // [ref] giống như [Provider.of(context)] nhưng có thêm các method tiện ích
+  // [ref.watch] Đọc VÀ lắng nghe thay đổi
+  // [ref.read] Chỉ đọc, KHÔNG lắng nghe
+  // [ref.invalidate] Reset provider về giá trị ban đầu
+  // [ref.keepAlive] Giữ provider sống khi không còn lắng nghe
+  // [ref.dispose] Dispose provider
+  // [ref.listen] Lắng nghe thay đổi và thực hiện hành động
+  // [ref.family] Tạo provider với tham số
+  // [ref.autoDispose] Tự động dispose khi không còn lắng nghe
+  // [ref.family.autoDispose] Tạo provider với tham số và tự động dispose
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint('🔄 _CounterScreen build');
@@ -126,6 +138,9 @@ class _CounterScreen extends ConsumerWidget {
                 FloatingActionButton(
                   heroTag: 'increment',
                   onPressed: () {
+                    /// [ref.read] Chỉ đọc, KHÔNG lắng nghe
+                    /// Dùng trong callbacks
+                    /// [ref.read(counterProvider.notifier).state] Cách thay đổi StateProvider
                     ref.read(counterProvider.notifier).state++;
                   },
                   backgroundColor: Colors.green.shade100,
@@ -139,6 +154,9 @@ class _CounterScreen extends ConsumerWidget {
             // Reset button
             TextButton.icon(
               onPressed: () {
+                /// [ref.read] Chỉ đọc, KHÔNG lắng nghe
+                /// Dùng trong callbacks
+                /// [.notifier.state] Cách thay đổi StateProvider
                 ref.read(counterProvider.notifier).state = 0;
               },
               icon: const Icon(Icons.refresh),
