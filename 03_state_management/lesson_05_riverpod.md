@@ -87,7 +87,7 @@ class CounterScreen extends ConsumerWidget {
 // Giá trị không thay đổi được từ UI
 final greetingProvider = Provider<String>((ref) => 'Hello, World!');
 
-// Có thể depend on other providers
+// Có thể depend on other providers (phụ thuộc vào providers khác)
 final userGreetingProvider = Provider<String>((ref) {
   final user = ref.watch(userProvider);
   return 'Hello, ${user.name}!';
@@ -111,7 +111,7 @@ ref.read(counterProvider.notifier).state++;
 ref.read(counterProvider.notifier).update((state) => state + 1);
 ```
 
-### 3.3. StateNotifierProvider - Complex State
+### 3.3. StateNotifierProvider - Complex State (State phức tạp)
 
 ```dart
 // 1️⃣ Tạo StateNotifier
@@ -223,7 +223,7 @@ ElevatedButton(
 ### 4.3. ref.listen
 
 ```dart
-// Thực hiện side effect khi state thay đổi
+// Thực hiện side effect (tạc dụng phụ) khi state thay đổi
 // (show snackbar, navigate, etc.)
 Widget build(BuildContext context, WidgetRef ref) {
   ref.listen(authProvider, (previous, next) {
@@ -285,7 +285,7 @@ class MyWidget extends StatelessWidget {
 
 ---
 
-## 6. Provider Modifiers
+## 6. Provider Modifiers (Các phần bổ trợ của Provider)
 
 ### 6.1. .family - Provider với parameter
 
