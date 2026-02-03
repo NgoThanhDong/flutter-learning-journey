@@ -13,6 +13,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex02PushReplacement là widget để tạo màn hình đầu tiên, màn hình Login
 class Ex02PushReplacement extends StatelessWidget {
   const Ex02PushReplacement({super.key});
 
@@ -48,6 +49,7 @@ class Ex02PushReplacement extends StatelessWidget {
   }
 }
 
+// HomeScreen là widget để tạo màn hình thứ 2, màn hình Home
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -58,7 +60,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Home Screen'),
         backgroundColor: Colors.green.shade100,
         // Vì đã replace, stack chỉ còn Home, nên KHÔNG có nút Back tự động
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false, // Tự động ẩn nút Back
       ),
       body: Center(
         child: Column(
@@ -79,6 +81,9 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 30),
             OutlinedButton(
               onPressed: () {
+                /// [Navigator.pushReplacement]
+                /// Thay thế Home screen bằng Login screen.
+                /// Người dùng không thể quay lại Home bằng nút Back.
                 // Logout thì lại replace về Login
                 Navigator.pushReplacement(
                   context,

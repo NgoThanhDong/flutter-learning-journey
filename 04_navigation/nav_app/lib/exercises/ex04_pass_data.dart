@@ -22,6 +22,7 @@ class Product {
   const Product(this.name, this.price, this.description);
 }
 
+// Ex04PassData là widget để tạo màn hình đầu tiên, màn hình danh sách sản phẩm
 class Ex04PassData extends StatelessWidget {
   const Ex04PassData({super.key});
 
@@ -39,7 +40,10 @@ class Ex04PassData extends StatelessWidget {
       body: ListView.builder(
         itemCount: products.length,
         itemBuilder: (context, index) {
+          // Lấy sản phẩm tại index hiện tại
           final product = products[index];
+
+          // ListTile là widget để tạo danh sách sản phẩm
           return ListTile(
             title: Text(product.name),
             subtitle: Text('\$${product.price}'),
@@ -81,12 +85,12 @@ class ProductDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              product.name,
+              product.name, // Sử dụng data
               style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
-              '\$${product.price}',
+              '\$${product.price}', // Sử dụng data
               style: TextStyle(fontSize: 24, color: Colors.blue.shade700),
             ),
             const SizedBox(height: 20),
@@ -94,7 +98,10 @@ class ProductDetailScreen extends StatelessWidget {
               'Mô tả sản phẩm:',
               style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
             ),
-            Text(product.description, style: const TextStyle(fontSize: 18)),
+            Text(
+              product.description, // Sử dụng data
+              style: const TextStyle(fontSize: 18),
+            ),
           ],
         ),
       ),

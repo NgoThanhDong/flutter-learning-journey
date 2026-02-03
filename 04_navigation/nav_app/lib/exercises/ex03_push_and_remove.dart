@@ -14,6 +14,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex03PushAndRemove là widget để tạo màn hình đầu tiên, màn hình gốc
 class Ex03PushAndRemove extends StatelessWidget {
   const Ex03PushAndRemove({super.key});
 
@@ -37,6 +38,7 @@ class Ex03PushAndRemove extends StatelessWidget {
   }
 }
 
+// Step1Screen là widget để tạo màn hình thứ 2, màn hình Bước 1
 class Step1Screen extends StatelessWidget {
   const Step1Screen({super.key});
 
@@ -47,6 +49,9 @@ class Step1Screen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
+            /// [Navigator.push]
+            /// Đẩy màn hình Bước 2 vào stack.
+            /// Stack hiện tại: Gốc -> Bước 1 -> Bước 2
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Step2Screen()),
@@ -59,6 +64,7 @@ class Step1Screen extends StatelessWidget {
   }
 }
 
+// Step2Screen là widget để tạo màn hình thứ 3, màn hình Bước 2
 class Step2Screen extends StatelessWidget {
   const Step2Screen({super.key});
 
@@ -69,6 +75,9 @@ class Step2Screen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
+            /// [Navigator.push]
+            /// Đẩy màn hình Cuối cùng vào stack.
+            /// Stack hiện tại: Gốc -> Bước 1 -> Bước 2 -> Cuối cùng
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const FinalScreen()),
@@ -81,6 +90,7 @@ class Step2Screen extends StatelessWidget {
   }
 }
 
+// FinalScreen là widget để tạo màn hình thứ 4, màn hình Cuối cùng
 class FinalScreen extends StatelessWidget {
   const FinalScreen({super.key});
 
@@ -114,7 +124,7 @@ class FinalScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => const Ex03PushAndRemove(),
                   ),
-                  (route) => false,
+                  (route) => false, // Xóa hết các màn hình trước đó
                 );
               },
               style: ElevatedButton.styleFrom(

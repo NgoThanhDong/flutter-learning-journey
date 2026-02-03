@@ -14,6 +14,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex05ReturnData là widget để tạo màn hình đầu tiên, màn hình chọn option
 class Ex05ReturnData extends StatefulWidget {
   const Ex05ReturnData({super.key});
 
@@ -22,7 +23,7 @@ class Ex05ReturnData extends StatefulWidget {
 }
 
 class _Ex05ReturnDataState extends State<Ex05ReturnData> {
-  String _selection = 'Chưa chọn gì';
+  String _selection = 'Chưa chọn gì'; // Biến để lưu kết quả
 
   /// [Hàm điều hướng]
   /// Phải là async vì cần đợi kết quả
@@ -42,6 +43,8 @@ class _Ex05ReturnDataState extends State<Ex05ReturnData> {
       });
 
       // Hiện thông báo
+      // ScaffoldMessenger là widget để hiển thị thông báo
+      // showSnackBar là phương thức để hiển thị thông báo
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Bạn đã chọn: $result')));
@@ -59,7 +62,7 @@ class _Ex05ReturnDataState extends State<Ex05ReturnData> {
             const Text('Lựa chọn của bạn:', style: TextStyle(fontSize: 18)),
             const SizedBox(height: 10),
             Text(
-              _selection,
+              _selection, // Hiển thị kết quả
               style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -68,7 +71,7 @@ class _Ex05ReturnDataState extends State<Ex05ReturnData> {
             ),
             const SizedBox(height: 40),
             ElevatedButton(
-              onPressed: () => _navigateAndGetSelection(),
+              onPressed: () => _navigateAndGetSelection(), // Gọi hàm điều hướng
               child: const Text('Chọn Option 👉'),
             ),
           ],
@@ -78,6 +81,7 @@ class _Ex05ReturnDataState extends State<Ex05ReturnData> {
   }
 }
 
+// SelectionScreen là widget để tạo màn hình chọn option
 class SelectionScreen extends StatelessWidget {
   const SelectionScreen({super.key});
 
@@ -89,6 +93,7 @@ class SelectionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Tạo các nút để chọn option
             _buildOptionButton(context, 'Option A (Táo) 🍎'),
             const SizedBox(height: 16),
             _buildOptionButton(context, 'Option B (Chuối) 🍌'),
@@ -100,6 +105,7 @@ class SelectionScreen extends StatelessWidget {
     );
   }
 
+  // _buildOptionButton là widget để tạo nút chọn option
   Widget _buildOptionButton(BuildContext context, String value) {
     return ElevatedButton(
       onPressed: () {

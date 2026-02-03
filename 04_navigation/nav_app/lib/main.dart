@@ -33,6 +33,7 @@ void main() {
   runApp(const NavigationApp());
 }
 
+// NavigationApp là widget để tạo ứng dụng điều hướng
 class NavigationApp extends StatelessWidget {
   const NavigationApp({super.key});
 
@@ -50,6 +51,7 @@ class NavigationApp extends StatelessWidget {
   }
 }
 
+// ExerciseListScreen là widget để tạo danh sách các bài tập
 class ExerciseListScreen extends StatelessWidget {
   const ExerciseListScreen({super.key});
 
@@ -125,6 +127,7 @@ class ExerciseListScreen extends StatelessWidget {
     );
   }
 
+  // _buildSectionHeader là widget để tạo tiêu đề phần
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -139,6 +142,7 @@ class ExerciseListScreen extends StatelessWidget {
   }
 }
 
+// _ExerciseCard là widget để tạo thẻ bài tập
 class _ExerciseCard extends StatelessWidget {
   final int number;
   final String title;

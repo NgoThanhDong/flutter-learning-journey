@@ -15,6 +15,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+// Ex01PushPop là widget để tạo màn hình đầu tiên
 class Ex01PushPop extends StatelessWidget {
   const Ex01PushPop({super.key});
 
@@ -53,7 +54,7 @@ class Ex01PushPop extends StatelessWidget {
   }
 }
 
-/// Màn hình thứ 2
+// ScreenB là widget để tạo màn hình thứ 2
 class ScreenB extends StatelessWidget {
   const ScreenB({super.key});
 
