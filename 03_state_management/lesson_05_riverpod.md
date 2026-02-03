@@ -248,6 +248,9 @@ Widget build(BuildContext context, WidgetRef ref) {
 - [ref.family] Tạo provider với tham số
 - [ref.autoDispose] Tự động dispose khi không còn lắng nghe
 - [ref.family.autoDispose] Tạo provider với tham số và tự động dispose
+- [ref.overrideWithValue] Override giá trị của provider
+- [ref.read(provider.notifier)] đọc notifier của provider
+- [ref.read(provider.notifier).method()] gọi method của notifier
 
 ### 4.4. Bảng so sánh
 

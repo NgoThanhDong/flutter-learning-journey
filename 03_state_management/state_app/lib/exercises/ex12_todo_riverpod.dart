@@ -20,6 +20,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// ===========================================
 /// MODEL
 /// ===========================================
+/// [Model] là class immutable chứa dữ liệu
+/// [@immutable] để đánh dấu class là immutable, không thể thay đổi giá trị sau khi tạo
+/// [copyWith] để tạo object mới với giá trị đã thay đổi
 @immutable
 class Todo {
   final String id;
@@ -96,12 +99,14 @@ final todoProvider = StateNotifierProvider<TodoNotifier, List<Todo>>((ref) {
 /// [Derived provider] Đếm todos chưa hoàn thành
 /// Tự động update khi todoProvider thay đổi
 final pendingCountProvider = Provider<int>((ref) {
+  // [ref.watch] Lắng nghe thay đổi của provider
   final todos = ref.watch(todoProvider);
   return todos.where((t) => !t.isCompleted).length;
 });
 
 /// [Derived provider] Đếm todos đã hoàn thành
 final completedCountProvider = Provider<int>((ref) {
+  // [ref.watch] Lắng nghe thay đổi của provider
   final todos = ref.watch(todoProvider);
   return todos.where((t) => t.isCompleted).length;
 });
@@ -114,6 +119,7 @@ class Ex12TodoRiverpod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // [ProviderScope] bao bọc ứng dụng để sử dụng Riverpod
     return ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -130,11 +136,19 @@ class Ex12TodoRiverpod extends StatelessWidget {
 /// ===========================================
 /// -TODO SCREEN
 /// ===========================================
+/// [ConsumerWidget] widget có thể đọc provider
+/// [WidgetRef ref] tham số thứ 2 của build method
+/// [ref.watch] lắng nghe thay đổi của provider
+/// [ref.read] đọc provider một lần
+/// [ref.listen] lắng nghe thay đổi của provider và thực hiện side effect
+/// [ref.read(provider.notifier)] đọc notifier của provider
+/// [ref.read(provider.notifier).method()] gọi method của notifier
 class _TodoScreen extends ConsumerWidget {
   const _TodoScreen();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // [ref.watch] Lắng nghe thay đổi của provider
     final todos = ref.watch(todoProvider);
 
     return Scaffold(
@@ -143,6 +157,7 @@ class _TodoScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_sweep),
+            // [ref.read(provider.notifier).method()] gọi method của notifier
             onPressed: () => ref.read(todoProvider.notifier).clearCompleted(),
             tooltip: 'Clear completed',
           ),
@@ -156,10 +171,13 @@ class _TodoScreen extends ConsumerWidget {
           // Stats
           const _StatsBar(),
 
+          // Divider là đường kẻ ngang
           const Divider(height: 1),
 
           // List
+          // [Expanded] để chiếm hết không gian còn lại
           Expanded(
+            // [todos.isEmpty] kiểm tra xem list có rỗng không
             child: todos.isEmpty
                 ? const Center(
                     child: Column(
@@ -174,8 +192,11 @@ class _TodoScreen extends ConsumerWidget {
                       ],
                     ),
                   )
+                // [else] nếu list không rỗng thì hiển thị list
                 : ListView.builder(
+                    // [itemCount] số lượng item
                     itemCount: todos.length,
+                    // [itemBuilder] builder cho từng item
                     itemBuilder: (context, index) =>
                         _TodoItem(todo: todos[index]),
                   ),
@@ -189,27 +210,34 @@ class _TodoScreen extends ConsumerWidget {
 /// ===========================================
 /// -TODO INPUT
 /// ===========================================
+/// _TodoInput là widget để nhập todo
 class _TodoInput extends ConsumerStatefulWidget {
   const _TodoInput();
 
+  // ConsumerStatefulWidget là widget có state
+  // ConsumerState<T> extends ConsumerStatefulWidget
+  // T là widget
+  // ConsumerState là state của widget
   @override
   ConsumerState<_TodoInput> createState() => _TodoInputState();
 }
 
 class _TodoInputState extends ConsumerState<_TodoInput> {
+  // TextEditingController dùng để nhập todo
   final _controller = TextEditingController();
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller.dispose(); // giải phóng bộ nhớ
     super.dispose();
   }
 
+  // submit là method để thêm todo
   void _submit() {
     if (_controller.text.isNotEmpty) {
       /// [ref.read] trong callback
       ref.read(todoProvider.notifier).addTodo(_controller.text);
-      _controller.clear();
+      _controller.clear(); // xóa controller sau khi thêm todo
     }
   }
 
@@ -219,6 +247,8 @@ class _TodoInputState extends ConsumerState<_TodoInput> {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
+          // Expanded là widget để chiếm hết không gian còn lại
+          // TextField dùng để nhập todo
           Expanded(
             child: TextField(
               controller: _controller,
@@ -229,12 +259,14 @@ class _TodoInputState extends ConsumerState<_TodoInput> {
                 ),
                 prefixIcon: const Icon(Icons.add_task),
               ),
+              // onSubmitted là method được gọi khi nhấn Enter
               onSubmitted: (_) => _submit(),
             ),
           ),
           const SizedBox(width: 12),
+          // FloatingActionButton là nút để thêm todo
           FloatingActionButton(
-            onPressed: _submit,
+            onPressed: _submit, // gọi method _submit khi nhấn nút
             child: const Icon(Icons.add),
           ),
         ],
@@ -246,12 +278,17 @@ class _TodoInputState extends ConsumerState<_TodoInput> {
 /// ===========================================
 /// STATS BAR
 /// ===========================================
+/// _StatsBar là widget để hiển thị số lượng todo
 class _StatsBar extends ConsumerWidget {
   const _StatsBar();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /// [Derived providers] Tự động update
+    /// [ref.watch] Lắng nghe thay đổi của provider
+    /// [todoProvider] là provider chứa danh sách todo
+    /// [pendingCountProvider] là provider chứa số lượng todo chưa hoàn thành
+    /// [completedCountProvider] là provider chứa số lượng todo đã hoàn thành
     final total = ref.watch(todoProvider).length;
     final pending = ref.watch(pendingCountProvider);
     final completed = ref.watch(completedCountProvider);
@@ -262,6 +299,7 @@ class _StatsBar extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          // _Stat là widget để hiển thị số lượng todo
           _Stat(label: 'Total', value: total, color: Colors.blue),
           _Stat(label: 'Pending', value: pending, color: Colors.orange),
           _Stat(label: 'Done', value: completed, color: Colors.green),
@@ -271,6 +309,7 @@ class _StatsBar extends ConsumerWidget {
   }
 }
 
+/// _Stat là widget để hiển thị số lượng todo
 class _Stat extends StatelessWidget {
   final String label;
   final int value;
@@ -302,6 +341,11 @@ class _Stat extends StatelessWidget {
 /// ===========================================
 /// -TODO ITEM
 /// ===========================================
+/// _TodoItem là widget để hiển thị danh sách todo
+/// ConsumerWidget là widget có state
+/// [ConsumerState<T>] extends [ConsumerStatefulWidget]
+/// [T] là widget
+/// [ConsumerState] là state của widget
 class _TodoItem extends ConsumerWidget {
   final Todo todo;
 
@@ -309,6 +353,12 @@ class _TodoItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    /// [Dismissible] là widget để xóa item khi vuốt
+    /// [key] là key của item
+    /// [direction] là hướng vuốt
+    /// [background] là background khi vuốt
+    /// [onDismissed] là method được gọi khi xóa item
+    /// [child] là item
     return Dismissible(
       key: Key(todo.id),
       direction: DismissDirection.endToStart,
@@ -318,10 +368,20 @@ class _TodoItem extends ConsumerWidget {
         padding: const EdgeInsets.only(right: 16),
         child: const Icon(Icons.delete, color: Colors.white),
       ),
+
+      /// [onDismissed] là method được gọi khi xóa item
+      /// [ref.read] trong callback
+      /// [todoProvider.notifier] là notifier của provider
+      /// [removeTodo] là method để xóa item
       onDismissed: (_) => ref.read(todoProvider.notifier).removeTodo(todo.id),
       child: ListTile(
         leading: Checkbox(
           value: todo.isCompleted,
+
+          /// [onChanged] là method được gọi khi thay đổi trạng thái todo
+          /// [ref.read] trong callback
+          /// [todoProvider.notifier] là notifier của provider
+          /// [toggleTodo] là method để thay đổi trạng thái todo
           onChanged: (_) => ref.read(todoProvider.notifier).toggleTodo(todo.id),
         ),
         title: Text(

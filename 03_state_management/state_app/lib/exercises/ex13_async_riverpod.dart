@@ -20,6 +20,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// ===========================================
 /// MODEL
 /// ===========================================
+/// [Product] là model để lưu thông tin sản phẩm
+/// [id] là id của sản phẩm
+/// [name] là tên của sản phẩm
+/// [price] là giá của sản phẩm
+/// [emoji] là emoji của sản phẩm
 class Product {
   final String id;
   final String name;
@@ -37,6 +42,11 @@ class Product {
 /// ===========================================
 /// FAKE API SERVICE
 /// ===========================================
+/// [FakeProductApi] là service để giả lập API
+/// [fetchProducts] là method để fetch data
+/// [Future] là async data
+/// [Duration] là thời gian delay
+/// [Exception] là lỗi
 class FakeProductApi {
   static Future<List<Product>> fetchProducts() async {
     debugPrint('📡 Fetching products from API...');
@@ -44,10 +54,10 @@ class FakeProductApi {
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 2));
 
-    // Fake random error (20% chance)
-    // if (DateTime.now().second % 5 == 0) {
-    //   throw Exception('Network error! Please try again.');
-    // }
+    // Fake random error (33% chance)
+    if (DateTime.now().second % 3 == 0) {
+      throw Exception('Network error! Please try again.');
+    }
 
     return const [
       Product(id: '1', name: 'MacBook Pro', price: 2499, emoji: '💻'),
@@ -70,6 +80,11 @@ final productsProvider = FutureProvider<List<Product>>((ref) async {
 });
 
 /// [Computed provider] Tính tổng giá trị
+/// [Provider] là provider cho sync data
+/// [AsyncValue] là async data
+/// [whenData] là method để handle data
+/// [fold] là method để tính tổng giá trị
+/// [ref.watch] là method để watch provider
 final totalValueProvider = Provider<AsyncValue<double>>((ref) {
   return ref
       .watch(productsProvider)
@@ -84,6 +99,7 @@ class Ex13AsyncRiverpod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// [ProviderScope] là provider scope
     return ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -100,12 +116,15 @@ class Ex13AsyncRiverpod extends StatelessWidget {
 /// ===========================================
 /// PRODUCTS SCREEN
 /// ===========================================
+/// [_ProductsScreen] là widget cho màn hình sản phẩm
 class _ProductsScreen extends ConsumerWidget {
   const _ProductsScreen();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /// [AsyncValue] Đại diện cho 3 states: loading, error, data
+    /// [productsProvider] là provider cho async data
+    /// [ref.watch] là method để lắng nghe provider
     final productsAsync = ref.watch(productsProvider);
 
     return Scaffold(
@@ -116,7 +135,7 @@ class _ProductsScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              /// [ref.invalidate] Force refetch
+              /// [ref.invalidate] Force refetch (buộc tải lại)
               ref.invalidate(productsProvider);
             },
             tooltip: 'Refresh',
@@ -133,6 +152,9 @@ class _ProductsScreen extends ConsumerWidget {
           // Products list
           Expanded(
             /// [AsyncValue.when] Pattern matching cho 3 states
+            /// [loading] Đang fetch data
+            /// [error] Có lỗi xảy ra
+            /// [data] Đã có data
             child: productsAsync.when(
               /// [loading] Đang fetch data
               loading: () => const Center(
@@ -160,6 +182,7 @@ class _ProductsScreen extends ConsumerWidget {
                     Text('Error: $error'),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
+                      /// [ref.invalidate] Force refetch (buộc tải lại)
                       onPressed: () => ref.invalidate(productsProvider),
                       icon: const Icon(Icons.refresh),
                       label: const Text('Retry'),
@@ -188,11 +211,13 @@ class _ProductsScreen extends ConsumerWidget {
 /// ===========================================
 /// TOTAL HEADER
 /// ===========================================
+/// [_TotalHeader] là widget cho header tổng giá trị
 class _TotalHeader extends ConsumerWidget {
   const _TotalHeader();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    /// [totalValueProvider] là provider cho tổng giá trị
     final totalAsync = ref.watch(totalValueProvider);
 
     return Container(
@@ -202,6 +227,7 @@ class _TotalHeader extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text('Total Value:', style: TextStyle(fontSize: 16)),
+          // totalAsync khi loading, error, data
           totalAsync.when(
             loading: () => const SizedBox(
               width: 20,
@@ -227,6 +253,7 @@ class _TotalHeader extends ConsumerWidget {
 /// ===========================================
 /// PRODUCT CARD
 /// ===========================================
+/// [_ProductCard] là widget cho card sản phẩm
 class _ProductCard extends StatelessWidget {
   final Product product;
 

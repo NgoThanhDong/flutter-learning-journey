@@ -70,6 +70,7 @@ class _CounterScreen extends ConsumerWidget {
   // [ref.family] Tạo provider với tham số
   // [ref.autoDispose] Tự động dispose khi không còn lắng nghe
   // [ref.family.autoDispose] Tạo provider với tham số và tự động dispose
+  // [ref.overrideWithValue] Override giá trị của provider
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
