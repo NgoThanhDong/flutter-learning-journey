@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 /// ===========================================
 /// USER NOTIFIER
 /// ===========================================
+/// UserNotifier là một ChangeNotifier quản lý thông tin người dùng
 class UserNotifier extends ChangeNotifier {
   String _name = 'John Doe';
   int _age = 25;
@@ -29,18 +30,21 @@ class UserNotifier extends ChangeNotifier {
   int get age => _age;
   String get email => _email;
 
+  // Hàm cập nhật name
   void updateName(String name) {
     _name = name;
     debugPrint('🔔 UserNotifier: name updated to $name');
     notifyListeners();
   }
 
+  // Hàm cập nhật age
   void updateAge(int age) {
     _age = age;
     debugPrint('🔔 UserNotifier: age updated to $age');
     notifyListeners();
   }
 
+  // Hàm cập nhật email
   void updateEmail(String email) {
     _email = email;
     debugPrint('🔔 UserNotifier: email updated to $email');
@@ -51,11 +55,15 @@ class UserNotifier extends ChangeNotifier {
 /// ===========================================
 /// APP VỚI PROVIDER
 /// ===========================================
+/// Ex09Selector là một StatelessWidget tạo ra một ChangeNotifierProvider
 class Ex09Selector extends StatelessWidget {
   const Ex09Selector({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // ChangeNotifierProvider dùng để cung cấp UserNotifier cho các widget con
+    // create: (_) => UserNotifier() là một callback function tạo ra một UserNotifier
+    // child: const _SelectorScreen() là widget con
     return ChangeNotifierProvider(
       create: (_) => UserNotifier(),
       child: const _SelectorScreen(),
@@ -66,6 +74,7 @@ class Ex09Selector extends StatelessWidget {
 /// ===========================================
 /// MAIN SCREEN
 /// ===========================================
+/// _SelectorScreen là một StatelessWidget hiển thị thông tin người dùng
 class _SelectorScreen extends StatelessWidget {
   const _SelectorScreen();
 
@@ -78,9 +87,13 @@ class _SelectorScreen extends StatelessWidget {
         title: const Text('Ex09: Selector'),
         backgroundColor: Colors.orange.shade100,
       ),
+
+      // body là một SingleChildScrollView chứa các widget con
+      // SingleChildScrollView là một widget cho phép cuộn nội dung khi nội dung vượt quá kích thước màn hình
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.stretch là để các widget con stretch theo chiều ngang
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Info box
@@ -115,11 +128,11 @@ class _SelectorScreen extends StatelessWidget {
 
             /// [Cách 1: Selector Widget]
             /// Chỉ rebuild khi name thay đổi
-            const _NameWidget(),
+            const _NameWidget(), // Widget hiển thị name
             const SizedBox(height: 8),
-            const _AgeWidget(),
+            const _AgeWidget(), // Widget hiển thị age
             const SizedBox(height: 8),
-            const _EmailWidget(),
+            const _EmailWidget(), // Widget hiển thị email
 
             const SizedBox(height: 24),
 
@@ -131,20 +144,20 @@ class _SelectorScreen extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Name input
-            const _NameInput(),
+            const _NameInput(), // Widget nhập liệu name
             const SizedBox(height: 12),
 
             // Age slider
-            const _AgeSlider(),
+            const _AgeSlider(), // Widget slider để cập nhật age
             const SizedBox(height: 12),
 
             // Email input
-            const _EmailInput(),
+            const _EmailInput(), // Widget input để cập nhật email
 
             const SizedBox(height: 24),
 
             // Comparison
-            const _ComparisonSection(),
+            const _ComparisonSection(), // Widget so sánh watch vs select
           ],
         ),
       ),
@@ -188,6 +201,9 @@ class _AgeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('🔵 _AgeWidget build');
 
+    // context.select<UserNotifier, int>((user) => user.age) là một callback function
+    // Nó sẽ lắng nghe sự thay đổi của field age trong UserNotifier
+    // Khi age thay đổi, widget này sẽ rebuild
     final age = context.select<UserNotifier, int>((user) => user.age);
 
     return Card(
@@ -210,6 +226,9 @@ class _EmailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('🟣 _EmailWidget build');
 
+    // context.select<UserNotifier, String>((user) => user.email) là một callback function
+    // Nó sẽ lắng nghe sự thay đổi của field email trong UserNotifier
+    // Khi email thay đổi, widget này sẽ rebuild
     final email = context.select<UserNotifier, String>((user) => user.email);
 
     return Card(
@@ -227,6 +246,7 @@ class _EmailWidget extends StatelessWidget {
 /// ===========================================
 /// INPUT WIDGETS
 /// ===========================================
+/// Widget nhập liệu name
 class _NameInput extends StatefulWidget {
   const _NameInput();
 
@@ -235,11 +255,12 @@ class _NameInput extends StatefulWidget {
 }
 
 class _NameInputState extends State<_NameInput> {
+  // Controller để quản lý text input
   final controller = TextEditingController();
 
   @override
   void dispose() {
-    controller.dispose();
+    controller.dispose(); // Giải phóng bộ nhớ khi widget bị xóa
     super.dispose();
   }
 
@@ -249,12 +270,17 @@ class _NameInputState extends State<_NameInput> {
       controller: controller,
       decoration: InputDecoration(
         labelText: 'Update Name',
-        border: const OutlineInputBorder(),
+        border: const OutlineInputBorder(), // Viền cho text field
+        // Icon check để cập nhật name
         suffixIcon: IconButton(
           icon: const Icon(Icons.check),
+          // Khi nhấn nút check, cập nhật name và clear text field
           onPressed: () {
+            // Kiểm tra nếu text field không rỗng
             if (controller.text.isNotEmpty) {
+              // Gọi method updateName từ UserNotifier
               context.read<UserNotifier>().updateName(controller.text);
+              // Xóa text field sau khi cập nhật
               controller.clear();
             }
           },
@@ -264,23 +290,35 @@ class _NameInputState extends State<_NameInput> {
   }
 }
 
+/// Widget slider để cập nhật age
 class _AgeSlider extends StatelessWidget {
   const _AgeSlider();
 
   @override
   Widget build(BuildContext context) {
+    // Lấy giá trị age từ UserNotifier
+    // context.select<UserNotifier, int>((u) => u.age) là một callback function
+    // Nó sẽ lắng nghe sự thay đổi của field age trong UserNotifier
+    // Khi age thay đổi, widget này sẽ rebuild
     final age = context.select<UserNotifier, int>((u) => u.age);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Update Age: $age'),
+        // Slider là widget UI cho phép chọn giá trị trong một khoảng nhất định
+        // value: giá trị hiện tại của slider
+        // min: giá trị nhỏ nhất của slider
+        // max: giá trị lớn nhất của slider
+        // divisions: số khoảng chia
+        // onChanged: callback function khi giá trị thay đổi
         Slider(
           value: age.toDouble(),
           min: 1,
           max: 100,
           divisions: 99,
           onChanged: (value) {
+            // Khi giá trị thay đổi, gọi method updateAge từ UserNotifier
             context.read<UserNotifier>().updateAge(value.toInt());
           },
         ),
@@ -289,6 +327,7 @@ class _AgeSlider extends StatelessWidget {
   }
 }
 
+/// Widget input để cập nhật email
 class _EmailInput extends StatefulWidget {
   const _EmailInput();
 
@@ -297,11 +336,12 @@ class _EmailInput extends StatefulWidget {
 }
 
 class _EmailInputState extends State<_EmailInput> {
+  // Controller để quản lý text input
   final controller = TextEditingController();
 
   @override
   void dispose() {
-    controller.dispose();
+    controller.dispose(); // Giải phóng bộ nhớ khi widget bị xóa
     super.dispose();
   }
 
@@ -314,9 +354,13 @@ class _EmailInputState extends State<_EmailInput> {
         border: const OutlineInputBorder(),
         suffixIcon: IconButton(
           icon: const Icon(Icons.check),
+          // Khi nhấn nút check, cập nhật email và clear text field
           onPressed: () {
+            // Kiểm tra nếu text field không rỗng
             if (controller.text.isNotEmpty) {
+              // Gọi method updateEmail từ UserNotifier
               context.read<UserNotifier>().updateEmail(controller.text);
+              // Xóa text field sau khi cập nhật
               controller.clear();
             }
           },
@@ -329,6 +373,7 @@ class _EmailInputState extends State<_EmailInput> {
 /// ===========================================
 /// COMPARISON SECTION
 /// ===========================================
+/// Widget so sánh watch vs select
 class _ComparisonSection extends StatelessWidget {
   const _ComparisonSection();
 
