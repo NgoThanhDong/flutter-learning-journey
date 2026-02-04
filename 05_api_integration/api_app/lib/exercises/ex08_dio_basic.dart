@@ -25,6 +25,9 @@ class User {
 
   const User({required this.id, required this.name, required this.email});
 
+  /// [fromJson] - Convert JSON to User object
+  /// @param json: [Map<String, dynamic>] - JSON object
+  /// @return User - User object
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] as int,
@@ -37,6 +40,7 @@ class User {
 /// ===========================================
 /// UI WIDGET
 /// ===========================================
+/// [Ex08DioBasic] - Widget hiển thị danh sách user
 class Ex08DioBasic extends StatefulWidget {
   const Ex08DioBasic({super.key});
 
@@ -47,8 +51,14 @@ class Ex08DioBasic extends StatefulWidget {
 class _Ex08DioBasicState extends State<Ex08DioBasic> {
   /// [Dio instance]
   /// Tạo với BaseOptions để cấu hình toàn cục
+  /// [late final] - Khởi tạo một lần duy nhất
+  /// [Dio] - Class từ dio package
   late final Dio _dio;
 
+  /// [State variables]
+  /// [users] - Danh sách user
+  /// [isLoading] - Trạng thái loading
+  /// [error] - Thông báo lỗi
   List<User> _users = [];
   bool _isLoading = false;
   String? _error;
@@ -60,7 +70,7 @@ class _Ex08DioBasicState extends State<Ex08DioBasic> {
     /// [BaseOptions] - Cấu hình mặc định cho tất cả requests
     _dio = Dio(
       BaseOptions(
-        /// [baseUrl] - Prefix cho tất cả requests
+        /// [baseUrl] - Prefix (tiền tố) cho tất cả requests
         /// Thay vì: dio.get('https://jsonplaceholder.typicode.com/users')
         /// Chỉ cần: dio.get('/users')
         baseUrl: 'https://jsonplaceholder.typicode.com',
@@ -73,23 +83,28 @@ class _Ex08DioBasicState extends State<Ex08DioBasic> {
 
         /// [headers] - Headers mặc định
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
+          'Content-Type': 'application/json', // Định dạng dữ liệu gửi đi
+          'Accept': 'application/json', // Định dạng dữ liệu nhận về
         },
       ),
     );
 
     /// [Thêm LogInterceptor] để debug
+    /// [LogInterceptor] - Interceptor để log requests và responses
     _dio.interceptors.add(
       LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        logPrint: (log) => debugPrint(log.toString()),
+        requestBody: true, // Log request body
+        responseBody: true, // Log response body
+        logPrint: (log) => debugPrint(log.toString()), // Hàm log
       ),
     );
   }
 
   /// [GET với Dio]
+  /// [fetchUsers] - Lấy danh sách user từ API
+  /// [setState] - Cập nhật trạng thái
+  /// [try-catch] - Xử lý lỗi
+  /// [finally] - Luôn thực hiện sau khi try-catch
   Future<void> _fetchUsers() async {
     setState(() {
       _isLoading = true;
@@ -106,6 +121,8 @@ class _Ex08DioBasicState extends State<Ex08DioBasic> {
       /// response.data là dynamic (List hoặc Map)
       final List<dynamic> data = response.data;
 
+      /// [map] - Map từng JSON object sang User object
+      /// [toList] - Convert sang List
       _users = data.map((json) => User.fromJson(json)).toList();
     } on DioException catch (e) {
       /// [DioException] - Lỗi từ Dio
@@ -117,6 +134,9 @@ class _Ex08DioBasicState extends State<Ex08DioBasic> {
   }
 
   /// [Error message helper]
+  /// [getErrorMessage] - Lấy thông báo lỗi từ DioException
+  /// [e] - DioException
+  /// [return] - Thông báo lỗi
   String _getErrorMessage(DioException e) {
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
@@ -134,7 +154,7 @@ class _Ex08DioBasicState extends State<Ex08DioBasic> {
 
   @override
   void dispose() {
-    _dio.close();
+    _dio.close(); // Giải phóng tài nguyên
     super.dispose();
   }
 
@@ -174,7 +194,9 @@ class _Ex08DioBasicState extends State<Ex08DioBasic> {
                   ? const SizedBox(
                       width: 20,
                       height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2, // Độ dày của progress indicator
+                      ),
                     )
                   : const Icon(Icons.download),
               label: Text(_isLoading ? 'Loading...' : 'Fetch with Dio'),
@@ -196,7 +218,7 @@ class _Ex08DioBasicState extends State<Ex08DioBasic> {
                 children: [
                   const Icon(Icons.error, color: Colors.red),
                   const SizedBox(width: 8),
-                  Expanded(child: Text(_error!)),
+                  Expanded(child: Text(_error!)), // Hiển thị lỗi
                 ],
               ),
             ),
@@ -204,7 +226,9 @@ class _Ex08DioBasicState extends State<Ex08DioBasic> {
           // Users list
           Expanded(
             child: _users.isEmpty
+                // Hiển thị khi không có data
                 ? const Center(child: Text('Nhấn button để fetch data'))
+                // Hiển thị danh sách user
                 : ListView.builder(
                     itemCount: _users.length,
                     itemBuilder: (context, index) {

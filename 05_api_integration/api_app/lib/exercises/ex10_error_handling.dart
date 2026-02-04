@@ -18,6 +18,9 @@ library;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+/// [Ex10ErrorHandling] - Widget StatefulWidget để hiển thị kết quả
+/// [StatefulWidget] - Widget có thể thay đổi trạng thái
+/// [State] - Trạng thái của widget
 class Ex10ErrorHandling extends StatefulWidget {
   const Ex10ErrorHandling({super.key});
 
@@ -25,14 +28,24 @@ class Ex10ErrorHandling extends StatefulWidget {
   State<Ex10ErrorHandling> createState() => _Ex10ErrorHandlingState();
 }
 
+/// [_Ex10ErrorHandlingState] - State của widget
 class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
+  /// [Dio] - Instance của Dio
+  /// [_result] - Kết quả trả về
+  /// [_isLoading] - Trạng thái loading
   late final Dio _dio;
   String _result = '';
   bool _isLoading = false;
 
+  /// [initState] - Hàm được gọi khi widget được tạo
   @override
   void initState() {
     super.initState();
+
+    /// [BaseOptions] - Cấu hình Dio
+    /// [baseUrl] - URL cơ sở
+    /// [connectTimeout] - Thời gian timeout kết nối
+    /// [receiveTimeout] - Thời gian timeout nhận dữ liệu
     _dio = Dio(
       BaseOptions(
         baseUrl: 'https://jsonplaceholder.typicode.com',
@@ -43,6 +56,8 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
   }
 
   /// [Simulate different errors]
+  /// [type] - Loại lỗi cần test
+  /// [Future<void>] - Hàm bất đồng bộ không trả về giá trị
   Future<void> _testError(String type) async {
     setState(() {
       _isLoading = true;
@@ -91,7 +106,12 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
 
   /// [Error Handler]
   /// Convert DioException → User-friendly message
+  /// [DioException] - Instance của Dio
   String _handleDioError(DioException e) {
+    // Tạo buffer để lưu trữ thông tin lỗi
+    // [StringBuffer] - Class để tạo chuỗi hiệu quả
+    // [writeln] - Hàm để ghi chuỗi vào buffer
+    // [toString] - Hàm để chuyển buffer thành chuỗi
     final buffer = StringBuffer();
 
     buffer.writeln('❌ ERROR DETAILS:');
@@ -99,6 +119,7 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
     buffer.writeln('Type: ${e.type.name}');
 
     switch (e.type) {
+      // Kết nối chậm
       case DioExceptionType.connectionTimeout:
         buffer.writeln('Message: Kết nối chậm');
         buffer.writeln('');
@@ -107,15 +128,18 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
           '"Không thể kết nối đến server. Vui lòng kiểm tra mạng và thử lại."',
         );
 
+      // Server phản hồi chậm
       case DioExceptionType.receiveTimeout:
         buffer.writeln('Message: Server phản hồi chậm');
         buffer.writeln('');
         buffer.writeln('💡 User message:');
         buffer.writeln('"Server đang bận. Vui lòng thử lại sau."');
 
+      // Server trả về lỗi
       case DioExceptionType.badResponse:
         final statusCode = e.response?.statusCode;
         final statusMessage = e.response?.statusMessage;
+
         buffer.writeln('Status: $statusCode $statusMessage');
         buffer.writeln('');
         buffer.writeln('💡 User message:');
@@ -134,6 +158,7 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
           buffer.writeln('"Đã xảy ra lỗi. Vui lòng thử lại."');
         }
 
+      // Không có kết nối mạng
       case DioExceptionType.connectionError:
         buffer.writeln('Message: Không có kết nối mạng');
         buffer.writeln('');
@@ -142,9 +167,11 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
           '"Không có kết nối internet. Vui lòng kiểm tra WiFi/4G."',
         );
 
+      // Request đã bị hủy
       case DioExceptionType.cancel:
         buffer.writeln('Message: Request đã bị hủy');
 
+      // Lỗi mặc định
       default:
         buffer.writeln('Message: ${e.message}');
         buffer.writeln('');
@@ -152,12 +179,13 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
         buffer.writeln('"Đã xảy ra lỗi. Vui lòng thử lại."');
     }
 
+    // Trả về chuỗi lỗi
     return buffer.toString();
   }
 
   @override
   void dispose() {
-    _dio.close();
+    _dio.close(); // Đóng Dio instance
     super.dispose();
   }
 
@@ -181,10 +209,15 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
               spacing: 8,
               runSpacing: 8,
               children: [
+                // Success button
                 _buildTestButton('Success', 'success', Colors.green),
+                // 404 Not Found button
                 _buildTestButton('404 Not Found', '404', Colors.orange),
+                // 500 Server button
                 _buildTestButton('500 Server', '500', Colors.red),
+                // Timeout button
                 _buildTestButton('Timeout', 'timeout', Colors.purple),
+                // No Network button
                 _buildTestButton('No Network', 'network', Colors.grey),
               ],
             ),
@@ -207,8 +240,9 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
                     color: _result.startsWith('✅') ? Colors.green : Colors.red,
                   ),
                 ),
+                // SelectableText cho phép copy text
                 child: SelectableText(
-                  _result,
+                  _result, // Hiển thị kết quả
                   style: const TextStyle(fontFamily: 'monospace'),
                 ),
               ),
@@ -218,6 +252,7 @@ class _Ex10ErrorHandlingState extends State<Ex10ErrorHandling> {
     );
   }
 
+  // Build test button
   Widget _buildTestButton(String label, String type, Color color) {
     return ElevatedButton(
       onPressed: _isLoading ? null : () => _testError(type),

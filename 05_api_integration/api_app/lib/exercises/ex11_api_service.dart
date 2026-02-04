@@ -33,6 +33,7 @@ class Post {
     required this.body,
   });
 
+  // Factory constructor để tạo Post từ JSON
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
       id: json['id'] as int,
@@ -42,6 +43,7 @@ class Post {
     );
   }
 
+  // Method để convert Post sang JSON
   Map<String, dynamic> toJson() => {
     'userId': userId,
     'title': title,
@@ -55,6 +57,7 @@ class Post {
 class ApiService {
   /// [Singleton Pattern]
   /// Đảm bảo chỉ có 1 instance trong cả app
+  /// ApiService._internal() là private constructor ngăn tạo instance từ bên ngoài
   static final ApiService _instance = ApiService._internal();
 
   /// [Factory constructor] trả về instance duy nhất
@@ -69,11 +72,15 @@ class ApiService {
       ),
     );
 
+    // Thêm interceptor để log request và response
+    // requestBody: true để log request body
+    // responseBody: true để log response body
     _dio.interceptors.add(
       LogInterceptor(requestBody: true, responseBody: true),
     );
   }
 
+  // Dio instance được khởi tạo trong private constructor
   late final Dio _dio;
 
   /// [Getter] để truy cập Dio nếu cần
@@ -85,17 +92,23 @@ class ApiService {
 /// ===========================================
 /// Tất cả logic liên quan đến Posts nằm ở đây
 class PostRepository {
+  // Lấy Dio instance từ ApiService
   final Dio _dio = ApiService().dio;
 
   /// [GET] Lấy danh sách posts
+  /// limit: Số lượng posts muốn lấy
+  /// Trả về danh sách posts
   Future<List<Post>> getPosts({int limit = 10}) async {
     try {
       final response = await _dio.get(
         '/posts',
+        // Query parameter để giới hạn số lượng posts
         queryParameters: {'_limit': limit},
       );
 
+      // response.data là List<dynamic>
       final List<dynamic> data = response.data;
+      // map từng json sang Post và convert sang List
       return data.map((json) => Post.fromJson(json)).toList();
     } on DioException {
       rethrow; // Ném lại để UI handle
@@ -130,6 +143,7 @@ class PostRepository {
 /// ===========================================
 /// UI WIDGET
 /// ===========================================
+/// Ex11ApiService là widget hiển thị danh sách posts
 class Ex11ApiService extends StatefulWidget {
   const Ex11ApiService({super.key});
 
@@ -150,9 +164,10 @@ class _Ex11ApiServiceState extends State<Ex11ApiService> {
   @override
   void initState() {
     super.initState();
-    _loadPosts();
+    _loadPosts(); // Gọi hàm load posts khi widget được tạo
   }
 
+  // _loadPosts là hàm private để load posts
   Future<void> _loadPosts() async {
     setState(() {
       _isLoading = true;
@@ -170,6 +185,7 @@ class _Ex11ApiServiceState extends State<Ex11ApiService> {
     }
   }
 
+  // _createPost là hàm private để tạo post mới
   Future<void> _createPost() async {
     try {
       final newPost = await _postRepo.createPost(
@@ -178,15 +194,17 @@ class _Ex11ApiServiceState extends State<Ex11ApiService> {
       );
 
       setState(() {
-        _posts.insert(0, newPost);
+        _posts.insert(0, newPost); // Thêm post mới vào đầu danh sách
       });
 
+      // Hiển thị SnackBar để thông báo
       if (mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('Created post #${newPost.id}')));
       }
     } on DioException catch (e) {
+      // Hiển thị SnackBar để thông báo lỗi
       if (mounted) {
         ScaffoldMessenger.of(
           context,
@@ -201,13 +219,18 @@ class _Ex11ApiServiceState extends State<Ex11ApiService> {
       appBar: AppBar(
         title: const Text('Ex11: API Service'),
         actions: [
+          // Nút refresh để load lại posts
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadPosts),
         ],
       ),
+
+      // Nút floating để tạo post mới
       floatingActionButton: FloatingActionButton(
         onPressed: _createPost,
         child: const Icon(Icons.add),
       ),
+
+      // Body hiển thị danh sách posts
       body: Column(
         children: [
           // Info card
@@ -233,11 +256,14 @@ class _Ex11ApiServiceState extends State<Ex11ApiService> {
     );
   }
 
+  // _buildContent là hàm private để build content
   Widget _buildContent() {
+    // Hiển thị loading indicator khi đang load
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
+    // Hiển thị error message khi có lỗi
     if (_error != null) {
       return Center(
         child: Column(
@@ -245,7 +271,7 @@ class _Ex11ApiServiceState extends State<Ex11ApiService> {
           children: [
             const Icon(Icons.error, size: 48, color: Colors.red),
             const SizedBox(height: 16),
-            Text(_error!),
+            Text(_error!), // Hiển thị error message
             const SizedBox(height: 16),
             ElevatedButton(onPressed: _loadPosts, child: const Text('Retry')),
           ],
@@ -253,6 +279,7 @@ class _Ex11ApiServiceState extends State<Ex11ApiService> {
       );
     }
 
+    // Hiển thị danh sách posts
     return ListView.builder(
       itemCount: _posts.length,
       itemBuilder: (context, index) {

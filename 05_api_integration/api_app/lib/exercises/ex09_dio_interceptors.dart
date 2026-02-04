@@ -22,8 +22,11 @@ import 'package:flutter/material.dart';
 /// ===========================================
 
 /// [LoggingInterceptor] - In ra console mọi request/response
+/// [Interceptor] là interface của Dio để xử lý request/response
 class LoggingInterceptor extends Interceptor {
   /// [onRequest] - Trước khi gửi
+  /// [options] - Request options - thông tin request
+  /// [handler] - Request handler - xử lý request
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     debugPrint('┌───────────────────────────────────────────');
@@ -40,6 +43,8 @@ class LoggingInterceptor extends Interceptor {
   }
 
   /// [onResponse] - Sau khi nhận thành công
+  /// [response] - Response - thông tin response
+  /// [handler] - Response handler - xử lý response
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     debugPrint('┌───────────────────────────────────────────');
@@ -49,10 +54,14 @@ class LoggingInterceptor extends Interceptor {
     debugPrint('│ Data: ${response.data.toString().substring(0, 100)}...');
     debugPrint('└───────────────────────────────────────────');
 
+    /// [handler.next] - Tiếp tục xử lý
+    /// Nếu không gọi, response sẽ bị chặn!
     handler.next(response);
   }
 
   /// [onError] - Khi có lỗi
+  /// [err] - Error - thông tin lỗi
+  /// [handler] - Error handler - xử lý lỗi
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     debugPrint('┌───────────────────────────────────────────');
@@ -60,6 +69,8 @@ class LoggingInterceptor extends Interceptor {
     debugPrint('│ Message: ${err.message}');
     debugPrint('└───────────────────────────────────────────');
 
+    /// [handler.next] - Tiếp tục xử lý
+    /// Nếu không gọi, error sẽ bị chặn!
     handler.next(err);
   }
 }
@@ -69,6 +80,9 @@ class AuthInterceptor extends Interceptor {
   /// Giả lập token storage
   String? _token = 'demo_token_12345';
 
+  /// [onRequest] - Trước khi gửi
+  /// [options] - Request options - thông tin request
+  /// [handler] - Request handler - xử lý request
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     /// [Thêm Authorization header]
@@ -77,9 +91,14 @@ class AuthInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Bearer $_token';
     }
 
+    /// [handler.next] - Tiếp tục xử lý
+    /// Nếu không gọi, request sẽ bị chặn!
     handler.next(options);
   }
 
+  /// [onError] - Khi có lỗi
+  /// [err] - Error - thông tin lỗi
+  /// [handler] - Error handler - xử lý lỗi
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     /// [Handle 401 Unauthorized]
@@ -90,6 +109,8 @@ class AuthInterceptor extends Interceptor {
       _token = null;
     }
 
+    /// [handler.next] - Tiếp tục xử lý
+    /// Nếu không gọi, error sẽ bị chặn!
     handler.next(err);
   }
 }
@@ -97,6 +118,7 @@ class AuthInterceptor extends Interceptor {
 /// ===========================================
 /// UI WIDGET
 /// ===========================================
+/// [Ex09DioInterceptors] - Widget để test interceptors
 class Ex09DioInterceptors extends StatefulWidget {
   const Ex09DioInterceptors({super.key});
 
@@ -105,25 +127,33 @@ class Ex09DioInterceptors extends StatefulWidget {
 }
 
 class _Ex09DioInterceptorsState extends State<Ex09DioInterceptors> {
+  /// [Dio] - Client HTTP mạnh mẽ với interceptors
+  /// [late final] - Khai báo biến chỉ được gán 1 lần
   late final Dio _dio;
-  String _log = '';
-  bool _isLoading = false;
+  String _log = ''; // Log để hiển thị kết quả
+  bool _isLoading = false; // Trạng thái loading
 
   @override
   void initState() {
     super.initState();
 
+    /// [BaseOptions] - Cấu hình cơ bản cho Dio
+    /// [baseUrl] - URL cơ sở cho tất cả các request
     _dio = Dio(BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
 
     /// [Thêm Interceptors]
     /// Thứ tự quan trọng: Request xử lý từ đầu → cuối
-    ///                   Response xử lý từ cuối → đầu
+    ///                    Response xử lý từ cuối → đầu
     _dio.interceptors.addAll([
       AuthInterceptor(), // 1. Thêm token
       LoggingInterceptor(), // 2. Log request với token
     ]);
   }
 
+  /// [Future<void>] - Hàm bất đồng bộ không trả về giá trị
+  /// [setState] - Cập nhật trạng thái của widget
+  /// [_isLoading] - Trạng thái loading
+  /// [_log] - Log để hiển thị kết quả
   Future<void> _makeRequest() async {
     setState(() {
       _isLoading = true;
@@ -145,16 +175,16 @@ Data: ${response.data}
       });
     } on DioException catch (e) {
       setState(() {
-        _log = '❌ Error: ${e.message}';
+        _log = '❌ Error: ${e.message}'; // Xử lý lỗi
       });
     } finally {
-      setState(() => _isLoading = false);
+      setState(() => _isLoading = false); // Dừng loading
     }
   }
 
   @override
   void dispose() {
-    _dio.close();
+    _dio.close(); // Đóng Dio khi widget bị hủy
     super.dispose();
   }
 
@@ -162,6 +192,11 @@ Data: ${response.data}
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ex09: Dio Interceptors')),
+
+      // Body là SingleChildScrollView chứa các widget
+      // Column chứa các widget
+      // crossAxisAlignment: CrossAxisAlignment.stretch - kéo dài các widget ra hết chiều rộng
+      // children: - danh sách các widget
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -195,7 +230,10 @@ Data: ${response.data}
 
             const SizedBox(height: 16),
 
+            // Nút để gọi API
             ElevatedButton.icon(
+              // Nếu đang loading thì không cho phép click
+              // Nếu không loading thì gọi _makeRequest
               onPressed: _isLoading ? null : _makeRequest,
               icon: _isLoading
                   ? const SizedBox(
@@ -224,6 +262,9 @@ Data: ${response.data}
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const Divider(),
+                  
+                  // Hiển thị log
+                  // SelectableText cho phép copy text
                   SelectableText(
                     _log.isEmpty ? 'Nhấn button để test...' : _log,
                     style: const TextStyle(
