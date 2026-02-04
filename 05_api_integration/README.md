@@ -113,6 +113,10 @@ flutter run -d chrome
 ├── lesson_05_loading_states.md
 ├── lesson_06_local_storage.md
 ├── lesson_07_practice.md
+│
+├── screenshots/
+│   └── README.md
+│
 └── api_app/
     ├── lib/
     │   ├── main.dart
@@ -120,6 +124,5 @@ flutter run -d chrome
     │       ├── ex01_simple_get.dart
     │       ├── ... (16 files)
     │       └── ex16_todo_api.dart
-    ├── screenshots/
     └── pubspec.yaml
 ```

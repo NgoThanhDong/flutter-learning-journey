@@ -20,8 +20,8 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 | 2 | 2-3 tuần | **Flutter Basics** | 8 bài: Widget, Layout, Input, Styling | ✅ Hoàn thành |
 | 3 | 2 tuần | **State Management** | 6 bài: setState, Provider, Riverpod | ✅ Hoàn thành |
 | 4 | 1 tuần | **Navigation** | 7 bài: Navigator, go_router, Deep Link | ✅ Hoàn thành |
-| 5 | 2 tuần | **API Integration** | 7 bài: HTTP, Dio, JSON, Storage | 🔄 Đang học |
-| 6 | 2 tuần | Clean Architecture | SOLID, Layers | ⏳ Chờ |
+| 5 | 2 tuần | **API Integration** | 7 bài: HTTP, Dio, JSON, Storage | ✅ Hoàn thành |
+| 6 | 2 tuần | **Clean Architecture** | 6 bài: SOLID, DI, Repository, Layers | 🔄 Đang học |
 | 7 | 2 tuần | BLoC Pattern | Cubit, BLoC | ⏳ Chờ |
 | 8 | 4+ tuần | Real Projects | Portfolio Apps | ⏳ Chờ |
 
@@ -82,14 +82,21 @@ white-nebula/
 │   │   ├── lib/exercises/          ← 18 bài tập
 │   │   └── pubspec.yaml            ← go_router
 │
-├── 📂 05_api_integration/          ← PHASE 5: API 🔄
+├── 📂 05_api_integration/          ← PHASE 5: API ✅
 │   ├── 📄 README.md
 │   ├── 📖 7 bài học (HTTP, Dio, JSON, Storage)
 │   ├── 📂 api_app/                 ← Flutter Project
 │   │   ├── lib/exercises/          ← 16 bài tập
 │   │   └── pubspec.yaml            ← http, dio, hive
 │
-└── 📂 06_clean_architecture/       ← PHASE 6 (sắp tới)
+├── 📂 06_clean_architecture/       ← PHASE 6: Clean Architecture 🔄
+│   ├── 📄 README.md
+│   ├── 📖 6 bài học (SOLID, DI, Repository, Layers)
+│   ├── 📂 clean_app/               ← Flutter Project
+│   │   ├── lib/exercises/          ← 18 bài tập
+│   │   └── pubspec.yaml            ← get_it, fpdart, equatable
+│
+└── 📂 07_bloc_pattern/             ← PHASE 7 (sắp tới)
 ```
 
 ---
@@ -193,14 +200,22 @@ Tôi sẽ giải thích chi tiết hơn.
 - [x] Bài 6: Deep Linking
 - [x] Bài 7: Practice Projects
 
-### Phase 5: API Integration 🔄
-- [ ] Bài 1: API Overview
-- [ ] Bài 2: http Package
-- [ ] Bài 3: JSON & Models
-- [ ] Bài 4: Dio Advanced
-- [ ] Bài 5: Loading States
-- [ ] Bài 6: Local Storage
-- [ ] Bài 7: Practice Projects
+### Phase 5: API Integration ✅
+- [x] Bài 1: API Overview
+- [x] Bài 2: http Package
+- [x] Bài 3: JSON & Models
+- [x] Bài 4: Dio Advanced
+- [x] Bài 5: Loading States
+- [x] Bài 6: Local Storage
+- [x] Bài 7: Practice Projects
+
+### Phase 6: Clean Architecture 🔄
+- [ ] Bài 1: SOLID Principles
+- [ ] Bài 2: Dependency Injection
+- [ ] Bài 3: Repository Pattern
+- [ ] Bài 4: Layers Architecture
+- [ ] Bài 5: Error Handling
+- [ ] Bài 6: Practice Projects
 
 ---
 
@@ -231,13 +246,13 @@ C:\Users\User\.gemini\antigravity\playground\white-nebula
 
 ---
 
-## ▶️ Bắt Đầu Phase 5!
+## ▶️ Bắt Đầu Phase 6!
 
-1. Mở thư mục `05_api_integration`
+1. Mở thư mục `06_clean_architecture`
 2. Đọc file `README.md` trong đó
 3. Chạy Flutter app:
 ```bash
-cd 05_api_integration/api_app
+cd 06_clean_architecture/clean_app
 flutter run -d chrome
 ```
 
