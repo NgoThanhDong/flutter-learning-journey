@@ -18,6 +18,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+/// ===========================================
+/// EXERCISE 03: POST REQUEST
+/// ===========================================
+// Ex03PostRequest là StatefulWidget để hiển thị kết quả POST request
 class Ex03PostRequest extends StatefulWidget {
   const Ex03PostRequest({super.key});
 
@@ -25,8 +29,12 @@ class Ex03PostRequest extends StatefulWidget {
   State<Ex03PostRequest> createState() => _Ex03PostRequestState();
 }
 
+/// _Ex03PostRequestState là State của Ex03PostRequest
+/// Chứa logic xử lý POST request
 class _Ex03PostRequestState extends State<Ex03PostRequest> {
   /// [Controllers] - Quản lý input từ TextField
+  /// _titleController: Controller cho title input
+  /// _bodyController: Controller cho body input
   final _titleController = TextEditingController(text: 'My First Post');
   final _bodyController = TextEditingController(
     text: 'This is the content of my post',
@@ -77,6 +85,8 @@ class _Ex03PostRequestState extends State<Ex03PostRequest> {
 
       /// [Status 201] - Created
       /// POST thành công thường trả về 201, không phải 200
+      /// Status 201 nghĩa là "Created" - tài nguyên đã được tạo thành công
+      /// jsonDecode: Convert JSON String → Map
       if (response.statusCode == 201) {
         _createdPost = jsonDecode(response.body) as Map<String, dynamic>;
       } else {
@@ -91,8 +101,8 @@ class _Ex03PostRequestState extends State<Ex03PostRequest> {
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _bodyController.dispose();
+    _titleController.dispose(); // Giải phóng bộ nhớ
+    _bodyController.dispose(); // Giải phóng bộ nhớ
     super.dispose();
   }
 
@@ -100,6 +110,7 @@ class _Ex03PostRequestState extends State<Ex03PostRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ex03: POST Request')),
+      // SingleChildScrollView: Cho phép cuộn khi nội dung vượt quá màn hình
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -135,7 +146,7 @@ class _Ex03PostRequestState extends State<Ex03PostRequest> {
             // Input Body
             TextField(
               controller: _bodyController,
-              maxLines: 3,
+              maxLines: 3, // Cho phép nhập nhiều dòng
               decoration: const InputDecoration(
                 labelText: 'Body',
                 border: OutlineInputBorder(),
@@ -147,6 +158,8 @@ class _Ex03PostRequestState extends State<Ex03PostRequest> {
 
             // Button
             ElevatedButton.icon(
+              // Nếu đang loading thì disable button
+              // Nếu không loading thì gọi _createPost
               onPressed: _isLoading ? null : _createPost,
               icon: _isLoading
                   ? const SizedBox(
@@ -194,6 +207,7 @@ class _Ex03PostRequestState extends State<Ex03PostRequest> {
                         ],
                       ),
                       const Divider(),
+                      // Hiển thị response
                       Text('ID: ${_createdPost!['id']}'),
                       Text('Title: ${_createdPost!['title']}'),
                       Text('Body: ${_createdPost!['body']}'),

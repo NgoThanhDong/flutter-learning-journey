@@ -15,6 +15,10 @@ library;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+/// ===========================================
+/// EXERCISE 01: SIMPLE GET REQUEST
+/// ===========================================
+// Ex01SimpleGet là StatefulWidget để hiển thị kết quả GET request
 class Ex01SimpleGet extends StatefulWidget {
   const Ex01SimpleGet({super.key});
 
@@ -22,6 +26,7 @@ class Ex01SimpleGet extends StatefulWidget {
   State<Ex01SimpleGet> createState() => _Ex01SimpleGetState();
 }
 
+// _Ex01SimpleGetState là State của Ex01SimpleGet
 class _Ex01SimpleGetState extends State<Ex01SimpleGet> {
   /// [State variables]
   /// - _isLoading: Đang tải hay không
@@ -38,7 +43,9 @@ class _Ex01SimpleGetState extends State<Ex01SimpleGet> {
   Future<void> _fetchUser() async {
     // 1. Bắt đầu loading
     setState(() {
+      // _isLoading được set thành true để hiển thị CircularProgressIndicator
       _isLoading = true;
+      // _error được set thành null để xóa thông báo lỗi cũ
       _error = null;
     });
 
@@ -123,7 +130,9 @@ class _Ex01SimpleGetState extends State<Ex01SimpleGet> {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  // SingleChildScrollView cho phép cuộn khi nội dung quá dài
                   child: SingleChildScrollView(
+                    // SelectableText cho phép copy text
                     child: SelectableText(
                       _responseText,
                       style: const TextStyle(

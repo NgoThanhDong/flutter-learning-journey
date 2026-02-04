@@ -17,6 +17,36 @@ import 'dart:convert'; // Cần import để dùng jsonDecode
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+/*
+{
+  "id": 1,
+  "name": "Leanne Graham",
+  "username": "Bret",
+  "email": "Sincere@april.biz",
+  "address": {
+    "street": "Kulas Light",
+    "suite": "Apt. 556",
+    "city": "Gwenborough",
+    "zipcode": "92998-3874",
+    "geo": {
+      "lat": "-37.3159",
+      "lng": "81.1496"
+    }
+  },
+  "phone": "1-770-736-8031 x56442",
+  "website": "hildegard.org",
+  "company": {
+    "name": "Romaguera-Crona",
+    "catchPhrase": "Multi-layered client-server neural-net",
+    "bs": "harness real-time e-markets"
+  }
+}
+*/
+
+/// ===========================================
+/// EXERCISE 02: JSON PARSING
+/// ===========================================
+// Ex02JsonParsing là StatefulWidget để hiển thị kết quả GET request
 class Ex02JsonParsing extends StatefulWidget {
   const Ex02JsonParsing({super.key});
 
@@ -24,25 +54,36 @@ class Ex02JsonParsing extends StatefulWidget {
   State<Ex02JsonParsing> createState() => _Ex02JsonParsingState();
 }
 
+// _Ex02JsonParsingState là State của Ex02JsonParsing
 class _Ex02JsonParsingState extends State<Ex02JsonParsing> {
+  // _isLoading là biến boolean để kiểm tra trạng thái tải
   bool _isLoading = false;
 
   /// [Parsed data]
   /// Thay vì lưu String, ta lưu Map đã parse
   Map<String, dynamic>? _userData;
-  String? _error;
+  String? _error; // _error là biến String để lưu thông báo lỗi
 
+  // _fetchAndParseUser là hàm async để fetch data từ API và parse JSON
+  // Hàm này sẽ được gọi khi nhấn nút "Fetch & Parse JSON"
   Future<void> _fetchAndParseUser() async {
+    // setState được gọi để thông báo cho Flutter rằng có sự thay đổi trạng thái
+    // và widget cần được rebuild
     setState(() {
+      // _isLoading được set thành true để hiển thị CircularProgressIndicator
       _isLoading = true;
+      // _error được set thành null để xóa thông báo lỗi cũ
       _error = null;
     });
 
+    // try-catch block để bắt lỗi
     try {
+      // http.get() được gọi để fetch data từ API
       final response = await http.get(
         Uri.parse('https://jsonplaceholder.typicode.com/users/1'),
       );
 
+      // if-else block để kiểm tra trạng thái response
       if (response.statusCode == 200) {
         /// [jsonDecode] - Parse JSON string → Dart object
         ///
@@ -56,11 +97,15 @@ class _Ex02JsonParsingState extends State<Ex02JsonParsing> {
         /// jsonDecode trả về dynamic, cast về Map để có autocomplete
         _userData = data as Map<String, dynamic>;
       } else {
+        // else block sẽ được gọi nếu response.statusCode != 200
         _error = 'Lỗi: Status ${response.statusCode}';
       }
     } catch (e) {
+      // catch block sẽ bắt lỗi nếu có
       _error = 'Lỗi parse JSON: $e';
     } finally {
+      // finally block sẽ được gọi dù có lỗi hay không
+      // _isLoading được set thành false để ẩn CircularProgressIndicator
       setState(() => _isLoading = false);
     }
   }
@@ -74,6 +119,11 @@ class _Ex02JsonParsingState extends State<Ex02JsonParsing> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // ElevatedButton.icon là widget để tạo nút có icon và label
+            // onPressed là callback function sẽ được gọi khi nút được nhấn
+            // _isLoading ? null : _fetchAndParseUser là conditional expression
+            // Nếu _isLoading là true, nút sẽ bị disable (onPressed = null)
+            // Nếu _isLoading là false, nút sẽ được enable và gọi _fetchAndParseUser
             ElevatedButton.icon(
               onPressed: _isLoading ? null : _fetchAndParseUser,
               icon: const Icon(Icons.code),
@@ -82,8 +132,10 @@ class _Ex02JsonParsingState extends State<Ex02JsonParsing> {
 
             const SizedBox(height: 20),
 
+            // Nếu _isLoading là true, Center(child: CircularProgressIndicator()) sẽ được hiển thị
             if (_isLoading) const Center(child: CircularProgressIndicator()),
 
+            // Nếu _error != null, Text(_error!) sẽ được hiển thị
             if (_error != null)
               Text(_error!, style: const TextStyle(color: Colors.red)),
 
@@ -125,6 +177,11 @@ class _Ex02JsonParsingState extends State<Ex02JsonParsing> {
                         // Truy xuất nested object
                         Builder(
                           builder: (context) {
+                            // address là nested object
+                            // _userData!['address'] là Map<String, dynamic>
+                            // address['street'] là String
+                            // address['city'] là String
+                            // address['zipcode'] là String
                             final address =
                                 _userData!['address'] as Map<String, dynamic>;
                             return Column(
@@ -148,6 +205,9 @@ class _Ex02JsonParsingState extends State<Ex02JsonParsing> {
     );
   }
 
+  // _buildInfoRow là hàm private để build từng row
+  // label: Label của row
+  // value: Value của row
   Widget _buildInfoRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),

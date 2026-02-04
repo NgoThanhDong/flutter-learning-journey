@@ -28,6 +28,10 @@ void main() {
   runApp(const ApiApp());
 }
 
+/// ===========================================
+/// API APP
+/// ===========================================
+// ApiApp là widget gốc của ứng dụng
 class ApiApp extends StatelessWidget {
   const ApiApp({super.key});
 
@@ -45,16 +49,23 @@ class ApiApp extends StatelessWidget {
   }
 }
 
+/// ===========================================
+/// EXERCISE LIST PAGE
+/// ===========================================
+// ExerciseListPage là trang chính của ứng dụng, gồm 16 bài tập
 class ExerciseListPage extends StatelessWidget {
   const ExerciseListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // AppBar là thanh tiêu đề của ứng dụng
       appBar: AppBar(
         title: const Text('Phase 5: API Integration'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
+
+      // body là ListView chứa các section
       body: ListView(
         children: [
           _buildSection('HTTP Basics', [
@@ -88,6 +99,9 @@ class ExerciseListPage extends StatelessWidget {
     );
   }
 
+  /// _buildSection là hàm private để build từng section
+  /// title: Tiêu đề section
+  /// items: Danh sách các bài tập trong section
   Widget _buildSection(String title, List<_ExItem> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,6 +117,10 @@ class ExerciseListPage extends StatelessWidget {
             ),
           ),
         ),
+
+        // Map từng bài tập thành ListTile
+        // Builder được sử dụng để có context cho Navigator
+        // onTap sẽ push sang trang bài tập tương ứng
         ...items.map(
           (item) => Builder(
             builder: (context) => ListTile(
@@ -121,6 +139,9 @@ class ExerciseListPage extends StatelessWidget {
   }
 }
 
+/// _ExItem là class private để lưu thông tin bài tập
+/// title: Tiêu đề bài tập
+/// page: Widget bài tập
 class _ExItem {
   final String title;
   final Widget page;
