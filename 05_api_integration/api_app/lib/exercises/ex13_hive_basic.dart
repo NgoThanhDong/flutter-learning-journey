@@ -8,7 +8,7 @@
 ///
 /// 📝 Hive vs SharedPreferences:
 /// - Hive: Nhanh hơn, hỗ trợ custom objects
-/// - SharedPreferences: Đơn giản, chỉ primitive types
+/// - SharedPreferences: Đơn giản, chỉ primitive types (kiểu nguyên thủy)
 ///
 /// ⚠️ Lưu ý: Hive cần init trong main() TRƯỚC runApp()
 
@@ -31,7 +31,7 @@ class Note {
     required this.title,
     required this.content,
     DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+  }) : createdAt = createdAt ?? DateTime.now(); // Default value
 
   /// [toMap] - Convert để lưu vào Hive
   Map<String, dynamic> toMap() => {
@@ -55,6 +55,7 @@ class Note {
 /// ===========================================
 /// UI WIDGET
 /// ===========================================
+/// Ex13HiveBasic là widget tạo UI cho bài tập Hive Basic
 class Ex13HiveBasic extends StatefulWidget {
   const Ex13HiveBasic({super.key});
 
@@ -64,18 +65,23 @@ class Ex13HiveBasic extends StatefulWidget {
 
 class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
   /// [Box] - Container lưu trữ data trong Hive
+  /// Box giống như table trong database
+  /// Box có thể chứa các object phức tạp
+  /// Box được mở thông qua Hive.openBox()
+  /// Box được đóng thông qua box.close()
   Box? _notesBox;
-  List<Note> _notes = [];
-  bool _isLoading = true;
-  String? _error;
+
+  List<Note> _notes = []; // [List<Note>] - Danh sách notes
+  bool _isLoading = true; // [bool] - Loading state
+  String? _error; // [String] - Error message
 
   @override
   void initState() {
     super.initState();
-    _initHive();
+    _initHive(); // [Init Hive] - Khởi tạo Hive
   }
 
-  /// [Init Hive]
+  /// [Init Hive] - Khởi tạo Hive
   Future<void> _initHive() async {
     try {
       /// [Hive.initFlutter] - Khởi tạo Hive cho Flutter
@@ -86,7 +92,7 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
       /// Box giống như table trong database
       _notesBox = await Hive.openBox('notes_box');
 
-      _loadNotes();
+      _loadNotes(); // [Load Notes] - Load notes từ box
     } catch (e) {
       setState(() {
         _error = 'Error init Hive: $e';
@@ -102,6 +108,8 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
     /// [box.values] - Lấy tất cả values
     /// [box.keys] - Lấy tất cả keys
     /// [box.toMap()] - Lấy Map<key, value>
+    /// [Note.fromMap] - Parse từ Map
+    /// [toList] - Chuyển thành List<Note>
     final notes = _notesBox!.values
         .map((item) => Note.fromMap(Map<String, dynamic>.from(item as Map)))
         .toList();
@@ -116,6 +124,7 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
   }
 
   /// [CREATE] Thêm note mới
+  /// [Note] - Object note mới
   Future<void> _addNote(String title, String content) async {
     if (_notesBox == null) return;
 
@@ -129,7 +138,7 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
     /// Key = note.id, Value = note.toMap()
     await _notesBox!.put(note.id, note.toMap());
 
-    _loadNotes();
+    _loadNotes(); // [Load Notes] - Load notes từ box
   }
 
   /// [DELETE] Xóa note
@@ -152,6 +161,7 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
     _loadNotes();
   }
 
+  /// [ADD] Hiển thị dialog thêm note
   void _showAddDialog() {
     final titleController = TextEditingController();
     final contentController = TextEditingController();
@@ -176,10 +186,13 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
           ],
         ),
         actions: [
+          /// [CANCEL] Hủy
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
+
+          /// [ADD] Thêm
           ElevatedButton(
             onPressed: () {
               _addNote(titleController.text, contentController.text);
@@ -207,12 +220,17 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_sweep),
+
+            /// [CLEAR ALL] Xóa tất cả
             onPressed: _notes.isEmpty ? null : _clearAll,
             tooltip: 'Clear All',
           ),
         ],
       ),
+
+      /// [FAB] Floating Action Button - Thêm note
       floatingActionButton: FloatingActionButton(
+        // [Show Add Dialog] - Hiển thị dialog thêm note
         onPressed: _showAddDialog,
         child: const Icon(Icons.add),
       ),
@@ -220,11 +238,14 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
     );
   }
 
+  /// [BUILD BODY] Build body
   Widget _buildBody() {
+    // [LOADING] - Loading
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
+    // [ERROR] - Lỗi
     if (_error != null) {
       return Center(
         child: Padding(
@@ -234,6 +255,7 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
       );
     }
 
+    // [EMPTY] - Trống
     if (_notes.isEmpty) {
       return const Center(
         child: Column(
@@ -261,11 +283,18 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
           ),
         ),
 
+        /// [LIST NOTES] Danh sách notes
         Expanded(
           child: ListView.builder(
             itemCount: _notes.length,
             itemBuilder: (context, index) {
               final note = _notes[index];
+
+              // [DISMISSIBLE] - Xóa note
+              // [KEY] - Key của note
+              // [DIRECTION] - Hướng xóa
+              // [BACKGROUND] - Background khi xóa
+              // [ON DISMISSED] - Khi xóa
               return Dismissible(
                 key: Key(note.id),
                 direction: DismissDirection.endToStart,
@@ -275,23 +304,31 @@ class _Ex13HiveBasicState extends State<Ex13HiveBasic> {
                   padding: const EdgeInsets.only(right: 16),
                   child: const Icon(Icons.delete, color: Colors.white),
                 ),
+                // [ON DISMISSED] - Khi xóa
+                // [DELETE NOTE] - Xóa note
                 onDismissed: (_) => _deleteNote(note.id),
                 child: Card(
                   margin: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 4,
                   ),
+
+                  // [LIST TILE] - List tile
                   child: ListTile(
+                    // [TITLE] - Tiêu đề note
                     title: Text(
                       note.title.isEmpty ? '(No title)' : note.title,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
+                    // [SUBTITLE] - Subtitle note
                     subtitle: Text(
                       note.content.isEmpty ? '(No content)' : note.content,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    // [TRAILING] - Trailing note
                     trailing: Text(
+                      // [CREATED AT] - Thời gian tạo
                       '${note.createdAt.hour}:${note.createdAt.minute.toString().padLeft(2, '0')}',
                       style: const TextStyle(color: Colors.grey, fontSize: 12),
                     ),

@@ -17,6 +17,10 @@ library;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// ===========================================
+/// EXERCISE 12: SHARED PREFERENCES
+/// ===========================================
+/// Ex12SharedPrefs là widget để demo SharedPreferences
 class Ex12SharedPrefs extends StatefulWidget {
   const Ex12SharedPrefs({super.key});
 
@@ -26,19 +30,19 @@ class Ex12SharedPrefs extends StatefulWidget {
 
 class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
   /// [Controllers]
+  /// _usernameController: Controller cho TextField username
   final _usernameController = TextEditingController();
 
-  /// [State]
-  String? _savedUsername;
-  int _counter = 0;
-  bool _isDarkMode = false;
-  List<String> _tags = [];
-  bool _isLoading = true;
+  String? _savedUsername; // _savedUsername: Username đã lưu
+  int _counter = 0; // _counter: Counter đã lưu
+  bool _isDarkMode = false; // _isDarkMode: Dark mode đã lưu
+  List<String> _tags = []; // _tags: List tags đã lưu
+  bool _isLoading = true; // _isLoading: Loading state
 
   @override
   void initState() {
     super.initState();
-    _loadAllData();
+    _loadAllData(); // Load all data when init
   }
 
   /// [LOAD] Đọc tất cả data đã lưu
@@ -63,11 +67,14 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
       _isLoading = false;
     });
 
+    /// Set username controller text
     _usernameController.text = _savedUsername ?? '';
   }
 
   /// [SAVE STRING]
+  /// Lưu username vào SharedPreferences
   Future<void> _saveUsername() async {
+    /// [getInstance] - Lấy SharedPreferences instance
     final prefs = await SharedPreferences.getInstance();
 
     /// [setString] - Lưu String
@@ -106,12 +113,12 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
 
   /// [SAVE LIST] - Add tag
   Future<void> _addTag(String tag) async {
-    if (tag.isEmpty) return;
+    if (tag.isEmpty) return; // Return if tag is empty
 
     final prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      _tags.add(tag);
+      _tags.add(tag); // Add tag to list
     });
 
     /// [setStringList] - Lưu List<String>
@@ -120,6 +127,7 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
 
   /// [REMOVE] - Xóa một key
   Future<void> _removeUsername() async {
+    /// [getInstance] - Lấy SharedPreferences instance
     final prefs = await SharedPreferences.getInstance();
 
     /// [remove] - Xóa key khỏi storage
@@ -151,6 +159,8 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
     _showSnackBar('All data cleared!');
   }
 
+  /// [SHOW SNACKBAR]
+  /// Hiển thị thông báo
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(
       context,
@@ -159,7 +169,7 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _usernameController.dispose(); // Dispose controller
     super.dispose();
   }
 
@@ -175,7 +185,7 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever),
-            onPressed: _clearAll,
+            onPressed: _clearAll, // Clear all data
             tooltip: 'Clear All',
           ),
         ],
@@ -205,17 +215,20 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
                   const SizedBox(height: 8),
                   Row(
                     children: [
+                      // Save button
                       ElevatedButton(
                         onPressed: _saveUsername,
                         child: const Text('Save'),
                       ),
                       const SizedBox(width: 8),
+                      // Remove button
                       OutlinedButton(
                         onPressed: _removeUsername,
                         child: const Text('Remove'),
                       ),
                     ],
                   ),
+                  // Show saved username
                   if (_savedUsername != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
@@ -238,9 +251,11 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
                     '2. Int: Counter',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const Spacer(),
+                  const Spacer(), // Spacer là widget để tạo khoảng trống
+                  // Show counter
                   Text('$_counter', style: const TextStyle(fontSize: 24)),
                   const SizedBox(width: 16),
+                  // Increment button
                   IconButton(
                     onPressed: _incrementCounter,
                     icon: const Icon(Icons.add_circle),
@@ -255,10 +270,11 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
 
           // 3. Bool - Dark Mode
           Card(
+            // SwitchListTile là widget để tạo switch
             child: SwitchListTile(
               title: const Text('3. Bool: Dark Mode'),
               value: _isDarkMode,
-              onChanged: (_) => _toggleDarkMode(),
+              onChanged: (_) => _toggleDarkMode(), // Toggle dark mode
             ),
           ),
 
@@ -281,10 +297,14 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
                       IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () {
+                          // showDialog là widget để tạo dialog
                           showDialog(
                             context: context,
                             builder: (context) {
+                              // TextEditingController là widget để tạo controller
                               final controller = TextEditingController();
+
+                              // AlertDialog là widget để tạo dialog
                               return AlertDialog(
                                 title: const Text('Add Tag'),
                                 content: TextField(
@@ -292,10 +312,12 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
                                   autofocus: true,
                                 ),
                                 actions: [
+                                  // Cancel button
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
                                     child: const Text('Cancel'),
                                   ),
+                                  // Add button
                                   TextButton(
                                     onPressed: () {
                                       _addTag(controller.text);
@@ -312,6 +334,8 @@ class _Ex12SharedPrefsState extends State<Ex12SharedPrefs> {
                     ],
                   ),
                   const SizedBox(height: 8),
+
+                  // Show tags
                   Wrap(
                     spacing: 8,
                     children: _tags

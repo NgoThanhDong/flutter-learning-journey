@@ -5,15 +5,16 @@
 /// - Cache API response vào local storage
 /// - Hiển thị cached data khi offline
 ///
-/// 📝 Strategy: Cache-first với expiry
+/// 📝 Strategy: Cache-first với expiry (Chiến lược: Cache-first khi hết hạn)
 
 library;
 
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert'; // JSON encoder/decoder
+import 'package:flutter/material.dart'; // Flutter UI
+import 'package:http/http.dart' as http; // HTTP Client
+import 'package:shared_preferences/shared_preferences.dart'; // SharedPreferences
 
+/// [USER] - User model
 class User {
   final int id;
   final String name;
@@ -21,6 +22,7 @@ class User {
 
   const User({required this.id, required this.name, required this.email});
 
+  // [FROM JSON] - Convert JSON to User object
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json['id'] as int,
     name: json['name'] as String,
@@ -30,6 +32,7 @@ class User {
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'email': email};
 }
 
+/// [EX14_OFFLINE_CACHE] - là widget chính Offline Cache
 class Ex14OfflineCache extends StatefulWidget {
   const Ex14OfflineCache({super.key});
 
@@ -38,17 +41,19 @@ class Ex14OfflineCache extends StatefulWidget {
 }
 
 class _Ex14OfflineCacheState extends State<Ex14OfflineCache> {
-  List<User> _users = [];
-  bool _isLoading = false;
-  bool _isFromCache = false;
-  String? _error;
+  List<User> _users = []; // Danh sách User
+  bool _isLoading = false; // Loading state
+  bool _isFromCache = false; // Cache state
+  String? _error; // Error state
 
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _loadData(); // Load data on init
   }
 
+  /// [_loadData] - Load data from API or cache
+  /// forceRefresh: Force refresh from API
   Future<void> _loadData({bool forceRefresh = false}) async {
     setState(() {
       _isLoading = true;
@@ -58,7 +63,7 @@ class _Ex14OfflineCacheState extends State<Ex14OfflineCache> {
     try {
       // Check cache first
       if (!forceRefresh) {
-        final cached = await _getCached();
+        final cached = await _getCached(); // Get cached data
         if (cached != null) {
           setState(() {
             _users = cached;
@@ -70,15 +75,18 @@ class _Ex14OfflineCacheState extends State<Ex14OfflineCache> {
       }
 
       // Fetch from API
+      // Get data from API and cache it
       final response = await http.get(
         Uri.parse('https://jsonplaceholder.typicode.com/users'),
       );
 
       if (response.statusCode == 200) {
+        // Parse response body to List<User>
         final List<dynamic> jsonList = jsonDecode(response.body);
+        // Convert List<dynamic> to List<User>
         final users = jsonList.map((j) => User.fromJson(j)).toList();
 
-        await _cache(users);
+        await _cache(users); // Cache data
         setState(() {
           _users = users;
           _isFromCache = false;
@@ -86,7 +94,7 @@ class _Ex14OfflineCacheState extends State<Ex14OfflineCache> {
       }
     } catch (e) {
       // Fallback to cache
-      final cached = await _getCached();
+      final cached = await _getCached(); // Get cached data
       if (cached != null) {
         setState(() {
           _users = cached;
@@ -101,15 +109,26 @@ class _Ex14OfflineCacheState extends State<Ex14OfflineCache> {
     }
   }
 
+  /// [_getCached] - Get cached data
+  /// Returns null if no cache found
+  /// @return `List<User>?` - Cached data
   Future<List<User>?> _getCached() async {
+    // Get cached data from SharedPreferences with key 'users_cache'
     final prefs = await SharedPreferences.getInstance();
     final json = prefs.getString('users_cache');
+
+    // Return null if no cache found
     if (json == null) return null;
+
+    // Parse JSON to List<User>
     final list = jsonDecode(json) as List;
     return list.map((j) => User.fromJson(j)).toList();
   }
 
+  /// [_cache] - Cache data
+  /// @param users - List of users to cache
   Future<void> _cache(List<User> users) async {
+    // Cache data to SharedPreferences with key 'users_cache'
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
       'users_cache',
@@ -120,25 +139,35 @@ class _Ex14OfflineCacheState extends State<Ex14OfflineCache> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // AppBar with title and refresh button
       appBar: AppBar(
         title: const Text('Ex14: Offline Cache'),
         actions: [
+          // Refresh button
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => _loadData(forceRefresh: true),
           ),
         ],
       ),
+
+      // Body content with loading indicator or ListView
       body: Column(
         children: [
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(12),
+            // Show cache or API source
+            // Green: From API, Orange: From Cache
             color: _isFromCache ? Colors.orange[100] : Colors.green[100],
             child: Text(_isFromCache ? '📦 From Cache' : '☁️ From API'),
           ),
+
+          // Error message
           if (_error != null)
             Text(_error!, style: const TextStyle(color: Colors.red)),
+
+          // Loading indicator or ListView
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
