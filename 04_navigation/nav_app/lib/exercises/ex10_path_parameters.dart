@@ -14,11 +14,22 @@ library;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// Ex10PathParameters là widget để demo path parameters
 class Ex10PathParameters extends StatelessWidget {
   const Ex10PathParameters({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // router là GoRouter để quản lý navigation
+    // initialLocation: URL ban đầu
+    // routes: danh sách các route
+    // GoRoute: định nghĩa route
+    // builder: định nghĩa widget để hiển thị
+    // state.pathParameters: lấy tham số từ URL
+    // context.go(): navigate đến route
+    // context.pop(): navigate trở lại
+    // context.replace(): replace route hiện tại
+    // context.canPop(): kiểm tra có thể navigate trở lại không
     final router = GoRouter(
       initialLocation: '/',
       routes: [
@@ -31,19 +42,22 @@ class Ex10PathParameters extends StatelessWidget {
           builder: (context, state) {
             // Lấy giá trị userId từ URL
             final userId = state.pathParameters['userId']!;
-            return UserProfileScreen(userId: userId);
+            return UserProfileScreen(
+              userId: userId,
+            ); // Hiển thị màn hình Profile
           },
         ),
       ],
     );
 
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: router, // routerConfig: định nghĩa router
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
+// UserListScreen là widget để demo màn hình User List
 class UserListScreen extends StatelessWidget {
   const UserListScreen({super.key});
 
@@ -56,6 +70,7 @@ class UserListScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: users.length,
         itemBuilder: (context, index) {
+          // Lấy user từ list
           final user = users[index];
           // Giả lập ID
           final id = (index + 1).toString();
@@ -76,15 +91,18 @@ class UserListScreen extends StatelessWidget {
   }
 }
 
+// UserProfileScreen là widget để demo màn hình User Profile
 class UserProfileScreen extends StatelessWidget {
-  final String userId;
+  final String userId; // userId: ID của user
 
   const UserProfileScreen({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Hiển thị title
       appBar: AppBar(title: Text('User Profile (ID: $userId)')),
+      // Hiển thị nội dung
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -95,11 +113,13 @@ class UserProfileScreen extends StatelessWidget {
               child: Text(userId, style: const TextStyle(fontSize: 40)),
             ),
             const SizedBox(height: 20),
+            // Hiển thị thông tin user
             Text(
               'Profile của User $userId',
               style: const TextStyle(fontSize: 24),
             ),
             const SizedBox(height: 20),
+            // Button để navigate trở lại
             OutlinedButton(
               onPressed: () => context.go('/'),
               child: const Text('Back to List'),

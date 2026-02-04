@@ -14,11 +14,18 @@ library;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// Ex12NestedRoutes là widget để demo Nested Routes & ShellRoute
 class Ex12NestedRoutes extends StatelessWidget {
   const Ex12NestedRoutes({super.key});
 
   @override
   Widget build(BuildContext context) {
+    /// [GoRouter]: Tạo router chính với cấu trúc routes.
+    /// [initialLocation]: URL ban đầu khi mở app.
+    /// [routes]: Danh sách các routes.
+    /// [ShellRoute]: Tạo layout bao bọc (Wrapper) cho các routes con.
+    /// [builder]: Tạo UI bao bọc (Wrapper) cho các routes con.
+    /// [routes bên trong ShellRoute]: Tạo URL con (vd: /settings/profile).
     final router = GoRouter(
       initialLocation: '/home',
       routes: [
@@ -28,9 +35,14 @@ class Ex12NestedRoutes extends StatelessWidget {
         ShellRoute(
           builder: (context, state, child) {
             // Wrapper UI: Scaffold với Bottom chung
+            // child: Widget con hiện tại (Home hoặc Settings)
             return MyShellLayout(child: child);
           },
           routes: [
+            /// [GoRoute]: Tạo route con.
+            /// [path]: URL con.
+            /// [builder]: Tạo UI cho route con.
+            /// [routes bên trong GoRoute]: Tạo sub-routes (routes con).
             GoRoute(
               path: '/home',
               builder: (context, state) => const HomeScreen(),
@@ -52,6 +64,9 @@ class Ex12NestedRoutes extends StatelessWidget {
       ],
     );
 
+    /// [MaterialApp.router]: Tạo app với router.
+    /// [routerConfig]: Tạo router.
+    /// [debugShowCheckedModeBanner]: Hiển thị banner debug.
     return MaterialApp.router(
       routerConfig: router,
       debugShowCheckedModeBanner: false,
@@ -70,9 +85,19 @@ class MyShellLayout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Ex12: Shell Route')),
       body: child, // Nội dung thay đổi ở đây
+      /// [bottomNavigationBar]: Tạo bottom navigation bar.
+      /// [items]: Danh sách các item trong bottom navigation bar.
+      /// [onTap]: Logic khi click vào item.
+      /// [context.go]: Chuyển đến route con.
+      /// [index]: Chỉ số của item được click.
+      /// [context]: Context của widget.
+      /// [state]: State của widget.
+      /// [child]: Widget con hiện tại (Home hoặc Settings).
       bottomNavigationBar: BottomNavigationBar(
         items: const [
+          // Item Home
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          // Item Settings
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
@@ -80,6 +105,7 @@ class MyShellLayout extends StatelessWidget {
         ],
         // Logic navigation đơn giản để demo
         onTap: (index) {
+          // Chuyển đến route con
           if (index == 0) context.go('/home');
           if (index == 1) context.go('/settings');
         },
@@ -88,6 +114,7 @@ class MyShellLayout extends StatelessWidget {
   }
 }
 
+/// HomeScreen là widget hiển thị màn hình Home
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -99,6 +126,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+/// SettingsScreen là widget hiển thị màn hình Settings
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -111,6 +139,7 @@ class SettingsScreen extends StatelessWidget {
           const Text('Settings Screen ⚙️', style: TextStyle(fontSize: 24)),
           const SizedBox(height: 20),
           ElevatedButton(
+            // Chuyển đến ProfileScreen (nested route)
             onPressed: () => context.go('/settings/profile'),
             child: const Text('Go to Profile (Nested) 👉'),
           ),
@@ -120,6 +149,7 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
+/// ProfileScreen là widget hiển thị màn hình Profile
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -135,6 +165,7 @@ class ProfileScreen extends StatelessWidget {
           const Text('Path: /settings/profile'),
           const SizedBox(height: 20),
           OutlinedButton(
+            // Chuyển đến SettingsScreen
             onPressed: () => context.go('/settings'),
             child: const Text('Back to Settings'),
           ),

@@ -15,6 +15,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// Ex09GoRouterBasic là widget để demo go_router cơ bản
 class Ex09GoRouterBasic extends StatelessWidget {
   const Ex09GoRouterBasic({super.key});
 
@@ -44,6 +45,7 @@ class Ex09GoRouterBasic extends StatelessWidget {
   }
 }
 
+// HomeScreen là widget để demo màn hình Home
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -66,6 +68,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// DetailsScreen là widget để demo màn hình Details
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
 

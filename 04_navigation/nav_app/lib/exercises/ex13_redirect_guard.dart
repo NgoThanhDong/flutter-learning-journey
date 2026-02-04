@@ -16,30 +16,41 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 /// 1. Mock Auth Service
+/// AuthService là class giả lập để demo việc kiểm tra login/logout
 class AuthService extends ChangeNotifier {
-  bool _isLoggedIn = false;
-  bool get isLoggedIn => _isLoggedIn;
+  bool _isLoggedIn = false; // Trạng thái login/logout
+  bool get isLoggedIn => _isLoggedIn; // Trả về trạng thái login/logout
 
   void login() {
-    _isLoggedIn = true;
+    _isLoggedIn = true; // Đã login
     notifyListeners(); // Router sẽ lắng nghe event này
   }
 
   void logout() {
-    _isLoggedIn = false;
+    _isLoggedIn = false; // Chưa login
     notifyListeners();
   }
 }
 
 // Global Auth Service (cho demo đơn giản)
+/// authService là instance của AuthService
+/// Router sẽ lắng nghe thay đổi từ authService để chạy lại redirect khi có thay đổi
 final authService = AuthService();
 
+/// Ex13RedirectGuard là widget để demo redirect & guards
 class Ex13RedirectGuard extends StatelessWidget {
   const Ex13RedirectGuard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    /// GoRouter là class chính của go_router
+    /// GoRouter chứa tất cả logic của router
+    /// GoRouter có các tham số quan trọng:
+    /// - initialLocation: path ban đầu khi mở app
+    /// - refreshListenable: lắng nghe thay đổi từ listenable
+    /// - redirect: logic redirect
     final router = GoRouter(
+      /// initialLocation là path ban đầu khi mở app
       initialLocation: '/',
 
       /// [quan trọng] refreshListenable
@@ -47,8 +58,12 @@ class Ex13RedirectGuard extends StatelessWidget {
       refreshListenable: authService,
 
       /// [Redirect Logic]
+      /// redirect là hàm chạy TRƯỚC khi điều hướng
+      /// Trả về `String` (path mới) để chuyển hướng, hoặc `null` để cho phép đi tiếp
       redirect: (context, state) {
+        // Trạng thái login/logout
         final isLoggedIn = authService.isLoggedIn;
+        // Kiểm tra path hiện tại có phải là /login không
         final isGoingToLogin = state.uri.toString() == '/login';
 
         // 1. Nếu chưa login và không phải đang ở trang login
@@ -67,6 +82,12 @@ class Ex13RedirectGuard extends StatelessWidget {
         return null;
       },
 
+      /// [Routes]
+      /// routes là danh sách các route có thể di chuyển đến
+      /// Mỗi route có path và builder
+      /// builder là hàm tạo widget cho route đó
+      /// builder nhận 2 tham số: context và state
+      /// state chứa thông tin về route hiện tại
       routes: [
         GoRoute(
           path: '/',
@@ -79,6 +100,9 @@ class Ex13RedirectGuard extends StatelessWidget {
       ],
     );
 
+    /// [MaterialApp.router]
+    /// MaterialApp.router là widget chính của go_router
+    /// routerConfig là router đã định nghĩa
     return MaterialApp.router(
       routerConfig: router,
       debugShowCheckedModeBanner: false,
@@ -86,6 +110,8 @@ class Ex13RedirectGuard extends StatelessWidget {
   }
 }
 
+/// [LoginScreen]
+/// LoginScreen là widget hiển thị trang login
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -103,6 +129,10 @@ class LoginScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Login -> authService notify -> redirect check -> chuyển về Home
+                // authService.login() sẽ thay đổi trạng thái login
+                // refreshListenable sẽ lắng nghe thay đổi từ authService
+                // redirect sẽ được gọi lại
+                // Nếu isLoggedIn = true và isGoingToLogin = false -> return '/'
                 authService.login();
               },
               child: const Text('Đăng nhập ngay'),
@@ -114,6 +144,9 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
+/// [ProtectedHomeScreen]
+/// ProtectedHomeScreen là widget hiển thị trang home
+/// Chỉ có người đã login mới có thể vào trang này
 class ProtectedHomeScreen extends StatelessWidget {
   const ProtectedHomeScreen({super.key});
 
@@ -139,6 +172,10 @@ class ProtectedHomeScreen extends StatelessWidget {
               ),
               onPressed: () {
                 // Logout -> authService notify -> redirect check -> chuyển về Login
+                // authService.logout() sẽ thay đổi trạng thái login
+                // refreshListenable sẽ lắng nghe thay đổi từ authService
+                // redirect sẽ được gọi lại
+                // Nếu isLoggedIn = false và isGoingToLogin = true -> return '/login'
                 authService.logout();
               },
               child: const Text('Đăng xuất'),

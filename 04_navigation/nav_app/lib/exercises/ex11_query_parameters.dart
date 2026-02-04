@@ -14,11 +14,17 @@ library;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// Ex11QueryParameters là widget để demo Query Parameters
 class Ex11QueryParameters extends StatelessWidget {
   const Ex11QueryParameters({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Tạo router
+    // GoRouter có thể có nhiều routes
+    // Mỗi route có path và builder
+    // builder: (context, state) => const SearchInputScreen(),
+    // builder: (context, state) => const SearchResultScreen(keyword: keyword),
     final router = GoRouter(
       initialLocation: '/',
       routes: [
@@ -37,13 +43,15 @@ class Ex11QueryParameters extends StatelessWidget {
       ],
     );
 
+    // Tạo MaterialApp với router
     return MaterialApp.router(
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
+      routerConfig: router, // Cấu hình router
+      debugShowCheckedModeBanner: false, // Tắt banner debug
     );
   }
 }
 
+// SearchInputScreen là widget để demo Query Parameters
 class SearchInputScreen extends StatefulWidget {
   const SearchInputScreen({super.key});
 
@@ -52,11 +60,12 @@ class SearchInputScreen extends StatefulWidget {
 }
 
 class _SearchInputScreenState extends State<SearchInputScreen> {
-  final _controller = TextEditingController();
+  final _controller = TextEditingController(); // Controller để nhập keyword
 
+  // Hàm để xử lý tìm kiếm
   void _search() {
-    final keyword = _controller.text.trim();
-    if (keyword.isEmpty) return;
+    final keyword = _controller.text.trim(); // Lấy keyword từ TextField
+    if (keyword.isEmpty) return; // Nếu keyword trống, không tìm kiếm
 
     /// [Navigate với Query Params]
     /// Cách 1: String interpolation
@@ -77,17 +86,18 @@ class _SearchInputScreenState extends State<SearchInputScreen> {
         child: Column(
           children: [
             TextField(
-              controller: _controller,
+              controller: _controller, // Controller để nhập keyword
               decoration: const InputDecoration(
                 labelText: 'Nhập từ khóa',
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.search),
               ),
-              onSubmitted: (_) => _search(),
+              onSubmitted: (_) =>
+                  _search(), // Khi Enter được nhấn, gọi _search()
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _search,
+              onPressed: _search, // Khi nút được nhấn, gọi _search()
               child: const Text('Tìm kiếm 🔎'),
             ),
           ],
@@ -97,8 +107,9 @@ class _SearchInputScreenState extends State<SearchInputScreen> {
   }
 }
 
+// SearchResultScreen là widget để demo Query Parameters
 class SearchResultScreen extends StatelessWidget {
-  final String keyword;
+  final String keyword; // Từ khóa tìm kiếm
 
   const SearchResultScreen({super.key, required this.keyword});
 
@@ -113,6 +124,7 @@ class SearchResultScreen extends StatelessWidget {
             const Text('Bạn đang tìm kiếm:', style: TextStyle(fontSize: 18)),
             const SizedBox(height: 10),
             Text(
+              // Hiển thị từ khóa tìm kiếm
               keyword.isEmpty ? 'Trống' : '"$keyword"',
               style: const TextStyle(
                 fontSize: 32,
@@ -122,7 +134,7 @@ class SearchResultScreen extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             OutlinedButton(
-              onPressed: () => context.go('/'),
+              onPressed: () => context.go('/'), // Quay lại trang chủ
               child: const Text('Tìm cái khác'),
             ),
           ],
