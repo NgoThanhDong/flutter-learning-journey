@@ -93,6 +93,15 @@ DELETE /todos/:id      - Xóa
 
 ---
 
+---
+
+## Bài Tập Thực Hành
+
+- `ex15_weather_app.dart` - Ứng dụng xem thời tiết (Open-Meteo API)
+- `ex16_todo_api.dart` - Ứng dụng Todo List (CRUD với JSONPlaceholder)
+
+---
+
 ## Kết Thúc Phase 5
 
 Sau khi hoàn thành Phase 5, bạn đã có khả năng:

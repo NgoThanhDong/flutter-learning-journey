@@ -383,6 +383,16 @@ class OfflineFirstRepository {
 
 ---
 
+---
+
+## Bài Tập Liên Quan
+
+- `ex12_shared_prefs.dart` - Lưu trữ Key-Value đơn giản
+- `ex13_hive_basic.dart` - Lưu trữ Object với Hive
+- `ex14_offline_cache.dart` - Chiến lược Cache-First (Offline support)
+
+---
+
 ## Bài Tiếp Theo
 
 ➡️ [Lesson 7: Practice Projects](lesson_07_practice.md)

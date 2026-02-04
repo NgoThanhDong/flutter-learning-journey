@@ -349,6 +349,17 @@ class ApiException implements Exception {
 
 ---
 
+---
+
+## Bài Tập Liên Quan
+
+- `ex08_dio_basic.dart` - Cấu hình Dio và GET request
+- `ex09_dio_interceptors.dart` - Logging và Auth Interceptors
+- `ex10_error_handling.dart` - Xử lý lỗi (Timeout, 404, 500)
+- `ex11_api_service.dart` - Repository Pattern với Dio
+
+---
+
 ## Bài Tiếp Theo
 
 ➡️ [Lesson 5: Loading States](lesson_05_loading_states.md)

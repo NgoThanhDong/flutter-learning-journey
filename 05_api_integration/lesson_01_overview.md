@@ -208,6 +208,14 @@ GET https://jsonplaceholder.typicode.com/posts?userId=1
 
 ---
 
+---
+
+## Bài Tập Liên Quan
+
+- `ex01_simple_get.dart` - Xem trước cách gọi GET request
+
+---
+
 ## Bài Tiếp Theo
 
 ➡️ [Lesson 2: http Package](lesson_02_http_package.md) - Bắt đầu code!

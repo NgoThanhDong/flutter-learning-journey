@@ -456,6 +456,14 @@ class _UsersPageState extends State<UsersPage> {
 
 ---
 
+---
+
+## Bài Tập Liên Quan
+
+- `ex04_loading_states.dart` - Implement FutureBuilder và các trạng thái Loading/Error/Success
+
+---
+
 ## Bài Tiếp Theo
 
 ➡️ [Lesson 6: Local Storage](lesson_06_local_storage.md)

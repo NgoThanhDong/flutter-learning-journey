@@ -406,6 +406,16 @@ class Post {
 
 ---
 
+---
+
+## Bài Tập Liên Quan
+
+- `ex05_model_class.dart` - Tạo Model và fromJson/toJson
+- `ex06_nested_json.dart` - Xử lý JSON lồng nhau (Nested Objects)
+- `ex07_list_parsing.dart` - Parse danh sách Objects (JSON Array)
+
+---
+
 ## Bài Tiếp Theo
 
 ➡️ [Lesson 4: Dio Advanced](lesson_04_dio_advanced.md)
