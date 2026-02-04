@@ -36,8 +36,8 @@ import 'package:http/http.dart' as http;
 
 /// [Geo Model] - Vị trí địa lý
 class Geo {
-  final String lat;
-  final String lng;
+  final String lat; // latitude (vĩ độ)
+  final String lng; // longitude (kinh độ)
 
   const Geo({required this.lat, required this.lng});
 
@@ -48,10 +48,10 @@ class Geo {
 
 /// [Address Model] - Địa chỉ (chứa Geo)
 class Address {
-  final String street;
-  final String suite;
-  final String city;
-  final String zipcode;
+  final String street; // đường
+  final String suite; // tòa nhà
+  final String city; // thành phố
+  final String zipcode; // mã bưu điện
   final Geo geo; // Nested object
 
   const Address({
@@ -80,9 +80,9 @@ class Address {
 
 /// [Company Model] - Công ty
 class Company {
-  final String name;
-  final String catchPhrase;
-  final String bs;
+  final String name; // tên công ty
+  final String catchPhrase; // khẩu hiệu
+  final String bs; // business slogan
 
   const Company({
     required this.name,
@@ -131,6 +131,7 @@ class UserFull {
 /// ===========================================
 /// UI WIDGET
 /// ===========================================
+// [Ex06NestedJson] widget hiển thị thông tin user
 class Ex06NestedJson extends StatefulWidget {
   const Ex06NestedJson({super.key});
 
@@ -139,6 +140,9 @@ class Ex06NestedJson extends StatefulWidget {
 }
 
 class _Ex06NestedJsonState extends State<Ex06NestedJson> {
+  // [late Future<UserFull>] là biến lưu trữ kết quả của async method
+  // [Future] là object đại diện cho kết quả của async operation
+  // [UserFull] là kiểu dữ liệu trả về
   late Future<UserFull> _userFuture;
 
   @override
@@ -147,6 +151,7 @@ class _Ex06NestedJsonState extends State<Ex06NestedJson> {
     _userFuture = _fetchUser();
   }
 
+  /// [_fetchUser] fetch user from API
   Future<UserFull> _fetchUser() async {
     final response = await http.get(
       Uri.parse('https://jsonplaceholder.typicode.com/users/1'),
@@ -163,6 +168,8 @@ class _Ex06NestedJsonState extends State<Ex06NestedJson> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ex06: Nested JSON')),
+
+      /// [FutureBuilder] build UI based on async data
       body: FutureBuilder<UserFull>(
         future: _userFuture,
         builder: (context, snapshot) {
@@ -176,6 +183,8 @@ class _Ex06NestedJsonState extends State<Ex06NestedJson> {
 
           final user = snapshot.data!;
 
+          /// [Build UI]
+          /// SingleChildScrollView là widget để scroll khi content quá dài
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -236,6 +245,9 @@ class _Ex06NestedJsonState extends State<Ex06NestedJson> {
                               ),
 
                               /// [Deep nested access]
+                              /// user.address.geo là Geo object
+                              /// user.address.geo.lat là String
+                              /// user.address.geo.lng là String
                               Text('Lat: ${user.address.geo.lat}'),
                               Text('Lng: ${user.address.geo.lng}'),
                             ],
@@ -266,6 +278,12 @@ class _Ex06NestedJsonState extends State<Ex06NestedJson> {
                           ],
                         ),
                         const Divider(),
+
+                        /// [Nested access]
+                        /// user.company là Company object
+                        /// user.company.name là String
+                        /// user.company.catchPhrase là String
+                        /// user.company.bs là String
                         Text('Name: ${user.company.name}'),
                         Text('Catch Phrase: "${user.company.catchPhrase}"'),
                         Text('Business: ${user.company.bs}'),

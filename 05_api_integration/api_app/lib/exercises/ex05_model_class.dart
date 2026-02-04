@@ -11,6 +11,35 @@
 /// - fromJson = Factory constructor parse JSON → Object
 /// - toJson = Method convert Object → JSON Map
 
+/*
+[
+  {
+    "id": 1,
+    "name": "Leanne Graham",
+    "username": "Bret",
+    "email": "Sincere@april.biz",
+    "address": {
+      "street": "Kulas Light",
+      "suite": "Apt. 556",
+      "city": "Gwenborough",
+      "zipcode": "92998-3874",
+      "geo": {
+        "lat": "-37.3159",
+        "lng": "81.1496"
+      }
+    },
+    "phone": "1-770-736-8031 x56442",
+    "website": "hildegard.org",
+    "company": {
+      "name": "Romaguera-Crona",
+      "catchPhrase": "Multi-layered client-server neural-net",
+      "bs": "harness real-time e-markets"
+    }
+  },
+  {...}
+]
+*/
+
 library;
 
 import 'dart:convert';
@@ -86,6 +115,7 @@ class User {
 /// ===========================================
 /// UI WIDGET
 /// ===========================================
+// Ex05ModelClass là widget hiển thị danh sách users
 class Ex05ModelClass extends StatefulWidget {
   const Ex05ModelClass({super.key});
 
@@ -94,12 +124,16 @@ class Ex05ModelClass extends StatefulWidget {
 }
 
 class _Ex05ModelClassState extends State<Ex05ModelClass> {
+  // _usersFuture là Future chứa danh sách users
+  // Future là giá trị chưa sẵn sàng
+  // late = khai báo biến nhưng chưa gán giá trị
+  // _usersFuture sẽ chứa danh sách users khi Future hoàn thành
   late Future<List<User>> _usersFuture;
 
   @override
   void initState() {
     super.initState();
-    _usersFuture = _fetchUsers();
+    _usersFuture = _fetchUsers(); // Gọi _fetchUsers khi widget được tạo
   }
 
   /// [Fetch với Model]
@@ -121,6 +155,7 @@ class _Ex05ModelClassState extends State<Ex05ModelClass> {
           .toList();
     }
 
+    // Nếu status code != 200, throw exception
     throw Exception('Failed to load users');
   }
 
@@ -128,17 +163,29 @@ class _Ex05ModelClassState extends State<Ex05ModelClass> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ex05: Model Class')),
+
+      // body là FutureBuilder
+      // FutureBuilder là widget để build UI dựa trên Future
+      // FutureBuilder có 2 tham số:
+      // - future: Future cần đợi
+      // - builder: Hàm build UI dựa trên Future
       body: FutureBuilder<List<User>>(
         future: _usersFuture,
         builder: (context, snapshot) {
+          // Kiểm tra trạng thái của Future
+          // ConnectionState.waiting = Future chưa hoàn thành
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
+          // Kiểm tra có lỗi không
+          // snapshot.error chứa thông tin lỗi
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
 
+          // snapshot.data chứa kết quả Future
+          // ! = khẳng định không null
           final users = snapshot.data!;
 
           return ListView.builder(
@@ -151,23 +198,26 @@ class _Ex05ModelClassState extends State<Ex05ModelClass> {
 
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                // ExpansionTile là widget có thể mở/đóng
+                // children là danh sách widget khi mở
                 child: ExpansionTile(
                   leading: CircleAvatar(child: Text(user.id.toString())),
                   title: Text(user.name), // ✅ IDE autocomplete
-                  subtitle: Text('@${user.username}'),
+                  subtitle: Text('@${user.username}'), // ✅ IDE autocomplete
                   children: [
                     ListTile(
                       leading: const Icon(Icons.email),
-                      title: Text(user.email),
+                      title: Text(user.email), // ✅ IDE autocomplete
                     ),
                     ListTile(
                       leading: const Icon(Icons.phone),
-                      title: Text(user.phone),
+                      title: Text(user.phone), // ✅ IDE autocomplete
                     ),
                     ListTile(
                       leading: const Icon(Icons.web),
-                      title: Text(user.website),
+                      title: Text(user.website), // ✅ IDE autocomplete
                     ),
+
                     // Hiển thị toJson result
                     Padding(
                       padding: const EdgeInsets.all(16),
@@ -178,6 +228,7 @@ class _Ex05ModelClassState extends State<Ex05ModelClass> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
+                          // Hiển thị kết quả của toJson()
                           'toJson(): ${user.toJson()}',
                           style: const TextStyle(
                             fontFamily: 'monospace',
