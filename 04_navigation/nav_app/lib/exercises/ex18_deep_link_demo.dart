@@ -19,6 +19,8 @@ library;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// [Deep Link Demo]
+// Demo cách hoạt động của URL parameters
 class Ex18DeepLinkDemo extends StatelessWidget {
   const Ex18DeepLinkDemo({super.key});
 
@@ -26,16 +28,26 @@ class Ex18DeepLinkDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+
+      // routerConfig: GoRouter: Cấu hình router
+      // initialLocation: '/': Vị trí ban đầu
+      // routes: Danh sách các route
+      // GoRoute: Định nghĩa một route
+      // path: Đường dẫn của route
+      // builder: Widget được hiển thị khi route được gọi
       routerConfig: GoRouter(
         initialLocation: '/',
         routes: [
           GoRoute(
             path: '/',
-            builder: (_, _) => const DeepLinkHome(),
+            builder: (_, _) => const DeepLinkHome(), // Home screen
             routes: [
               GoRoute(
                 path: 'promo/:code',
                 builder: (context, state) {
+                  // state.pathParameters: Map chứa các tham số đường dẫn
+                  // 'code': Tên tham số được định nghĩa trong path
+                  // state.pathParameters['code']: Lấy giá trị của tham số 'code'
                   return PromoScreen(code: state.pathParameters['code']);
                 },
               ),
@@ -47,6 +59,8 @@ class Ex18DeepLinkDemo extends StatelessWidget {
   }
 }
 
+// [Deep Link Home]
+// DeepLinkHome là home screen
 class DeepLinkHome extends StatelessWidget {
   const DeepLinkHome({super.key});
 
@@ -71,8 +85,15 @@ class DeepLinkHome extends StatelessWidget {
             const SizedBox(height: 20),
             const Text('Hoặc nhấn nút dưới đây:'),
             ElevatedButton(
+              // Điều hướng đến route 'promo' với tham số 'code' là 'FLUTTER_DEAL_50'
               onPressed: () => context.go('/promo/FLUTTER_DEAL_50'),
-              child: const Text('Mở Promo Deal'),
+              child: const Text('Mở Promo Deal - FLUTTER_DEAL_50'),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              // Điều hướng đến route 'promo' với tham số 'code' là 'FLUTTER_DEAL_50'
+              onPressed: () => context.go('/promo/ERROR'),
+              child: const Text('Mở Promo Deal - ERROR'),
             ),
           ],
         ),
@@ -81,25 +102,30 @@ class DeepLinkHome extends StatelessWidget {
   }
 }
 
+// [Promo Screen]
+// Promo screen hiển thị thông tin mã giảm giá
 class PromoScreen extends StatelessWidget {
-  final String? code;
+  final String? code; // Mã giảm giá
 
   const PromoScreen({super.key, this.code});
 
   @override
   Widget build(BuildContext context) {
+    // Kiểm tra tính hợp lệ của mã giảm giá
     bool isValid = code != null && code!.length > 5;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Promo Deal')),
       body: Center(
         child: Card(
+          // Màu sắc của card dựa trên tính hợp lệ của mã giảm giá
           color: isValid ? Colors.green.shade50 : Colors.red.shade50,
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Kiểm tra tính hợp lệ của mã giảm giá
                 Icon(
                   isValid ? Icons.verified : Icons.error,
                   size: 60,
