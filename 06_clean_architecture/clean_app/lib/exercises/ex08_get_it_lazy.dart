@@ -3,14 +3,14 @@
 /// ===========================================
 /// 🎯 Mục tiêu:
 /// - Lazy registration khi có async init
-/// - Dispose callback để cleanup
-/// - Reset và unregister
+/// - Dispose callback để cleanup (giải phóng tài nguyên khi không dùng nữa)
+/// - Reset và unregister (xóa dependency khỏi get_it)
 ///
 /// 📝 Advanced get_it patterns:
-/// - registerLazySingletonAsync
-/// - disposingFunction
-/// - resetLazySingleton
-/// - unregister
+/// - registerLazySingletonAsync (đăng ký lazy singleton với async init)
+/// - disposingFunction (callback để cleanup)
+/// - resetLazySingleton (reset lazy singleton)
+/// - unregister (xóa dependency khỏi get_it)
 
 library;
 
@@ -47,6 +47,7 @@ class DatabaseConnection {
     debugPrint('[$dbName] Connection closed!');
   }
 
+  /// [query] - Query database
   Future<String> query(String sql) async {
     if (!_isConnected) throw Exception('Not connected!');
     await Future.delayed(const Duration(milliseconds: 300));
@@ -56,18 +57,20 @@ class DatabaseConnection {
 
 /// [CacheService] - Service với dispose
 class CacheService {
-  final Map<String, String> _cache = {};
-  bool _isDisposed = false;
+  final Map<String, String> _cache = {}; // Cache data
+  bool _isDisposed = false; // Check if disposed
 
   bool get isDisposed => _isDisposed;
   int get cacheSize => _cache.length;
 
+  /// [put] - Put data into cache
   void put(String key, String value) {
     if (_isDisposed) throw Exception('Cache disposed!');
     _cache[key] = value;
     debugPrint('[Cache] Put: $key = $value');
   }
 
+  /// [get] - Get data from cache
   String? get(String key) {
     return _cache[key];
   }
@@ -84,6 +87,7 @@ class CacheService {
 /// ===========================================
 /// REGISTRATION
 /// ===========================================
+/// [setupAsyncDependencies] - Setup async dependencies (đăng ký dependency)
 Future<void> setupAsyncDependencies() async {
   if (sl2.isRegistered<DatabaseConnection>()) return;
 
@@ -123,20 +127,22 @@ class Ex08GetItLazy extends StatefulWidget {
 }
 
 class _Ex08GetItLazyState extends State<Ex08GetItLazy> {
-  final List<String> _logs = [];
-  bool _isRegistered = false;
+  final List<String> _logs = []; // Log messages
+  bool _isRegistered = false; // Check if registered
 
   @override
   void initState() {
     super.initState();
-    _setup();
+    _setup(); // Setup async dependencies
   }
 
+  /// [setup] - Setup async dependencies (đăng ký dependency)
   Future<void> _setup() async {
     await setupAsyncDependencies();
     setState(() => _isRegistered = true);
   }
 
+  /// [log] - Log messages (thêm log vào danh sách)
   void _log(String message) {
     setState(() {
       _logs.insert(0, '[${DateTime.now().second}s] $message');
@@ -144,9 +150,11 @@ class _Ex08GetItLazyState extends State<Ex08GetItLazy> {
     });
   }
 
+  /// [getDatabase] - Get async dependency (lấy async dependency)
   Future<void> _getDatabase() async {
     _log('Getting DatabaseConnection...');
 
+    /// [isReadySync] - Check if ready synchronously (kiểm tra xem đã sẵn sàng chưa)
     if (!sl2.isReadySync<DatabaseConnection>()) {
       _log('DB not ready, awaiting...');
     }
@@ -158,6 +166,7 @@ class _Ex08GetItLazyState extends State<Ex08GetItLazy> {
     _log('Got DB: ${db.dbName}, connected: ${db.isConnected}');
   }
 
+  /// [queryDatabase] - Query database (truy vấn database)
   Future<void> _queryDatabase() async {
     try {
       final db = await sl2.getAsync<DatabaseConnection>();
@@ -168,13 +177,15 @@ class _Ex08GetItLazyState extends State<Ex08GetItLazy> {
     }
   }
 
+  /// [useCache] - Use cache (sử dụng cache)
   void _useCache() {
-    final cache = sl2<CacheService>();
-    cache.put('user', 'John Doe');
-    cache.put('token', 'abc123');
-    _log('Cache size: ${cache.cacheSize}');
+    final cache = sl2<CacheService>(); // Lấy cache
+    cache.put('user', 'John Doe'); // Put data into cache
+    cache.put('token', 'abc123'); // Put data into cache
+    _log('Cache size: ${cache.cacheSize}'); // Log cache size
   }
 
+  /// [resetLazySingleton] - Reset 1 lazy singleton (reset lazy singleton)
   Future<void> _resetLazySingleton() async {
     _log('Resetting DatabaseConnection...');
 
@@ -185,6 +196,7 @@ class _Ex08GetItLazyState extends State<Ex08GetItLazy> {
     _log('DB reset! Will reconnect on next get.');
   }
 
+  /// [resetAll] - Reset toàn bộ (reset toàn bộ)
   Future<void> _resetAll() async {
     _log('Resetting ALL dependencies...');
 
@@ -193,7 +205,7 @@ class _Ex08GetItLazyState extends State<Ex08GetItLazy> {
     await sl2.reset();
 
     _log('All reset! Re-registering...');
-    await _setup();
+    await _setup(); // Setup lại async dependencies
     _log('Re-registered!');
   }
 
@@ -239,22 +251,27 @@ class _Ex08GetItLazyState extends State<Ex08GetItLazy> {
               spacing: 8,
               runSpacing: 8,
               children: [
+                // Get async dependency (lấy async dependency)
                 ElevatedButton(
                   onPressed: _isRegistered ? _getDatabase : null,
                   child: const Text('Get DB'),
                 ),
+                // Query database (truy vấn database)
                 ElevatedButton(
                   onPressed: _isRegistered ? _queryDatabase : null,
                   child: const Text('Query'),
                 ),
+                // Use cache (sử dụng cache)
                 ElevatedButton(
                   onPressed: _isRegistered ? _useCache : null,
                   child: const Text('Use Cache'),
                 ),
+                // Reset 1 lazy singleton (reset lazy singleton)
                 OutlinedButton(
                   onPressed: _isRegistered ? _resetLazySingleton : null,
                   child: const Text('Reset DB'),
                 ),
+                // Reset toàn bộ (reset toàn bộ)
                 OutlinedButton(
                   onPressed: _isRegistered ? _resetAll : null,
                   style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
@@ -279,7 +296,7 @@ class _Ex08GetItLazyState extends State<Ex08GetItLazy> {
                 itemCount: _logs.length,
                 itemBuilder: (context, index) {
                   return Text(
-                    _logs[index],
+                    _logs[index], // Hiển thị log
                     style: const TextStyle(
                       color: Colors.greenAccent,
                       fontFamily: 'monospace',

@@ -2,12 +2,12 @@
 /// EXERCISE 07: GET_IT BASIC
 /// ===========================================
 /// 🎯 Mục tiêu:
-/// - Setup get_it service locator
+/// - Setup get_it service locator (trình định vị dịch vụ)
 /// - Đăng ký Singleton và Factory
 /// - Lấy dependencies từ container
 ///
 /// 📝 get_it là gì?
-/// - Service Locator pattern
+/// - Service Locator pattern (pattern định vị dịch vụ)
 /// - Container lưu trữ dependencies
 /// - Dễ setup, dễ sử dụng
 
@@ -20,8 +20,8 @@ import 'package:get_it/get_it.dart';
 /// SETUP GET_IT
 /// ===========================================
 
-/// [sl] = service locator (convention phổ biến)
-final sl = GetIt.instance;
+/// [sl] = service locator (quy ước phổ biến)
+final sl = GetIt.instance; // instance là thể hiện của lớp GetIt
 
 /// [setupGetItDemo] - Đăng ký dependencies
 /// Gọi 1 lần trong main() hoặc initState()
@@ -33,14 +33,14 @@ void setupGetItDemo() {
   /// 1. REGISTER SINGLETON
   /// ===========================================
   /// [registerSingleton] - Tạo ngay, dùng chung 1 instance
-  /// Use case: Services khởi tạo sớm, dùng chung
+  /// Use case (trường hợp sử dụng): Services khởi tạo sớm, dùng chung
   sl.registerSingleton<DemoLogger>(DemoLogger('MainLogger'));
 
   /// ===========================================
   /// 2. REGISTER LAZY SINGLETON
   /// ===========================================
   /// [registerLazySingleton] - Tạo khi cần, dùng chung
-  /// Use case: Services nặng, có thể không dùng
+  /// Use case (trường hợp sử dụng): Services nặng, có thể không dùng
   sl.registerLazySingleton<DemoApiClient>(
     () => DemoApiClient(sl<DemoLogger>()),
   );
@@ -49,7 +49,7 @@ void setupGetItDemo() {
   /// 3. REGISTER FACTORY
   /// ===========================================
   /// [registerFactory] - Tạo mới mỗi lần gọi
-  /// Use case: ViewModels, Controllers
+  /// Use case (trường hợp sử dụng): ViewModels, Controllers
   sl.registerFactory<DemoViewModel>(
     () =>
         DemoViewModel(logger: sl<DemoLogger>(), apiClient: sl<DemoApiClient>()),
@@ -68,7 +68,7 @@ void setupGetItDemo() {
 /// ===========================================
 /// DEMO CLASSES
 /// ===========================================
-
+// DemoLogger: Logger đơn giản
 class DemoLogger {
   final String name;
   final DateTime createdAt = DateTime.now();
@@ -82,6 +82,7 @@ class DemoLogger {
   }
 }
 
+// DemoApiClient: Client gọi API
 class DemoApiClient {
   final DemoLogger logger;
   final DateTime createdAt = DateTime.now();
@@ -97,6 +98,7 @@ class DemoApiClient {
   }
 }
 
+// DemoViewModel: ViewModel sử dụng Logger và ApiClient
 class DemoViewModel {
   final DemoLogger logger;
   final DemoApiClient apiClient;
@@ -111,6 +113,7 @@ class DemoViewModel {
   }
 }
 
+// DemoDetailViewModel: ViewModel với tham số ID
 class DemoDetailViewModel {
   final int id;
   final DemoLogger logger;
@@ -137,9 +140,10 @@ class _Ex07GetItBasicState extends State<Ex07GetItBasic> {
   @override
   void initState() {
     super.initState();
-    setupGetItDemo();
+    setupGetItDemo(); // setup get_it demo
   }
 
+  // test singleton để kiểm tra xem có cùng 1 instance không
   void _testSingleton() {
     final logger1 = sl<DemoLogger>();
     final logger2 = sl<DemoLogger>();
@@ -157,6 +161,7 @@ Created at: ${logger1.createdAt}
     });
   }
 
+  // test factory để kiểm tra xem có tạo ra instance mới không
   void _testFactory() {
     final vm1 = sl<DemoViewModel>();
     final vm2 = sl<DemoViewModel>();
@@ -175,6 +180,7 @@ VM2 created at: ${vm2.createdAt}
     });
   }
 
+  // test factory param để kiểm tra xem có tạo ra instance mới không và có tham số không
   void _testFactoryParam() {
     final vm1 = sl<DemoDetailViewModel>(param1: 101);
     final vm2 = sl<DemoDetailViewModel>(param1: 202);
@@ -191,6 +197,7 @@ Same instance: ${vm1 == vm2}
     });
   }
 
+  // test lazy singleton để kiểm tra xem có tạo ra instance mới không và có tham số không
   Future<void> _testLazySingleton() async {
     setState(() {
       _output = 'Đang get ApiClient lần đầu...\n';
@@ -237,6 +244,8 @@ Same instance: ${vm1 == vm2}
                       ),
                     ),
                     const SizedBox(height: 8),
+
+                    // build type row
                     _buildTypeRow('Singleton', 'Tạo ngay, dùng chung'),
                     _buildTypeRow('LazySingleton', 'Tạo khi cần, dùng chung'),
                     _buildTypeRow('Factory', 'Mới mỗi lần gọi'),
@@ -253,18 +262,25 @@ Same instance: ${vm1 == vm2}
               spacing: 8,
               runSpacing: 8,
               children: [
+                // test singleton
                 ElevatedButton(
                   onPressed: _testSingleton,
                   child: const Text('Test Singleton'),
                 ),
+
+                // test lazy singleton
                 ElevatedButton(
                   onPressed: _testLazySingleton,
                   child: const Text('Test Lazy'),
                 ),
+
+                // test factory
                 ElevatedButton(
                   onPressed: _testFactory,
                   child: const Text('Test Factory'),
                 ),
+
+                // test factory param
                 ElevatedButton(
                   onPressed: _testFactoryParam,
                   child: const Text('Test Param'),
@@ -287,6 +303,8 @@ Same instance: ${vm1 == vm2}
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const Divider(),
+
+                    // SelectableText là widget cho phép copy text
                     SelectableText(
                       _output.isEmpty ? 'Click a button to test' : _output,
                       style: const TextStyle(fontFamily: 'monospace'),
@@ -301,6 +319,7 @@ Same instance: ${vm1 == vm2}
     );
   }
 
+  // _buildTypeRow là widget để build type row
   Widget _buildTypeRow(String type, String desc) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
