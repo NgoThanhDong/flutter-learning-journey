@@ -2,12 +2,12 @@
 
 ## Mục Tiêu
 
-Học cách tổ chức code Flutter theo Clean Architecture:
+Học cách tổ chức code Flutter theo Clean Architecture (Mô hình kiến trúc sạch) với các khái niệm sau:
 - **SOLID Principles** - 5 nguyên tắc thiết kế code
-- **Dependency Injection** - Quản lý dependencies với get_it
-- **Repository Pattern** - Tách biệt data sources
-- **Layer Separation** - Data, Domain, Presentation
-- **Error Handling** - Either pattern, Failure classes
+- **Dependency Injection** - Quản lý dependencies (sự phụ thuộc) với get_it
+- **Repository Pattern** - Tách biệt data sources (nguồn dữ liệu)
+- **Layer Separation** - Data (tầng dữ liệu), Domain (tầng logic), Presentation (tầng trình bày)
+- **Error Handling** - Either pattern (pattern xử lý lỗi), Failure classes (Xử lý lỗi)
 
 ---
 
@@ -102,7 +102,7 @@ flutter run -d chrome
 └─────────────────────────────────────────────┘
 ```
 
-**Dependency Rule**: Outer layers depend on inner layers, never the reverse!
+**(Dependency Rule) - Nguyên tắc phụ thuộc**: Các lớp bên ngoài phụ thuộc vào các lớp bên trong, chứ không bao giờ ngược lại!
 
 ---
 
@@ -135,11 +135,11 @@ flutter run -d chrome
 
 | Vấn đề | Giải pháp Clean Architecture |
 |--------|------------------------------|
-| Code khó test | Tách biệt layers, dùng interfaces |
-| Thay đổi 1 chỗ vỡ nhiều chỗ | SOLID principles |
-| Khó thay đổi database/API | Repository pattern |
+| Code khó test | Tách biệt layers (tầng), dùng interfaces |
+| Thay đổi 1 chỗ vỡ nhiều chỗ | SOLID principles (5 nguyên tắc thiết kế) |
+| Khó thay đổi database/API | Repository pattern (tách biệt data sources) |
 | Business logic rải rác | Use Cases tập trung |
-| Error handling lộn xộn | Either/Result pattern |
+| Error handling lộn xộn | Either/Result pattern (pattern xử lý lỗi) |
 
 ---
 
