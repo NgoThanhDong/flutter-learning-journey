@@ -146,7 +146,11 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
     // Ở đây đặt trong initState để demo trong exercise
     // ========================================================================
     _observer = AppBlocObserver(onLogAdded: () {
-      if (mounted) setState(() {});
+      // Sử dụng addPostFrameCallback để tránh lỗi setState() called during build
+      // vì onCreate có thể được gọi trong quá trình build widget tree
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() {});
+      });
     });
     Bloc.observer = _observer;
   }
@@ -174,177 +178,180 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            // ================================================================
-            // DEMO CONTROLS
-            // ================================================================
-            Container(
-              padding: const EdgeInsets.all(16),
-              color: Colors.grey.shade100,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Bấm các nút để xem logs:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
+        // Wrap body in Builder to get a context that is a descendant of MultiBlocProvider
+        body: Builder(
+          builder: (context) => Column(
+            children: [
+              // ================================================================
+              // DEMO CONTROLS
+              // ================================================================
+              Container(
+                padding: const EdgeInsets.all(16),
+                color: Colors.grey.shade100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Bấm các nút để xem logs:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 16),
 
-                  Row(
-                    children: [
-                      // Cubit counter display
-                      Expanded(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              children: [
-                                const Text('CUBIT',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                const SizedBox(height: 8),
-                                BlocBuilder<DemoCounterCubit, int>(
-                                  builder: (context, count) {
-                                    return Text('$count',
-                                        style: const TextStyle(fontSize: 24));
-                                  },
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.remove),
-                                      onPressed: () => context
-                                          .read<DemoCounterCubit>()
-                                          .decrement(),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.add),
-                                      onPressed: () => context
-                                          .read<DemoCounterCubit>()
-                                          .increment(),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                    Row(
+                      children: [
+                        // Cubit counter display
+                        Expanded(
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                children: [
+                                  const Text('CUBIT',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 8),
+                                  BlocBuilder<DemoCounterCubit, int>(
+                                    builder: (context, count) {
+                                      return Text('$count',
+                                          style: const TextStyle(fontSize: 24));
+                                    },
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.remove),
+                                        onPressed: () => context
+                                            .read<DemoCounterCubit>()
+                                            .decrement(),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.add),
+                                        onPressed: () => context
+                                            .read<DemoCounterCubit>()
+                                            .increment(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
 
-                      // BLoC counter display
-                      Expanded(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              children: [
-                                const Text('BLOC',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                const SizedBox(height: 8),
-                                BlocBuilder<DemoCounterBloc, int>(
-                                  builder: (context, count) {
-                                    return Text('$count',
-                                        style: const TextStyle(fontSize: 24));
-                                  },
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.remove),
-                                      onPressed: () => context
-                                          .read<DemoCounterBloc>()
-                                          .add(DemoDecrement()),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.add),
-                                      onPressed: () => context
-                                          .read<DemoCounterBloc>()
-                                          .add(DemoIncrement()),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                        // BLoC counter display
+                        Expanded(
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                children: [
+                                  const Text('BLOC',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 8),
+                                  BlocBuilder<DemoCounterBloc, int>(
+                                    builder: (context, count) {
+                                      return Text('$count',
+                                          style: const TextStyle(fontSize: 24));
+                                    },
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.remove),
+                                        onPressed: () => context
+                                            .read<DemoCounterBloc>()
+                                            .add(DemoDecrement()),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.add),
+                                        onPressed: () => context
+                                            .read<DemoCounterBloc>()
+                                            .add(DemoIncrement()),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
 
-                  const SizedBox(height: 8),
+                    const SizedBox(height: 8),
 
-                  // Error demo button
-                  Center(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        try {
-                          context.read<DemoCounterCubit>().throwError();
-                        } catch (e) {
-                          // Error đã được log bởi observer
-                        }
-                      },
-                      icon: const Icon(Icons.error_outline),
-                      label: const Text('Trigger Error'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red.shade100,
+                    // Error demo button
+                    Center(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          try {
+                            context.read<DemoCounterCubit>().throwError();
+                          } catch (e) {
+                            // Error đã được log bởi observer
+                          }
+                        },
+                        icon: const Icon(Icons.error_outline),
+                        label: const Text('Trigger Error'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red.shade100,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
 
-            // ================================================================
-            // LOGS DISPLAY
-            // ================================================================
-            Expanded(
-              child: Container(
-                color: Colors.black87,
-                child: _observer.logs.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'Logs sẽ hiển thị ở đây...',
-                          style: TextStyle(color: Colors.grey),
+              // ================================================================
+              // LOGS DISPLAY
+              // ================================================================
+              Expanded(
+                child: Container(
+                  color: Colors.black87,
+                  child: _observer.logs.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'Logs sẽ hiển thị ở đây...',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        )
+                      : ListView.builder(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: _observer.logs.length,
+                          itemBuilder: (context, index) {
+                            final log = _observer.logs[index];
+                            return Text(
+                              log,
+                              style: TextStyle(
+                                fontFamily: 'monospace',
+                                fontSize: 12,
+                                color: _getLogColor(log),
+                              ),
+                            );
+                          },
                         ),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: _observer.logs.length,
-                        itemBuilder: (context, index) {
-                          final log = _observer.logs[index];
-                          return Text(
-                            log,
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 12,
-                              color: _getLogColor(log),
-                            ),
-                          );
-                        },
-                      ),
+                ),
               ),
-            ),
 
-            // ================================================================
-            // EXPLANATION
-            // ================================================================
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              color: Colors.blue.shade50,
-              child: const Text(
-                '💡 BlocObserver hooks: onCreate, onEvent, onChange, onTransition, onError, onClose',
-                style: TextStyle(fontSize: 12),
-                textAlign: TextAlign.center,
+              // ================================================================
+              // EXPLANATION
+              // ================================================================
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                color: Colors.blue.shade50,
+                child: const Text(
+                  '💡 BlocObserver hooks: onCreate, onEvent, onChange, onTransition, onError, onClose',
+                  style: TextStyle(fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
