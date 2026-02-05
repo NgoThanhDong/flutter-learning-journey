@@ -1,0 +1,40 @@
+name: bloc_app
+description: "Phase 7: BLoC Pattern - Comprehensive Learning"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ========================================
+  # BLoC Pattern - Core Dependencies
+  # ========================================
+  
+  # flutter_bloc: Package chính để implement BLoC pattern
+  # - Cung cấp: Bloc, Cubit, BlocProvider, BlocBuilder, etc.
+  # - Phiên bản 8.x là stable mới nhất (2024)
+  flutter_bloc: ^8.1.6
+  
+  # equatable: So sánh objects dựa trên properties
+  # - Giúp BLoC detect state changes chính xác
+  # - Tránh rebuild UI không cần thiết
+  equatable: ^2.0.5
+  
+  # get_it: Service Locator / Dependency Injection
+  # - Quản lý dependencies toàn app
+  # - Thay thế cho RepositoryProvider trong một số cases
+  get_it: ^8.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  # flutter_lints: Bộ lint rules chuẩn của Flutter team
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

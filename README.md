@@ -21,8 +21,8 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 | 3 | 2 tuần | **State Management** | 6 bài: setState, Provider, Riverpod | ✅ Hoàn thành |
 | 4 | 1 tuần | **Navigation** | 7 bài: Navigator, go_router, Deep Link | ✅ Hoàn thành |
 | 5 | 2 tuần | **API Integration** | 7 bài: HTTP, Dio, JSON, Storage | ✅ Hoàn thành |
-| 6 | 2 tuần | **Clean Architecture** | 6 bài: SOLID, DI, Repository, Layers | 🔄 Đang học |
-| 7 | 2 tuần | BLoC Pattern | Cubit, BLoC | ⏳ Chờ |
+| 6 | 2 tuần | **Clean Architecture** | 6 bài: SOLID, DI, Repository, Layers | ✅ Hoàn thành |
+| 7 | 2 tuần | **BLoC Pattern** | 5 bài: Streams, Cubit, BLoC, Widgets, Architecture | ✅ Hoàn thành |
 | 8 | 4+ tuần | Real Projects | Portfolio Apps | ⏳ Chờ |
 
 ---
@@ -40,7 +40,7 @@ white-nebula/
 │   ├── 🖥️ 5 file code ví dụ
 │   └── 📂 exercises/ (15 bài tập)
 │
-├── 📂 02_flutter_basics/           ← PHASE 2: Flutter Basics 🔄
+├── 📂 02_flutter_basics/           ← PHASE 2: Flutter Basics ✅
 │   ├── 📄 README.md
 │   ├── 📖 8 bài học
 │   │   ├── lesson_01_introduction.md   ← Project structure, Flutter overview
@@ -59,7 +59,7 @@ white-nebula/
 │       ├── pubspec.yaml
 │       └── web/
 │
-├── 📂 03_state_management/         ← PHASE 3: State Management 🔄
+├── 📂 03_state_management/         ← PHASE 3: State Management ✅
 │   ├── 📄 README.md
 │   ├── 📖 6 bài học
 │   │   ├── lesson_01_overview.md        ← State types, Prop Drilling
@@ -89,14 +89,29 @@ white-nebula/
 │   │   ├── lib/exercises/          ← 16 bài tập
 │   │   └── pubspec.yaml            ← http, dio, hive
 │
-├── 📂 06_clean_architecture/       ← PHASE 6: Clean Architecture 🔄
+├── 📂 06_clean_architecture/       ← PHASE 6: Clean Architecture ✅
 │   ├── 📄 README.md
 │   ├── 📖 6 bài học (SOLID, DI, Repository, Layers)
 │   ├── 📂 clean_app/               ← Flutter Project
 │   │   ├── lib/exercises/          ← 18 bài tập
 │   │   └── pubspec.yaml            ← get_it, fpdart, equatable
 │
-└── 📂 07_bloc_pattern/             ← PHASE 7 (sắp tới)
+├── 📂 07_bloc_pattern/             ← PHASE 7: BLoC Pattern ✅ (MỚI!)
+│   ├── 📄 README.md
+│   ├── 📖 5 bài học
+│   │   ├── lesson_01_streams.md         ← Streams Foundation
+│   │   ├── lesson_02_cubit.md           ← Cubit Basics
+│   │   ├── lesson_03_bloc.md            ← BLoC Pattern
+│   │   ├── lesson_04_widgets.md         ← BLoC Widgets
+│   │   └── lesson_05_architecture.md    ← Architecture & DI
+│   │
+│   └── 📂 bloc_app/                ← Flutter Project
+│       ├── lib/
+│       │   ├── main.dart
+│       │   └── exercises/          ← 17 bài tập (Ex01-17)
+│       └── pubspec.yaml            ← flutter_bloc, equatable, get_it
+│
+└── 📂 08_real_projects/            ← PHASE 8 (sắp tới)
 ```
 
 ---
@@ -209,13 +224,20 @@ Tôi sẽ giải thích chi tiết hơn.
 - [x] Bài 6: Local Storage
 - [x] Bài 7: Practice Projects
 
-### Phase 6: Clean Architecture 🔄
-- [ ] Bài 1: SOLID Principles
-- [ ] Bài 2: Dependency Injection
-- [ ] Bài 3: Repository Pattern
-- [ ] Bài 4: Layers Architecture
-- [ ] Bài 5: Error Handling
-- [ ] Bài 6: Practice Projects
+### Phase 6: Clean Architecture ✅
+- [x] Bài 1: SOLID Principles
+- [x] Bài 2: Dependency Injection
+- [x] Bài 3: Repository Pattern
+- [x] Bài 4: Layers Architecture
+- [x] Bài 5: Error Handling
+- [x] Bài 6: Practice Projects
+
+### Phase 7: BLoC Pattern ✅ (MỚI!)
+- [x] Bài 1: Streams Foundation (Ex01-03)
+- [x] Bài 2: Cubit Basics (Ex04-06)
+- [x] Bài 3: BLoC Pattern (Ex07-10)
+- [x] Bài 4: BLoC Widgets (Ex11-14)
+- [x] Bài 5: Architecture & DI (Ex15-17)
 
 ---
 
@@ -246,14 +268,18 @@ C:\Users\User\.gemini\antigravity\playground\white-nebula
 
 ---
 
-## ▶️ Bắt Đầu Phase 6!
+## ▶️ Bắt Đầu Phase 7 (BLoC) hoặc Phase 8!
 
-1. Mở thư mục `06_clean_architecture`
+### Học BLoC:
+1. Mở thư mục `07_bloc_pattern`
 2. Đọc file `README.md` trong đó
 3. Chạy Flutter app:
 ```bash
-cd 06_clean_architecture/clean_app
+cd 07_bloc_pattern/bloc_app
 flutter run -d chrome
 ```
+
+### Hoặc tiếp tục sang Phase 8 (Real Projects):
+- Sắp ra mắt! 🚀
 
 **Chúc bạn học tốt! 🎉**
