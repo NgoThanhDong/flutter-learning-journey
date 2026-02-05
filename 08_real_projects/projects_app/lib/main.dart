@@ -12,6 +12,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Notes App
 import 'projects/ex01_note_model.dart';
@@ -33,6 +34,13 @@ import 'projects/ex12_cart_cubit.dart';
 import 'projects/ex13_product_list_screen.dart';
 import 'projects/ex14_product_detail_screen.dart';
 import 'projects/ex15_shopping_app_complete.dart';
+
+// Portfolio App
+import 'projects/ex16_portfolio_models.dart';
+import 'projects/ex17_portfolio_navigation.dart';
+import 'projects/ex18_portfolio_home.dart';
+import 'projects/ex19_portfolio_sections.dart';
+import 'projects/ex20_portfolio_app_complete.dart';
 
 void main() {
   runApp(const Phase8App());
@@ -93,24 +101,31 @@ class ProjectSelector extends StatelessWidget {
 
           _ProjectCard(
             icon: '📝',
-            title: 'Notes App',
+            title: 'Notes App - Ex05NotesAppComplete',
             subtitle: 'Ứng dụng ghi chú hoàn chỉnh',
             color: Colors.amber,
             onTap: () => _navigateTo(context, const Ex05NotesAppComplete()),
           ),
           _ProjectCard(
             icon: '🌤️',
-            title: 'Weather App',
+            title: 'Weather App - Ex10WeatherAppComplete',
             subtitle: 'Ứng dụng thời tiết với API',
             color: Colors.blue,
             onTap: () => _navigateTo(context, const Ex10WeatherAppComplete()),
           ),
           _ProjectCard(
             icon: '🛒',
-            title: 'Shopping App',
+            title: 'Shopping App - Ex15ShoppingAppComplete',
             subtitle: 'Ứng dụng mua sắm với giỏ hàng',
             color: Colors.purple,
             onTap: () => _navigateTo(context, const Ex15ShoppingAppComplete()),
+          ),
+          _ProjectCard(
+            icon: '💼',
+            title: 'Portfolio App - Ex20PortfolioAppComplete',
+            subtitle: 'Portfolio cá nhân',
+            color: Colors.teal,
+            onTap: () => _navigateTo(context, const Ex20PortfolioAppComplete()),
           ),
 
           const SizedBox(height: 24),
@@ -137,12 +152,20 @@ class ProjectSelector extends StatelessWidget {
           _ExerciseItem(
             number: '03',
             title: 'Notes List Screen',
-            widget: const Ex03NotesListScreen(),
+            // Wrap in BlocProvider since Ex03 expects it from parent
+            widget: BlocProvider(
+              create: (_) => NotesCubit()..init(),
+              child: const Ex03NotesListScreen(),
+            ),
           ),
           _ExerciseItem(
             number: '04',
             title: 'Note Editor Screen',
-            widget: const Ex04NoteEditorScreen(),
+            // Wrap in BlocProvider since Ex04 expects it from parent
+            widget: BlocProvider(
+              create: (_) => NotesCubit()..init(),
+              child: const Ex04NoteEditorScreen(),
+            ),
           ),
 
           const SizedBox(height: 16),
@@ -203,6 +226,35 @@ class ProjectSelector extends StatelessWidget {
             number: '14',
             title: 'Product Detail Screen',
             widget: const Ex14ProductDetail(),
+          ),
+          const SizedBox(height: 12),
+
+          // Portfolio App Exercises
+          const Text(
+            '💼 PORTFOLIO APP EXERCISES',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.teal),
+          ),
+          const SizedBox(height: 12),
+
+          _ExerciseItem(
+            number: '16',
+            title: 'Portfolio Models',
+            widget: const Ex16PortfolioModels(),
+          ),
+          _ExerciseItem(
+            number: '17',
+            title: 'Portfolio Navigation',
+            widget: const Ex17PortfolioNavigation(),
+          ),
+          _ExerciseItem(
+            number: '18',
+            title: 'Portfolio Home',
+            widget: const Ex18PortfolioHome(),
+          ),
+          _ExerciseItem(
+            number: '19',
+            title: 'Portfolio Sections',
+            widget: const Ex19PortfolioSections(),
           ),
 
           const SizedBox(height: 32),
