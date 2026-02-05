@@ -119,6 +119,8 @@ white-nebula/
     │   ├── lesson_03_weather_app.md       ← Weather App Tutorial
     │   └── lesson_04_shopping_app.md      ← Shopping App Tutorial
     │
+    ├── 📂 screenshots/
+    │
     └── 📂 projects_app/            ← Flutter Project
         ├── lib/
         │   ├── main.dart
@@ -126,8 +128,7 @@ white-nebula/
         │       ├── Notes App (Ex01-05)
         │       ├── Weather App (Ex06-10)
         │       └── Shopping App (Ex11-15)
-        ├── pubspec.yaml            ← flutter_bloc, get_it, shimmer
-        └── screenshots/
+        └── pubspec.yaml            ← flutter_bloc, get_it, shimmer
 ```
 
 ---
