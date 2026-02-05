@@ -464,7 +464,7 @@ class _CartDemoState extends State<_CartDemo> {
             ),
           ),
           SizedBox(
-            height: 120,
+            height: 150,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.all(8),

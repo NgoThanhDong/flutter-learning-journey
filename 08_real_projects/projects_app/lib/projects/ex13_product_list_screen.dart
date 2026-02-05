@@ -74,11 +74,12 @@ class _Ex13ProductListScreenState extends State<Ex13ProductListScreen> {
     // Search filter
     if (_searchQuery.isNotEmpty) {
       final query = _searchQuery.toLowerCase();
-      result = result.where((p) {
-        return p.name.toLowerCase().contains(query) ||
-            p.description.toLowerCase().contains(query) ||
-            p.tags.any((tag) => tag.toLowerCase().contains(query));
-      }).toList();
+      result =
+          result.where((p) {
+            return p.name.toLowerCase().contains(query) ||
+                p.description.toLowerCase().contains(query) ||
+                p.tags.any((tag) => tag.toLowerCase().contains(query));
+          }).toList();
     }
 
     // Sort
@@ -150,18 +151,19 @@ class _Ex13ProductListScreenState extends State<Ex13ProductListScreen> {
                 decoration: InputDecoration(
                   hintText: 'Tìm kiếm sản phẩm...',
                   prefixIcon: const Icon(Icons.search),
-                  suffixIcon: _searchQuery.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() {
-                              _searchQuery = '';
-                            });
-                            _applyFilters();
-                          },
-                        )
-                      : null,
+                  suffixIcon:
+                      _searchQuery.isNotEmpty
+                          ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _searchController.clear();
+                              setState(() {
+                                _searchQuery = '';
+                              });
+                              _applyFilters();
+                            },
+                          )
+                          : null,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -243,23 +245,25 @@ class _Ex13ProductListScreenState extends State<Ex13ProductListScreen> {
                       });
                       _applyFilters();
                     },
-                    itemBuilder: (context) => ProductSort.values
-                        .map(
-                          (sort) => PopupMenuItem(
-                            value: sort,
-                            child: Row(
-                              children: [
-                                if (_sortBy == sort)
-                                  const Icon(Icons.check, size: 18)
-                                else
-                                  const SizedBox(width: 18),
-                                const SizedBox(width: 8),
-                                Text(sort.displayName),
-                              ],
-                            ),
-                          ),
-                        )
-                        .toList(),
+                    itemBuilder:
+                        (context) =>
+                            ProductSort.values
+                                .map(
+                                  (sort) => PopupMenuItem(
+                                    value: sort,
+                                    child: Row(
+                                      children: [
+                                        if (_sortBy == sort)
+                                          const Icon(Icons.check, size: 18)
+                                        else
+                                          const SizedBox(width: 18),
+                                        const SizedBox(width: 8),
+                                        Text(sort.displayName),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                   ),
                 ],
               ),
@@ -267,11 +271,12 @@ class _Ex13ProductListScreenState extends State<Ex13ProductListScreen> {
 
             // Products
             Expanded(
-              child: _filteredProducts.isEmpty
-                  ? _buildEmptyState()
-                  : _isGridView
-                  ? _buildGridView(context)
-                  : _buildListView(context),
+              child:
+                  _filteredProducts.isEmpty
+                      ? _buildEmptyState()
+                      : _isGridView
+                      ? _buildGridView(context)
+                      : _buildListView(context),
             ),
           ],
         ),
@@ -312,17 +317,18 @@ class _Ex13ProductListScreenState extends State<Ex13ProductListScreen> {
 
   Widget _buildGridView(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final crossAxisCount = width > 1200
-        ? 4
-        : width > 800
-        ? 3
-        : 2;
+    final crossAxisCount =
+        width > 1200
+            ? 4
+            : width > 800
+            ? 3
+            : 2;
 
     return GridView.builder(
       padding: const EdgeInsets.all(16),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
-        childAspectRatio: 0.65,
+        childAspectRatio: 0.6,
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
       ),
