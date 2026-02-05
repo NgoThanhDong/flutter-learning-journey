@@ -205,27 +205,28 @@ class _Ex04NoteEditorScreenState extends State<Ex04NoteEditorScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        icon: const Icon(Icons.delete_forever, color: Colors.red, size: 48),
-        title: const Text('Xóa ghi chú?'),
-        content: const Text(
-          'Bạn có chắc muốn xóa? Hành động này không thể hoàn tác.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Hủy'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+      builder:
+          (context) => AlertDialog(
+            icon: const Icon(Icons.delete_forever, color: Colors.red, size: 48),
+            title: const Text('Xóa ghi chú?'),
+            content: const Text(
+              'Bạn có chắc muốn xóa? Hành động này không thể hoàn tác.',
             ),
-            child: const Text('Xóa'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Xóa'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
 
     if (confirmed == true && mounted) {
@@ -256,24 +257,27 @@ class _Ex04NoteEditorScreenState extends State<Ex04NoteEditorScreen> {
 
     final result = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Lưu thay đổi?'),
-        content: const Text('Bạn có muốn lưu các thay đổi trước khi thoát?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'discard'),
-            child: const Text('Không lưu'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Lưu thay đổi?'),
+            content: const Text(
+              'Bạn có muốn lưu các thay đổi trước khi thoát?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'discard'),
+                child: const Text('Không lưu'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'cancel'),
+                child: const Text('Tiếp tục sửa'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, 'save'),
+                child: const Text('Lưu'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'cancel'),
-            child: const Text('Tiếp tục sửa'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, 'save'),
-            child: const Text('Lưu'),
-          ),
-        ],
-      ),
     );
 
     if (result == 'save') {
@@ -296,7 +300,7 @@ class _Ex04NoteEditorScreenState extends State<Ex04NoteEditorScreen> {
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
         final shouldPop = await _onWillPop();
-        if (shouldPop && mounted) {
+        if (shouldPop && context.mounted) {
           Navigator.pop(context);
         }
       },
@@ -491,19 +495,21 @@ class _ColorButton extends StatelessWidget {
             color: isSelected ? Colors.black : Colors.grey.shade300,
             width: isSelected ? 3 : 1,
           ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: color.withAlpha(128),
-                    blurRadius: 8,
-                    spreadRadius: 2,
-                  ),
-                ]
-              : null,
+          boxShadow:
+              isSelected
+                  ? [
+                    BoxShadow(
+                      color: color.withAlpha(128),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                  ]
+                  : null,
         ),
-        child: isSelected
-            ? const Icon(Icons.check, size: 20, color: Colors.black54)
-            : null,
+        child:
+            isSelected
+                ? const Icon(Icons.check, size: 20, color: Colors.black54)
+                : null,
       ),
     );
   }
@@ -551,10 +557,11 @@ class _DemoView extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => BlocProvider.value(
-                      value: context.read<NotesCubit>(),
-                      child: const Ex04NoteEditorScreen(),
-                    ),
+                    builder:
+                        (_) => BlocProvider.value(
+                          value: context.read<NotesCubit>(),
+                          child: const Ex04NoteEditorScreen(),
+                        ),
                   ),
                 );
               },

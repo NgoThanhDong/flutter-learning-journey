@@ -8,7 +8,7 @@
 /// 📝 BẠN SẼ HỌC:
 /// - Tạo Events cho mỗi action
 /// - Định nghĩa States đầy đủ
-/// - Event handlers với on<Event>
+/// - Event handlers với `on<Event>`
 /// - Khi nào dùng BLoC vs Cubit
 /// - Debounce search với Transformer
 ///
@@ -161,9 +161,9 @@ class WeatherFailure extends WeatherState {
 /// - WeatherRepository: Lấy data từ API
 ///
 /// ## Event Handlers:
-/// - on<WeatherFetchRequested>: Fetch weather cho city
-/// - on<WeatherRefreshRequested>: Refresh current city
-/// - on<WeatherCleared>: Clear data
+/// - `on<WeatherFetchRequested>`: Fetch weather cho city
+/// - `on<WeatherRefreshRequested>`: Refresh current city
+/// - `on<WeatherCleared>`: Clear data
 ///
 // ============================================================================
 

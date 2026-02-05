@@ -53,7 +53,7 @@ import 'ex04_note_editor_screen.dart';
 ///
 /// - **Single source of truth**: Chỉ có 1 NotesCubit cho toàn app
 /// - **State preservation**: Navigate giữa screens không mất data
-/// - **Easy access**: Mọi screen đều có thể context.read<NotesCubit>()
+/// - **Easy access**: Mọi screen đều có thể `context.read<NotesCubit>()`
 ///
 // ============================================================================
 
