@@ -297,13 +297,13 @@ class UserRepository {
 
 ## Áp Dụng SOLID trong Flutter
 
-| Nguyên tắc | Áp dụng Flutter |
-|------------|-----------------|
-| SRP | Tách Widget, Service, Repository |
-| OCP | Dùng abstract class cho variations |
-| LSP | Subclass phải tương thích |
-| ISP | Mixin thay vì interface lớn |
-| DIP | Dependency Injection (get_it) |
+| Nguyên tắc | Áp dụng Flutter | Ý nghĩa |
+|------------|-----------------|---------|
+| SRP (Single Responsibility Principle) | Tách Widget, Service, Repository | Một class chỉ nên có một lý do để thay đổi |
+| OCP (Open/Closed Principle) | Dùng abstract class cho variations (biến thể) | Mở để mở rộng, đóng để sửa đổi |
+| LSP (Liskov Substitution Principle) | Subclass phải tương thích | Subtype phải thay thế được base type mà không làm hỏng chương trình |
+| ISP (Interface Segregation Principle) | Mixin thay vì interface lớn | Client không nên bị ép implement interface không cần |
+| DIP (Dependency Inversion Principle) | Dependency Injection (get_it) | High-level modules không nên phụ thuộc vào low-level modules |
 
 ---
 
