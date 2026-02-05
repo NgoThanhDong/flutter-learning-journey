@@ -54,7 +54,7 @@ abstract class DiscountStrategy {
 
 /// [PercentageDiscount] - Giảm theo phần trăm
 class PercentageDiscount implements DiscountStrategy {
-  final double percentage;
+  final double percentage; // phần trăm giảm giá
 
   PercentageDiscount(this.percentage);
 
@@ -64,6 +64,7 @@ class PercentageDiscount implements DiscountStrategy {
   @override
   String get description => 'Giảm $percentage% trên tổng đơn hàng';
 
+  /// [calculate] - Tính discount
   @override
   double calculate(double originalPrice) {
     return originalPrice * (percentage / 100);
@@ -72,7 +73,7 @@ class PercentageDiscount implements DiscountStrategy {
 
 /// [FixedDiscount] - Giảm số tiền cố định
 class FixedDiscount implements DiscountStrategy {
-  final double amount;
+  final double amount; // số tiền giảm giá
 
   FixedDiscount(this.amount);
 
@@ -90,8 +91,8 @@ class FixedDiscount implements DiscountStrategy {
 
 /// [BuyXGetYDiscount] - Mua X tặng Y
 class BuyXGetYDiscount implements DiscountStrategy {
-  final int buy;
-  final int free;
+  final int buy; // mua bao nhiêu
+  final int free; // tặng bao nhiêu
 
   BuyXGetYDiscount({required this.buy, required this.free});
 
@@ -112,8 +113,8 @@ class BuyXGetYDiscount implements DiscountStrategy {
 /// [VIPDiscount] - Thêm discount mới mà KHÔNG sửa code cũ!
 /// Đây là ví dụ về việc mở rộng (extension)
 class VIPDiscount implements DiscountStrategy {
-  final double percentage;
-  final double minOrder;
+  final double percentage; // phần trăm giảm giá
+  final double minOrder; // đơn tối thiểu
 
   VIPDiscount({required this.percentage, required this.minOrder});
 
@@ -145,7 +146,9 @@ class DiscountCalculator {
 
   /// [getFinalPrice] - Tính giá sau discount
   double getFinalPrice(DiscountStrategy strategy, double originalPrice) {
+    // tính tiền discount
     final discount = apply(strategy, originalPrice);
+    // tính tiền sau discount
     return originalPrice - discount;
   }
 }
@@ -161,7 +164,9 @@ class Ex02OpenClosed extends StatefulWidget {
 }
 
 class _Ex02OpenClosedState extends State<Ex02OpenClosed> {
+  // controller cho input giá
   final _priceController = TextEditingController(text: '500000');
+  // calculator
   final _calculator = DiscountCalculator();
 
   /// [Danh sách các strategies]
@@ -175,8 +180,10 @@ class _Ex02OpenClosedState extends State<Ex02OpenClosed> {
     VIPDiscount(percentage: 15, minOrder: 300000),
   ];
 
+  // chọn strategy
   DiscountStrategy? _selectedStrategy;
 
+  // giá gốc
   double get _originalPrice => double.tryParse(_priceController.text) ?? 0;
 
   @override
@@ -220,13 +227,13 @@ class _Ex02OpenClosedState extends State<Ex02OpenClosed> {
 
             // Price input
             TextField(
-              controller: _priceController,
-              keyboardType: TextInputType.number,
+              controller: _priceController, // controller cho input giá
+              keyboardType: TextInputType.number, // bàn phím số
               decoration: const InputDecoration(
                 labelText: 'Giá gốc (đ)',
                 border: OutlineInputBorder(),
               ),
-              onChanged: (_) => setState(() {}),
+              onChanged: (_) => setState(() {}), // cập nhật UI khi thay đổi
             ),
 
             const SizedBox(height: 24),
@@ -238,22 +245,36 @@ class _Ex02OpenClosedState extends State<Ex02OpenClosed> {
             ),
             const SizedBox(height: 8),
 
+            // danh sách các strategy
             RadioGroup<DiscountStrategy?>(
+              // strategy đang được chọn
               groupValue: _selectedStrategy,
+              // cập nhật strategy khi chọn
               onChanged: (value) {
                 setState(() => _selectedStrategy = value);
               },
               child: Column(
                 children: List.generate(_strategies.length, (index) {
+                  // lấy strategy
                   final strategy = _strategies[index];
+                  // kiểm tra strategy có được chọn không
                   final isSelected = _selectedStrategy == strategy;
 
                   return Card(
+                    // đổi màu card khi được chọn
                     color: isSelected ? Colors.green[100] : null,
                     child: ListTile(
+                      // radio button
                       leading: Radio<DiscountStrategy>(value: strategy),
+                      // icon check khi được chọn
+                      trailing: isSelected
+                          ? const Icon(Icons.check_circle, color: Colors.green)
+                          : null,
+                      // tên strategy
                       title: Text(strategy.name),
+                      // mô tả strategy
                       subtitle: Text(strategy.description),
+                      // xử lý khi tap vào card
                       onTap: () {
                         setState(() => _selectedStrategy = strategy);
                       },
@@ -273,15 +294,22 @@ class _Ex02OpenClosedState extends State<Ex02OpenClosed> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
+                      // hiển thị giá gốc
                       _buildPriceRow('Giá gốc:', _originalPrice),
+
+                      // hiển thị giảm giá
                       _buildPriceRow(
                         'Giảm giá:',
+                        // tính giảm giá
                         _calculator.apply(_selectedStrategy!, _originalPrice),
                         isDiscount: true,
                       ),
                       const Divider(),
+
+                      // hiển thị thành tiền
                       _buildPriceRow(
                         'Thành tiền:',
+                        // tính thành tiền
                         _calculator.getFinalPrice(
                           _selectedStrategy!,
                           _originalPrice,
@@ -298,6 +326,7 @@ class _Ex02OpenClosedState extends State<Ex02OpenClosed> {
     );
   }
 
+  // xây dựng hàng hiển thị giá
   Widget _buildPriceRow(
     String label,
     double value, {

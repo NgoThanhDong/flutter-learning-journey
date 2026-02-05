@@ -32,6 +32,7 @@ class BadRobot implements BadWorker {
   @override
   void work() => debugPrint('Working...');
 
+  // UnimplementedError là một lỗi được ném ra khi một phương thức không được implement
   @override
   void eat() => throw UnimplementedError(); // Robot không ăn!
 
@@ -42,10 +43,10 @@ class BadRobot implements BadWorker {
   void code() => debugPrint('Coding...');
 
   @override
-  void manage() => throw UnimplementedError();
+  void manage() => throw UnimplementedError(); // Robot không quản lý
 
   @override
-  void design() => throw UnimplementedError();
+  void design() => throw UnimplementedError(); // Robot không thiết kế
 
   @override
   void test() => debugPrint('Testing...');
@@ -94,60 +95,79 @@ abstract class Designable {
 
 /// [Developer] - Implements các interface cần cho dev
 class Developer implements Workable, Eatable, Sleepable, Codeable {
+  // tên của dev
   final String name;
 
+  // ngôn ngữ lập trình của dev
   @override
   final String programmingLanguage;
 
+  // constructor
   Developer(this.name, {this.programmingLanguage = 'Dart'});
 
+  // implement Workable
   @override
   void work() => debugPrint('$name is working on code...');
 
+  // implement Eatable
   @override
   void eat() => debugPrint('$name is eating lunch...');
 
+  // implement Sleepable
   @override
   void sleep() => debugPrint('$name is sleeping...');
 
+  // implement Codeable
   @override
   void code() => debugPrint('$name is coding in $programmingLanguage...');
 }
 
 /// [Manager] - Implements quản lý, không cần code
 class Manager implements Workable, Eatable, Sleepable, Manageable {
+  // tên của manager
   final String name;
 
+  // số lượng thành viên trong team của manager
   @override
   final int teamSize;
 
+  // constructor
   Manager(this.name, {this.teamSize = 5});
 
+  // implement Workable
   @override
   void work() => debugPrint('$name is in meetings...');
 
+  // implement Eatable
   @override
   void eat() => debugPrint('$name is having business lunch...');
 
+  // implement Sleepable
   @override
   void sleep() => debugPrint('$name is resting...');
 
+  // implement Manageable
   @override
   void manage() => debugPrint('$name is managing $teamSize people...');
 }
 
 /// [Robot] - Chỉ work và code, KHÔNG cần eat/sleep
 class Robot implements Workable, Codeable {
+  // model của robot
   final String model;
 
+  // ngôn ngữ lập trình của robot
   @override
   final String programmingLanguage;
 
+  // constructor
   Robot(this.model, {this.programmingLanguage = 'Python'});
 
+  // implement Workable
   @override
   void work() => debugPrint('Robot $model is working 24/7...');
 
+  // implement Codeable
   @override
   void code() =>
       debugPrint('Robot $model is auto-coding in $programmingLanguage...');
@@ -155,22 +175,29 @@ class Robot implements Workable, Codeable {
 
 /// [Designer] - Design, không cần code
 class Designer implements Workable, Eatable, Sleepable, Designable {
+  // tên của designer
   final String name;
 
+  // công cụ thiết kế của designer
   @override
   final String designTool;
 
+  // constructor
   Designer(this.name, {this.designTool = 'Figma'});
 
+  // implement Workable
   @override
   void work() => debugPrint('$name is designing...');
 
+  // implement Eatable
   @override
   void eat() => debugPrint('$name is eating...');
 
+  // implement Sleepable
   @override
   void sleep() => debugPrint('$name is sleeping...');
 
+  // implement Designable
   @override
   void design() => debugPrint('$name is designing in $designTool...');
 }
@@ -187,6 +214,7 @@ class Ex04InterfaceSegregation extends StatefulWidget {
 }
 
 class _Ex04InterfaceSegregationState extends State<Ex04InterfaceSegregation> {
+  // danh sách các worker
   final List<Workable> _workers = [
     Developer('Alice', programmingLanguage: 'Flutter'),
     Manager('Bob', teamSize: 8),
@@ -194,33 +222,46 @@ class _Ex04InterfaceSegregationState extends State<Ex04InterfaceSegregation> {
     Designer('Carol', designTool: 'Figma'),
   ];
 
+  // danh sách các logs
   final List<String> _logs = [];
 
+  // hàm log action
   void _logAction(String action) {
     setState(() {
+      // thêm action vào đầu danh sách
       _logs.insert(0, action);
+      // nếu danh sách có nhiều hơn 10 action thì xóa action cũ nhất
       if (_logs.length > 10) _logs.removeLast();
     });
   }
 
+  // hàm cho tất cả worker làm việc
   void _allWork() {
     for (final worker in _workers) {
+      // gọi method work() của worker
       worker.work();
+      // log action
       _logAction('${_getName(worker)} worked');
     }
   }
 
+  // hàm cho tất cả worker ăn
   void _allEat() {
     for (final worker in _workers) {
+      // kiểm tra xem worker có implements Eatable không
       if (worker is Eatable) {
+        // ép kiểu và gọi method eat()
         (worker as Eatable).eat();
+        // log action
         _logAction('${_getName(worker)} ate');
       } else {
+        // log action
         _logAction('${_getName(worker)} cannot eat (not Eatable)');
       }
     }
   }
 
+  // hàm lấy tên của worker
   String _getName(Workable worker) {
     if (worker is Developer) return worker.name;
     if (worker is Manager) return worker.name;
@@ -268,21 +309,29 @@ class _Ex04InterfaceSegregationState extends State<Ex04InterfaceSegregation> {
 
           // Workers list
           Expanded(
+            // danh sách các worker
             child: ListView.builder(
-              itemCount: _workers.length,
+              itemCount: _workers.length, // số lượng worker
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemBuilder: (context, index) {
+                // lấy worker tại index
                 final worker = _workers[index];
+
                 return Card(
+                  // ExpansionTile là widget cho phép mở rộng và thu gọn
                   child: ExpansionTile(
-                    leading: _getWorkerIcon(worker),
-                    title: Text(_getName(worker)),
-                    subtitle: Text(_getCapabilities(worker)),
+                    leading: _getWorkerIcon(worker), // icon của worker
+                    title: Text(_getName(worker)), // tên của worker
+                    subtitle: Text(
+                      // các interface mà worker implements
+                      _getCapabilities(worker),
+                    ),
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: Wrap(
                           spacing: 8,
+                          // các action button
                           children: _buildActionButtons(worker),
                         ),
                       ),
@@ -329,6 +378,7 @@ class _Ex04InterfaceSegregationState extends State<Ex04InterfaceSegregation> {
     );
   }
 
+  // hàm lấy icon của worker
   Icon _getWorkerIcon(Workable worker) {
     if (worker is Developer) return const Icon(Icons.code);
     if (worker is Manager) return const Icon(Icons.supervisor_account);
@@ -337,6 +387,7 @@ class _Ex04InterfaceSegregationState extends State<Ex04InterfaceSegregation> {
     return const Icon(Icons.person);
   }
 
+  // hàm lấy các interface mà worker implements
   String _getCapabilities(Workable worker) {
     final caps = <String>['Workable'];
     if (worker is Eatable) caps.add('Eatable');
@@ -347,8 +398,10 @@ class _Ex04InterfaceSegregationState extends State<Ex04InterfaceSegregation> {
     return caps.join(', ');
   }
 
+  // hàm tạo các action button cho worker
   List<Widget> _buildActionButtons(Workable worker) {
     final buttons = <Widget>[
+      // ActionChip là widget cho phép tạo các action button
       ActionChip(
         label: const Text('Work'),
         onPressed: () {
@@ -358,48 +411,52 @@ class _Ex04InterfaceSegregationState extends State<Ex04InterfaceSegregation> {
       ),
     ];
 
+    // nếu worker implements Eatable
     if (worker is Eatable) {
       buttons.add(
         ActionChip(
           label: const Text('Eat'),
           onPressed: () {
-            (worker as Eatable).eat();
+            (worker as Eatable).eat(); // ép worker thành Eatable
             _logAction('${_getName(worker)} ate');
           },
         ),
       );
     }
 
+    // nếu worker implements Codeable
     if (worker is Codeable) {
       buttons.add(
         ActionChip(
           label: const Text('Code'),
           onPressed: () {
-            (worker as Codeable).code();
+            (worker as Codeable).code(); // ép worker thành Codeable
             _logAction('${_getName(worker)} coded');
           },
         ),
       );
     }
 
+    // nếu worker implements Manageable
     if (worker is Manageable) {
       buttons.add(
         ActionChip(
           label: const Text('Manage'),
           onPressed: () {
-            (worker as Manageable).manage();
+            (worker as Manageable).manage(); // ép worker thành Manageable
             _logAction('${_getName(worker)} managed');
           },
         ),
       );
     }
 
+    // nếu worker implements Designable
     if (worker is Designable) {
       buttons.add(
         ActionChip(
           label: const Text('Design'),
           onPressed: () {
-            (worker as Designable).design();
+            (worker as Designable).design(); // ép worker thành Designable
             _logAction('${_getName(worker)} designed');
           },
         ),

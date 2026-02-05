@@ -3,12 +3,15 @@
 /// ===========================================
 /// 🎯 Mục tiêu:
 /// - Hiểu DIP: Depend on abstractions, not concretions
+///     Hãy dựa vào các khái niệm trừu tượng, chứ không phải các khái niệm cụ thể.
 /// - High-level modules không phụ thuộc low-level
 /// - Chuẩn bị cho Dependency Injection
 ///
 /// 📝 DIP nói gì?
 /// "High-level modules should not depend on low-level modules.
 ///  Both should depend on abstractions."
+/// "High-level modules không nên phụ thuộc vào low-level modules.
+///  Cả hai nên phụ thuộc vào abstraction."
 
 library;
 
@@ -29,7 +32,8 @@ class BadMySqlDatabase {
 
 /// High-level module phụ thuộc TRỰC TIẾP vào MySql
 class BadUserService {
-  final BadMySqlDatabase database = BadMySqlDatabase(); // Tight coupling!
+  final BadMySqlDatabase database =
+      BadMySqlDatabase(); // Tight coupling! (Tính chặt chẽ)
 
   Future<String> getUser() async {
     return database.query('SELECT * FROM users');
@@ -48,7 +52,12 @@ class BadUserService {
 /// [Database] - Abstraction (interface)
 /// High-level và low-level đều depend vào interface này
 abstract class Database {
+  /// [query] - Abstract method
+  /// Trả về dữ liệu từ database
   Future<Map<String, dynamic>> query(String collection, int id);
+
+  /// [save] - Abstract method
+  /// Lưu dữ liệu vào database
   Future<void> save(String collection, Map<String, dynamic> data);
 }
 
@@ -85,6 +94,8 @@ class MongoDatabase implements Database {
 
 /// [MockDatabase] - For testing
 class MockDatabase implements Database {
+  /// [query] - Implement abstract method
+  /// Trả về dữ liệu từ database
   @override
   Future<Map<String, dynamic>> query(String collection, int id) async {
     return {
@@ -94,6 +105,8 @@ class MockDatabase implements Database {
     };
   }
 
+  /// [save] - Implement abstract method
+  /// Lưu dữ liệu vào database
   @override
   Future<void> save(String collection, Map<String, dynamic> data) async {
     debugPrint('Mock: Pretending to save $data');
@@ -109,10 +122,12 @@ class UserService {
   /// Constructor injection - nhận dependency từ ngoài
   UserService(this.database);
 
+  /// [getUser] - Get user from database
   Future<Map<String, dynamic>> getUser(int id) {
     return database.query('users', id);
   }
 
+  /// [saveUser] - Save user to database
   Future<void> saveUser(Map<String, dynamic> user) {
     return database.save('users', user);
   }
@@ -137,29 +152,32 @@ class _Ex05DependencyInversionState extends State<Ex05DependencyInversion> {
     'Mock': MockDatabase(),
   };
 
-  String _selectedDb = 'MySQL';
-  UserService? _userService;
-  Map<String, dynamic>? _userData;
-  bool _isLoading = false;
+  String _selectedDb = 'MySQL'; // Database được chọn
+  UserService? _userService; // UserService instance chứa database được chọn
+  Map<String, dynamic>? _userData; // User data từ database
+  bool _isLoading = false; // Loading state
 
   @override
   void initState() {
     super.initState();
-    _updateService();
+    _updateService(); // Update UserService khi initState
   }
 
+  /// [updateService] - Update UserService khi chọn database khác
   void _updateService() {
     /// [Key insight] - Tạo UserService với database được chọn
     /// UserService KHÔNG BIẾT đang dùng MySQL hay MongoDB
     _userService = UserService(_databases[_selectedDb]!);
   }
 
+  /// [fetchUser] - Fetch user from database
   Future<void> _fetchUser() async {
     setState(() {
       _isLoading = true;
       _userData = null;
     });
 
+    // Lấy user data từ database có ID = 1
     final data = await _userService!.getUser(1);
 
     setState(() {
@@ -213,23 +231,33 @@ class _Ex05DependencyInversionState extends State<Ex05DependencyInversion> {
             ),
             const SizedBox(height: 8),
 
+            // Radio group để chọn database implementation
             RadioGroup<String>(
-              groupValue: _selectedDb,
+              groupValue: _selectedDb, // Giá trị hiện tại
+              // Khi chọn database implementation khác
               onChanged: (value) {
                 if (value != null) {
                   setState(() {
                     _selectedDb = value;
+                    // Update UserService khi chọn database khác
                     _updateService();
                     _userData = null;
                   });
                 }
               },
+              // Widget hiển thị các options
               child: Column(
                 children: List.generate(_databases.length, (index) {
+                  // Lấy tên database
                   final dbName = _databases.keys.elementAt(index);
+
+                  // Lấy description của database
+                  final dbDescription = _getDatabaseDescription(dbName);
+
+                  // Return RadioListTile
                   return RadioListTile<String>(
                     title: Text(dbName),
-                    subtitle: Text(_getDatabaseDescription(dbName)),
+                    subtitle: Text(dbDescription),
                     value: dbName,
                   );
                 }),
@@ -238,6 +266,7 @@ class _Ex05DependencyInversionState extends State<Ex05DependencyInversion> {
 
             const SizedBox(height: 16),
 
+            // Button fetch user
             ElevatedButton(
               onPressed: _isLoading ? null : _fetchUser,
               child: _isLoading
@@ -265,6 +294,8 @@ class _Ex05DependencyInversionState extends State<Ex05DependencyInversion> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const Divider(),
+
+                      // User data từ database có ID = 1
                       Text('ID: ${_userData!['id']}'),
                       Text('Name: ${_userData!['name']}'),
                       Text('Source: ${_userData!['source']}'),
@@ -300,6 +331,7 @@ class _Ex05DependencyInversionState extends State<Ex05DependencyInversion> {
     );
   }
 
+  /// [getDatabaseDescription] - Get database description
   String _getDatabaseDescription(String name) {
     switch (name) {
       case 'MySQL':
