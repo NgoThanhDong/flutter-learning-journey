@@ -252,13 +252,18 @@ class ForecastCard extends StatelessWidget {
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
-        color: isSelected
-            ? Theme.of(context).colorScheme.primaryContainer
-            : Colors.grey.shade100,
+        color:
+            isSelected
+                ? Theme.of(context).colorScheme.primaryContainer
+                : Colors.grey.shade100,
         borderRadius: BorderRadius.circular(16),
-        border: isSelected
-            ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2)
-            : null,
+        border:
+            isSelected
+                ? Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 2,
+                )
+                : null,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -268,9 +273,10 @@ class ForecastCard extends StatelessWidget {
             forecast.dayOfWeek,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: isSelected
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey.shade700,
+              color:
+                  isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey.shade700,
             ),
           ),
           const SizedBox(height: 8),
@@ -330,7 +336,7 @@ class ForecastList extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         SizedBox(
-          height: 140,
+          height: 180,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: forecasts.length,
@@ -388,7 +394,7 @@ class WeatherLoadingSkeleton extends StatelessWidget {
               4,
               (index) => Expanded(
                 child: Container(
-                  height: 120,
+                  height: 160,
                   margin: EdgeInsets.only(right: index < 3 ? 12 : 0),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -452,15 +458,17 @@ class WeatherSearchBar extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: suggestions!.map((city) {
-              return ActionChip(
-                label: Text(city),
-                avatar: const Icon(Icons.location_city, size: 16),
-                onPressed: onSuggestionTap != null
-                    ? () => onSuggestionTap!(city)
-                    : null,
-              );
-            }).toList(),
+            children:
+                suggestions!.map((city) {
+                  return ActionChip(
+                    label: Text(city),
+                    avatar: const Icon(Icons.location_city, size: 16),
+                    onPressed:
+                        onSuggestionTap != null
+                            ? () => onSuggestionTap!(city)
+                            : null,
+                  );
+                }).toList(),
           ),
         ],
       ],

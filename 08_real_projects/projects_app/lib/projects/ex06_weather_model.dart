@@ -386,9 +386,8 @@ class Forecast extends Equatable {
       tempMin: (main['temp_min'] as num?)?.toDouble(),
       tempMax: (main['temp_max'] as num?)?.toDouble(),
       condition: WeatherCondition.fromString(weatherData['main'] as String),
-      precipitation: json['pop'] != null
-          ? ((json['pop'] as num) * 100).round()
-          : null,
+      precipitation:
+          json['pop'] != null ? ((json['pop'] as num) * 100).round() : null,
     );
   }
 
@@ -444,34 +443,41 @@ class Ex06WeatherModel extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: WeatherCondition.values.map((condition) {
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: condition.gradientColors),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(condition.icon, style: const TextStyle(fontSize: 20)),
-                    const SizedBox(width: 8),
-                    Text(
-                      condition.displayName,
-                      style: TextStyle(
-                        color: condition == WeatherCondition.snowy
-                            ? Colors.black
-                            : Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+            children:
+                WeatherCondition.values.map((condition) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
                     ),
-                  ],
-                ),
-              );
-            }).toList(),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: condition.gradientColors,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          condition.icon,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          condition.displayName,
+                          style: TextStyle(
+                            color:
+                                condition == WeatherCondition.snowy
+                                    ? Colors.black
+                                    : Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
           ),
 
           const SizedBox(height: 24),
@@ -484,7 +490,7 @@ class Ex06WeatherModel extends StatelessWidget {
           const SizedBox(height: 12),
 
           SizedBox(
-            height: 120,
+            height: 140,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 5,
