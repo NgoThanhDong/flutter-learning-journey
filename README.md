@@ -23,7 +23,7 @@ Lộ trình học Flutter từ **con số 0** đến **Mobile Frontend Developer
 | 5 | 2 tuần | **API Integration** | 7 bài: HTTP, Dio, JSON, Storage | ✅ Hoàn thành |
 | 6 | 2 tuần | **Clean Architecture** | 6 bài: SOLID, DI, Repository, Layers | ✅ Hoàn thành |
 | 7 | 2 tuần | **BLoC Pattern** | 5 bài: Streams, Cubit, BLoC, Widgets, Architecture | ✅ Hoàn thành |
-| 8 | 4+ tuần | Real Projects | Portfolio Apps | ⏳ Chờ |
+| 8 | 4+ tuần | **Real Projects** | Notes App, Weather App, Shopping App, Portfolio App | 🔄 Đang làm |
 
 ---
 
@@ -96,7 +96,7 @@ white-nebula/
 │   │   ├── lib/exercises/          ← 18 bài tập
 │   │   └── pubspec.yaml            ← get_it, fpdart, equatable
 │
-├── 📂 07_bloc_pattern/             ← PHASE 7: BLoC Pattern ✅ (MỚI!)
+├── 📂 07_bloc_pattern/             ← PHASE 7: BLoC Pattern ✅
 │   ├── 📄 README.md
 │   ├── 📖 5 bài học
 │   │   ├── lesson_01_streams.md         ← Streams Foundation
@@ -111,7 +111,23 @@ white-nebula/
 │       │   └── exercises/          ← 17 bài tập (Ex01-17)
 │       └── pubspec.yaml            ← flutter_bloc, equatable, get_it
 │
-└── 📂 08_real_projects/            ← PHASE 8 (sắp tới)
+└── 📂 08_real_projects/            ← PHASE 8: Real Projects 🔄
+    ├── 📄 README.md
+    ├── 📖 4 bài học
+    │   ├── lesson_01_project_overview.md  ← Project Planning
+    │   ├── lesson_02_notes_app.md         ← Notes App Tutorial
+    │   ├── lesson_03_weather_app.md       ← Weather App Tutorial
+    │   └── lesson_04_shopping_app.md      ← Shopping App Tutorial
+    │
+    └── 📂 projects_app/            ← Flutter Project
+        ├── lib/
+        │   ├── main.dart
+        │   └── projects/           ← 15 bài tập (Ex01-15)
+        │       ├── Notes App (Ex01-05)
+        │       ├── Weather App (Ex06-10)
+        │       └── Shopping App (Ex11-15)
+        ├── pubspec.yaml            ← flutter_bloc, get_it, shimmer
+        └── screenshots/
 ```
 
 ---
@@ -232,12 +248,18 @@ Tôi sẽ giải thích chi tiết hơn.
 - [x] Bài 5: Error Handling
 - [x] Bài 6: Practice Projects
 
-### Phase 7: BLoC Pattern ✅ (MỚI!)
+### Phase 7: BLoC Pattern ✅
 - [x] Bài 1: Streams Foundation (Ex01-03)
 - [x] Bài 2: Cubit Basics (Ex04-06)
 - [x] Bài 3: BLoC Pattern (Ex07-10)
 - [x] Bài 4: BLoC Widgets (Ex11-14)
 - [x] Bài 5: Architecture & DI (Ex15-17)
+
+### Phase 8: Real Projects 🔄
+- [x] Notes App (Ex01-05) - CRUD với Cubit
+- [x] Weather App (Ex06-10) - API Repository, BLoC
+- [x] Shopping App (Ex11-15) - Cart, Products, Checkout
+- [ ] Portfolio App (Ex16-20) - Coming soon...
 
 ---
 
@@ -268,18 +290,20 @@ C:\Users\User\.gemini\antigravity\playground\white-nebula
 
 ---
 
-## ▶️ Bắt Đầu Phase 7 (BLoC) hoặc Phase 8!
+## ▶️ Bắt Đầu Phase 8 (Real Projects)!
 
-### Học BLoC:
-1. Mở thư mục `07_bloc_pattern`
+### Chạy Real Projects:
+1. Mở thư mục `08_real_projects`
 2. Đọc file `README.md` trong đó
 3. Chạy Flutter app:
 ```bash
-cd 07_bloc_pattern/bloc_app
+cd 08_real_projects/projects_app
 flutter run -d chrome
 ```
 
-### Hoặc tiếp tục sang Phase 8 (Real Projects):
-- Sắp ra mắt! 🚀
+### Các Projects đã hoàn thành:
+- 📝 **Notes App** - Ứng dụng ghi chú với CRUD
+- 🌤️ **Weather App** - Ứng dụng thời tiết với API
+- 🛒 **Shopping App** - Ứng dụng mua sắm với giỏ hàng
 
 **Chúc bạn học tốt! 🎉**

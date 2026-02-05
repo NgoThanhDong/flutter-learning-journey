@@ -3,7 +3,6 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 // SOLID Exercises
 import 'exercises/ex01_single_responsibility.dart';
@@ -39,26 +38,25 @@ void main() {
   runApp(const CleanArchitectureApp());
 }
 
+// CleanArchitectureApp là widget gốc của ứng dụng
 class CleanArchitectureApp extends StatelessWidget {
   const CleanArchitectureApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [],
-      child: MaterialApp(
-        title: 'Clean Architecture',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const ExerciseListPage(),
+    return MaterialApp(
+      title: 'Clean Architecture',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
+      home: const ExerciseListPage(),
     );
   }
 }
 
+// ExerciseListPage là widget hiển thị danh sách các bài tập
 class ExerciseListPage extends StatelessWidget {
   const ExerciseListPage({super.key});
 
@@ -129,7 +127,15 @@ class ExerciseListPage extends StatelessWidget {
       body: ListView.builder(
         itemCount: exercises.length,
         itemBuilder: (context, sectionIndex) {
+          // final là từ khóa để khai báo biến
+          // (title, color, items) là các biến được khai báo
+          // exercises[sectionIndex] là phần tử thứ sectionIndex trong mảng exercises
           final (title, color, items) = exercises[sectionIndex];
+
+          // return là từ khóa để trả về giá trị
+          // Column là widget để hiển thị danh sách các widget
+          // CrossAxisAlignment.start là để căn chỉnh các widget theo chiều ngang
+          // children là danh sách các widget được hiển thị
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -146,14 +152,28 @@ class ExerciseListPage extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // ...items.map là để lặp qua danh sách các bài tập
+              // (item) => ListTile(...) là để tạo một ListTile cho mỗi bài tập
+              // ListTile là widget để hiển thị danh sách các mục
+              // leading là để hiển thị icon
+              // title là để hiển thị tiêu đề
+              // trailing là để hiển thị icon
+              // onTap là để xử lý sự kiện click
               ...items.map(
                 (item) => ListTile(
                   leading: CircleAvatar(
                     backgroundColor: color,
                     child: Text('${sectionIndex + 1}'),
                   ),
+                  // item.$1 là phần tử thứ 1 trong tuple item
                   title: Text(item.$1),
                   trailing: const Icon(Icons.chevron_right),
+
+                  // Navigator.push là để điều hướng đến một màn hình mới
+                  // MaterialPageRoute là để tạo một MaterialPageRoute
+                  // builder: (_) => item.$2 là để tạo một màn hình mới
+                  // item.$2 là phần tử thứ 2 trong tuple item
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => item.$2),

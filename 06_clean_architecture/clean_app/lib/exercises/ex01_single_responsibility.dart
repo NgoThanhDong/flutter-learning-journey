@@ -138,6 +138,7 @@ class Ex01SingleResponsibility extends StatefulWidget {
 }
 
 class _Ex01SingleResponsibilityState extends State<Ex01SingleResponsibility> {
+  // TextEditingController là widget để xử lý input text
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
 
@@ -149,6 +150,7 @@ class _Ex01SingleResponsibilityState extends State<Ex01SingleResponsibility> {
   bool _isLoading = false;
   String? _emailError;
 
+  // _saveUser là hàm để lưu user
   Future<void> _saveUser() async {
     // 1. Validate (dùng EmailValidator)
     final email = _emailController.text;
@@ -178,7 +180,7 @@ class _Ex01SingleResponsibilityState extends State<Ex01SingleResponsibility> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _nameController.dispose(); // dispose là để giải phóng bộ nhớ
     _emailController.dispose();
     super.dispose();
   }
@@ -223,7 +225,7 @@ class _Ex01SingleResponsibilityState extends State<Ex01SingleResponsibility> {
 
             const SizedBox(height: 24),
 
-            // Form
+            // Form nhập liệu
             TextField(
               controller: _nameController,
               decoration: const InputDecoration(
@@ -242,6 +244,7 @@ class _Ex01SingleResponsibilityState extends State<Ex01SingleResponsibility> {
             ),
             const SizedBox(height: 16),
 
+            // Nút save user
             ElevatedButton(
               onPressed: _isLoading ? null : _saveUser,
               child: _isLoading
@@ -256,12 +259,18 @@ class _Ex01SingleResponsibilityState extends State<Ex01SingleResponsibility> {
             const SizedBox(height: 24),
 
             // Saved user (dùng UserCard widget)
+            // _savedUser != null là điều kiện để kiểm tra xem user đã được lưu hay chưa
+            // ... là để spread the list
+            // Nếu _savedUser != null thì sẽ hiển thị list này
+            // Nếu _savedUser == null thì sẽ không hiển thị gì cả
             if (_savedUser != null) ...[
               const Text(
                 'Saved User:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
+
+              // Sử dụng UserCard widget để hiển thị user
               UserCard(user: _savedUser!),
             ],
           ],
