@@ -1,4 +1,12 @@
+/// ===========================================
 /// EXERCISE 16: FAILURE CLASSES
+/// ===========================================
+/// Best Practices:
+///  - Domain layer return Either, không throw
+///  - Failure classes có message rõ ràng
+///  - Map Failure → user-friendly message ở UI
+///  - Log original error ở repository
+///  - Retry logic ở repository hoặc use case
 
 library;
 
