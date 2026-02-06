@@ -40,13 +40,13 @@ class CounterCubit extends Cubit<int> {
 |----------|-------|------|
 | Độ phức tạp | Đơn giản | Phức tạp |
 | Input | Functions | Events |
-| Traceability | Ít | Nhiều (event log) |
-| Transformation | Không | Có (event transformers) |
+| Traceability (Khả năng theo dõi) | Ít | Nhiều (event log) |
+| Transformation (Biến đổi) | Không | Có (event transformers) |
 | Use case | Counter, Theme | Auth, Form, API |
 
 **Rule of thumb:**
 - **Dùng Cubit** khi logic đơn giản, không cần trace events
-- **Dùng BLoC** khi cần: debounce, throttle, event history
+- **Dùng BLoC** khi cần: debounce (trì hoãn), throttle (giới hạn tần suất), event history (lịch sử sự kiện)
 
 ### 4. Các Widgets Quan Trọng
 

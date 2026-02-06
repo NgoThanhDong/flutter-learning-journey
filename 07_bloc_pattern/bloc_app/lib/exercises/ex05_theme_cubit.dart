@@ -4,8 +4,8 @@
 ///
 /// 🎯 MỤC TIÊU:
 /// - Quản lý ThemeMode toàn ứng dụng
-/// - Hiểu cách đặt BlocProvider ở root
-/// - Sử dụng BlocBuilder để wrap MaterialApp
+/// - Hiểu cách đặt BlocProvider ở root (tức là ở trên cùng)
+/// - Sử dụng BlocBuilder để wrap MaterialApp (tức là bao quanh MaterialApp)
 ///
 /// 📝 USE CASE THỰC TẾ:
 /// - Dark mode toggle là feature phổ biến
@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ============================================================================
-// THEME CUBIT
+// THEME CUBIT (Cubit quản lý theme)
 // ============================================================================
 //
 // State: ThemeMode enum (light, dark, system)
@@ -71,7 +71,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
 }
 
 // ============================================================================
-// MAIN WIDGET - ENTRY POINT
+// MAIN WIDGET - ENTRY POINT (Widget chính - điểm bắt đầu)
 // ============================================================================
 //
 // ⚠️ QUAN TRỌNG: BlocProvider PHẢI ở trên MaterialApp
@@ -86,6 +86,7 @@ class Ex05ThemeCubit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // BlocProvider ở trên MaterialApp (tức là ở trên cùng)
     return BlocProvider<ThemeCubit>(
       create: (context) => ThemeCubit(),
       child: const _ThemedApp(),
@@ -94,7 +95,7 @@ class Ex05ThemeCubit extends StatelessWidget {
 }
 
 // ============================================================================
-// THEMED APP
+// THEMED APP (Ứng dụng có theme)
 // ============================================================================
 //
 // Widget này wrap MaterialApp với BlocBuilder
@@ -113,7 +114,7 @@ class _ThemedApp extends StatelessWidget {
           title: 'Theme Cubit Demo',
 
           // ================================================================
-          // THEME CONFIGURATION
+          // THEME CONFIGURATION (Cấu hình theme)
           // ================================================================
           //
           // themeMode: Quyết định dùng theme nào
@@ -154,7 +155,7 @@ class _ThemedApp extends StatelessWidget {
 }
 
 // ============================================================================
-// HOME PAGE
+// HOME PAGE (Trang chủ)
 // ============================================================================
 class _ThemeHomePage extends StatelessWidget {
   const _ThemeHomePage();
@@ -163,6 +164,7 @@ class _ThemeHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Lấy ThemeCubit để check state
     final themeCubit = context.watch<ThemeCubit>();
+    // isDark: check theme hiện tại có phải là dark không
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -195,7 +197,7 @@ class _ThemeHomePage extends StatelessWidget {
               const SizedBox(height: 40),
 
               // ================================================================
-              // TOGGLE BUTTON
+              // TOGGLE BUTTON (Nút chuyển đổi theme)
               // ================================================================
               ElevatedButton.icon(
                 onPressed: () {
@@ -214,7 +216,7 @@ class _ThemeHomePage extends StatelessWidget {
               const SizedBox(height: 32),
 
               // ================================================================
-              // MODE SELECTION
+              // MODE SELECTION (Chọn chế độ theme)
               // ================================================================
               Container(
                 padding: const EdgeInsets.all(16),
@@ -232,8 +234,9 @@ class _ThemeHomePage extends StatelessWidget {
                     const SizedBox(height: 12),
 
                     // ======================================================
-                    // RADIO BUTTONS
+                    // RADIO BUTTONS (Nút radio)
                     // ======================================================
+                    // _ThemeModeRadio là widget con để hiển thị radio button
                     _ThemeModeRadio(
                       value: ThemeMode.light,
                       groupValue: themeCubit.state,
@@ -265,7 +268,7 @@ class _ThemeHomePage extends StatelessWidget {
               const SizedBox(height: 32),
 
               // ================================================================
-              // SAMPLE WIDGETS
+              // SAMPLE WIDGETS (Các widget mẫu)
               // ================================================================
               const Text(
                 'Sample Widgets (auto-themed):',
@@ -283,6 +286,7 @@ class _ThemeHomePage extends StatelessWidget {
                         leading: const Icon(Icons.person),
                         title: const Text('John Doe'),
                         subtitle: const Text('john@example.com'),
+                        // Switch để toggle theme
                         trailing: Switch(
                           value: isDark,
                           onChanged: (_) =>
@@ -312,12 +316,12 @@ class _ThemeHomePage extends StatelessWidget {
 }
 
 // ============================================================================
-// CUSTOM RADIO WIDGET
+// CUSTOM RADIO WIDGET (Widget radio tùy chỉnh)
 // ============================================================================
 class _ThemeModeRadio extends StatelessWidget {
   final ThemeMode value;
   final ThemeMode groupValue;
-  final ValueChanged<ThemeMode?> onChanged;
+  final ValueChanged<ThemeMode?> onChanged; // Hàm callback khi radio được chọn
   final IconData icon;
   final String label;
 
@@ -331,10 +335,13 @@ class _ThemeModeRadio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Kiểm tra xem radio button này có được chọn không
     final isSelected = value == groupValue;
+    // Lấy màu primary từ theme hiện tại
     final primaryColor = Theme.of(context).colorScheme.primary;
 
     return InkWell(
+      // Khi được tap, gọi hàm onChanged với giá trị hiện tại
       onTap: () => onChanged(value),
       borderRadius: BorderRadius.circular(8),
       child: Padding(

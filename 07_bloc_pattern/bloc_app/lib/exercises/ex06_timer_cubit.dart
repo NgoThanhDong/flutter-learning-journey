@@ -3,10 +3,10 @@
 /// ============================================================================
 ///
 /// 🎯 MỤC TIÊU:
-/// - Sử dụng Equatable cho state phức tạp
+/// - Sử dụng Equatable (package giúp so sánh objects dựa trên properties) cho state phức tạp
 /// - Quản lý multiple properties trong state
-/// - Xử lý async operations trong Cubit
-/// - Hiểu copyWith pattern
+/// - Xử lý async operations trong Cubit (hoạt động bất đồng bộ)
+/// - Hiểu copyWith pattern (tạo bản sao với một số properties thay đổi)
 ///
 /// 📝 EQUATABLE:
 /// - Package giúp so sánh objects dựa trên properties
@@ -32,7 +32,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //
 // Nếu không dùng Equatable:
 // - Mỗi emit() đều trigger rebuild (vì mỗi instance là khác nhau)
-// - Performance không tối ưu
+// - Performance (hiệu năng) không tối ưu
 // ============================================================================
 class TimerState extends Equatable {
   /// Số giây hiện tại
@@ -139,7 +139,7 @@ class TimerState extends Equatable {
 enum TimerStatus { initial, running, paused, finished }
 
 // ============================================================================
-// TIMER CUBIT
+// TIMER CUBIT (quản lý logic của timer)
 // ============================================================================
 class TimerCubit extends Cubit<TimerState> {
   Timer? _timer;
@@ -154,7 +154,7 @@ class TimerCubit extends Cubit<TimerState> {
   //
   // Flow:
   // 1. Cancel timer cũ (nếu có)
-  // 2. Set initial state
+  // 2. Set initial state (trạng thái ban đầu)
   // 3. Tạo periodic timer (mỗi giây)
   // 4. Mỗi giây: giảm seconds, emit state mới
   // 5. Khi hết: emit finished state
@@ -171,6 +171,8 @@ class TimerCubit extends Cubit<TimerState> {
     ));
 
     // Tạo timer mới
+    // periodic: lặp lại hành động sau mỗi khoảng thời gian
+    // (_) : tham số của hàm callback (không sử dụng)
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (state.seconds > 0) {
         // Còn thời gian → giảm 1 giây
@@ -189,12 +191,13 @@ class TimerCubit extends Cubit<TimerState> {
     emit(state.copyWith(status: TimerStatus.paused));
   }
 
-  /// Resume timer
+  /// Resume timer (tiếp tục đếm ngược)
   void resume() {
     if (state.status != TimerStatus.paused) return;
 
     emit(state.copyWith(status: TimerStatus.running));
 
+    // Tạo timer mới
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (state.seconds > 0) {
         emit(state.copyWith(seconds: state.seconds - 1));
@@ -233,6 +236,7 @@ class Ex06TimerCubit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // BlocProvider: cung cấp TimerCubit cho widget con
     return BlocProvider(
       create: (context) => TimerCubit(),
       child: const _TimerView(),
@@ -257,8 +261,12 @@ class _TimerView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // ================================================================
-              // TIMER DISPLAY
+              // TIMER DISPLAY (hiển thị thời gian)
               // ================================================================
+              // BlocBuilder: lắng nghe state thay đổi và rebuild UI
+              // Chỉ rebuild khi state thay đổi
+              // builder: hàm callback nhận context và state
+              // state: trạng thái hiện tại của TimerCubit
               BlocBuilder<TimerCubit, TimerState>(
                 builder: (context, state) {
                   return Column(
@@ -276,26 +284,32 @@ class _TimerView extends StatelessWidget {
                               height: 200,
                               child: CircularProgressIndicator(
                                 value: state.progress,
-                                strokeWidth: 12,
+                                strokeWidth: 12, // độ dày của đường tròn
                                 backgroundColor: Colors.grey.shade200,
+                                // màu của đường tròn
                                 color: _getProgressColor(state),
                               ),
                             ),
+
                             // Time text
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                // Thời gian còn lại
                                 Text(
-                                  state.formattedTime,
+                                  state.formattedTime, // định dạng thời gian
                                   style: const TextStyle(
                                     fontSize: 48,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'monospace',
                                   ),
                                 ),
+
+                                // Trạng thái của timer
                                 Text(
                                   state.status.name.toUpperCase(),
                                   style: TextStyle(
+                                    // màu của chữ
                                     color: _getStatusColor(state),
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -309,7 +323,7 @@ class _TimerView extends StatelessWidget {
                       const SizedBox(height: 40),
 
                       // ======================================================
-                      // PRESET BUTTONS
+                      // PRESET BUTTONS (nút chọn thời gian)
                       // ======================================================
                       const Text('Quick Start:'),
                       const SizedBox(height: 12),
@@ -326,13 +340,14 @@ class _TimerView extends StatelessWidget {
                       const SizedBox(height: 32),
 
                       // ======================================================
-                      // CONTROL BUTTONS
+                      // CONTROL BUTTONS (nút điều khiển)
                       // ======================================================
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Pause/Resume
                           if (state.isRunning)
+                            // Nút pause
                             ElevatedButton.icon(
                               onPressed: () =>
                                   context.read<TimerCubit>().pause(),
@@ -343,6 +358,7 @@ class _TimerView extends StatelessWidget {
                               ),
                             )
                           else if (state.status == TimerStatus.paused)
+                            // Nút resume
                             ElevatedButton.icon(
                               onPressed: () =>
                                   context.read<TimerCubit>().resume(),
@@ -374,7 +390,7 @@ class _TimerView extends StatelessWidget {
               const SizedBox(height: 40),
 
               // ================================================================
-              // EXPLANATION BOX
+              // EXPLANATION BOX (hộp giải thích)
               // ================================================================
               Container(
                 padding: const EdgeInsets.all(16),
@@ -407,6 +423,10 @@ class _TimerView extends StatelessWidget {
     );
   }
 
+  // ============================================================================
+  // HELPER METHODS (phương thức trợ giúp)
+  // ============================================================================
+  // Lấy màu của progress indicator
   Color _getProgressColor(TimerState state) {
     switch (state.status) {
       case TimerStatus.running:
@@ -420,6 +440,7 @@ class _TimerView extends StatelessWidget {
     }
   }
 
+  // Lấy màu của status text
   Color _getStatusColor(TimerState state) {
     switch (state.status) {
       case TimerStatus.running:
@@ -434,6 +455,9 @@ class _TimerView extends StatelessWidget {
   }
 }
 
+// ============================================================================
+// PRESET BUTTON (nút chọn thời gian)
+// ============================================================================
 class _PresetButton extends StatelessWidget {
   final int seconds;
   final String label;
@@ -443,6 +467,9 @@ class _PresetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      // Khi nhấn nút, gọi startTimer với thời gian đã chọn
+      // context.read<TimerCubit>() để lấy TimerCubit
+      // .startTimer(seconds) để gọi hàm startTimer
       onPressed: () => context.read<TimerCubit>().startTimer(seconds),
       child: Text(label),
     );

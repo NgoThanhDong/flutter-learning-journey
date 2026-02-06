@@ -5,8 +5,8 @@
 /// 🎯 MỤC TIÊU:
 /// - Tạo Cubit đầu tiên
 /// - Hiểu emit() và state
-/// - Sử dụng BlocProvider và BlocBuilder
-/// - Hiểu context.read vs context.watch
+/// - Sử dụng BlocProvider (cung cấp) và BlocBuilder (xây dựng UI)
+/// - Hiểu context.read vs context.watch (đọc và theo dõi)
 ///
 /// 📝 CUBIT LÀ GÌ?
 /// Cubit là phiên bản đơn giản của BLoC:
@@ -15,8 +15,8 @@
 ///
 /// Khi nào dùng Cubit?
 /// - Logic đơn giản (counter, toggle, theme)
-/// - Không cần trace event history
-/// - Không cần debounce/throttle
+/// - Không cần trace event history (theo dõi lịch sử sự kiện)
+/// - Không cần debounce/throttle (trì hoãn/giới hạn tần suất)
 ///
 /// ============================================================================
 library;
@@ -25,7 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ============================================================================
-// CUBIT DEFINITION
+// CUBIT DEFINITION (Định nghĩa Cubit)
 // ============================================================================
 //
 // Cubit<T>: T là kiểu của State
@@ -77,7 +77,7 @@ class CounterCubit extends Cubit<int> {
 }
 
 // ============================================================================
-// MAIN WIDGET
+// MAIN WIDGET (Widget chính)
 // ============================================================================
 class Ex04CounterCubit extends StatelessWidget {
   const Ex04CounterCubit({super.key});
@@ -85,7 +85,7 @@ class Ex04CounterCubit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ========================================================================
-    // BLOC PROVIDER
+    // BLOC PROVIDER (Cung cấp Cubit)
     // ========================================================================
     //
     // BlocProvider: Cung cấp Cubit cho widget subtree
@@ -94,9 +94,9 @@ class Ex04CounterCubit extends StatelessWidget {
     // - child: Widget con có thể access Cubit
     //
     // Tại sao cần BlocProvider?
-    // - Dependency Injection: Child widgets không cần biết cách tạo Cubit
-    // - Lifecycle management: Tự động dispose khi widget bị remove
-    // - Scoping: Giới hạn phạm vi của Cubit
+    // - Dependency Injection (tiêm phụ thuộc): Child widgets không cần biết cách tạo Cubit
+    // - Lifecycle management (quản lý vòng đời): Tự động dispose khi widget bị remove
+    // - Scoping (phạm vi): Giới hạn phạm vi của Cubit
     // ========================================================================
     return BlocProvider<CounterCubit>(
       // create: Callback nhận context, trả về Cubit instance
@@ -109,7 +109,7 @@ class Ex04CounterCubit extends StatelessWidget {
 }
 
 // ============================================================================
-// COUNTER VIEW
+// COUNTER VIEW (Giao diện Counter)
 // ============================================================================
 //
 // Tách riêng View để:
@@ -160,7 +160,7 @@ class _CounterView extends StatelessWidget {
             const SizedBox(height: 40),
 
             // ================================================================
-            // BLOC BUILDER
+            // BLOC BUILDER (Xây dựng UI)
             // ================================================================
             //
             // BlocBuilder<CubitType, StateType>: Rebuild khi state thay đổi
@@ -218,7 +218,7 @@ class _CounterView extends StatelessWidget {
             const SizedBox(height: 40),
 
             // ================================================================
-            // CONTROL BUTTONS
+            // CONTROL BUTTONS (Các nút điều khiển)
             // ================================================================
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -235,6 +235,8 @@ class _CounterView extends StatelessWidget {
                 //
                 // KHÔNG dùng trong build() vì không tự động rebuild
                 // ==========================================================
+
+                // Nút giảm
                 FloatingActionButton(
                   heroTag: 'decrement',
                   onPressed: () {
@@ -247,6 +249,7 @@ class _CounterView extends StatelessWidget {
 
                 const SizedBox(width: 16),
 
+                // Nút reset
                 FloatingActionButton(
                   heroTag: 'reset',
                   onPressed: () {
@@ -258,6 +261,7 @@ class _CounterView extends StatelessWidget {
 
                 const SizedBox(width: 16),
 
+                // Nút tăng
                 FloatingActionButton(
                   heroTag: 'increment',
                   onPressed: () {
@@ -272,7 +276,7 @@ class _CounterView extends StatelessWidget {
             const SizedBox(height: 40),
 
             // ================================================================
-            // CODE COMPARISON
+            // CODE COMPARISON (So sánh code)
             // ================================================================
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),

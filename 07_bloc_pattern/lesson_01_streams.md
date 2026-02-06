@@ -109,11 +109,11 @@ StreamBuilder<int>(
 | Ex03 | StreamBuilder Widget | Kết nối Stream với UI |
 
 ## 🔑 Key Takeaways
-1. Stream = Sequence of async events
-2. StreamController = Producer, Stream = Consumer
-3. Broadcast stream cho nhiều listeners
-4. Operators giúp transform data trước khi consume
-5. StreamBuilder tự động rebuild khi stream emit
+1. Stream = Sequence of async events (luồng dữ liệu bất đồng bộ)
+2. StreamController = Producer (nguồn phát), Stream = Consumer (nguồn nhận)
+3. Broadcast stream cho nhiều listeners (nhiều nguồn nhận)
+4. Operators giúp transform data trước khi consume (biến đổi dữ liệu trước khi nhận)
+5. StreamBuilder tự động rebuild khi stream emit (tự động xây dựng lại UI khi stream phát dữ liệu)
 
 ## ⚠️ Lưu Ý Quan Trọng
 ```dart
