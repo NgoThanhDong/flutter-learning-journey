@@ -136,7 +136,7 @@ final vm = sl<UserDetailVM>(param1: 123);
 
 ---
 
-## Dependency Graph
+## Dependency Graph - mô tả mối quan hệ giữa các dependencies
 
 ```dart
 void setupDependencies() {
@@ -176,7 +176,7 @@ void setupDependencies() {
 
 ---
 
-## Reset và Dispose
+## Reset và Dispose - mục đích là cleanup
 
 ```dart
 /// [Reset] - Xóa tất cả registrations
@@ -194,7 +194,7 @@ sl.registerLazySingleton<Database>(
 
 ---
 
-## DI trong Widget
+## DI trong Widget - mục đích là lấy dependency từ service locator
 
 ```dart
 class UserScreen extends StatelessWidget {

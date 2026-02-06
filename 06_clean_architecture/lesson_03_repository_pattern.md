@@ -2,10 +2,10 @@
 
 ## Mục Tiêu
 
-- Hiểu Repository Pattern
-- Tách biệt Data Sources
-- Abstract Repository interface
-- Implementation với multiple sources
+- Hiểu Repository Pattern (Domain Layer)
+- Tách biệt Data Sources (Data Layer)
+- Abstract Repository interface (Domain Layer)
+- Implementation với multiple sources (Data Layer)
 
 ---
 
@@ -38,7 +38,7 @@ Repository = Lớp trung gian giữa **Domain Layer** và **Data Layer**.
 
 ## Cấu Trúc Repository
 
-### 1. Repository Interface (Domain Layer)
+### 1. Repository Interface (Domain Layer) - mục đích là định nghĩa contract - UI/Domain chỉ biết interface này
 ```dart
 /// [Abstract Repository]
 /// Định nghĩa contract - UI/Domain chỉ biết interface này
@@ -50,7 +50,7 @@ abstract class UserRepository {
 }
 ```
 
-### 2. Data Sources (Data Layer)
+### 2. Data Sources (Data Layer) - mục đích là tách biệt data sources
 ```dart
 /// [Remote Data Source] - Gọi API
 class UserRemoteDataSource {
@@ -82,7 +82,7 @@ class UserLocalDataSource {
 }
 ```
 
-### 3. Repository Implementation (Data Layer)
+### 3. Repository Implementation (Data Layer) - mục đích là kết hợp các data sources, xử lý logic
 ```dart
 /// [Repository Implementation]
 /// Kết hợp các data sources, xử lý logic
@@ -158,7 +158,7 @@ class User {
 
 ---
 
-## Strategies trong Repository
+## Strategies trong Repository là kỹ thuật để chọn data source (chính sách chọn data source)
 
 ### 1. Cache-First Strategy
 ```dart
@@ -191,7 +191,7 @@ Future<User> getUser(int id) async {
 }
 ```
 
-### 3. Stale-While-Revalidate
+### 3. Stale-While-Revalidate - mục đích là khi có cache thì trả về ngay, không cần đợi network
 ```dart
 Stream<User> getUser(int id) async* {
   // 1. Trả về cache ngay (stale)
@@ -207,7 +207,7 @@ Stream<User> getUser(int id) async* {
 
 ---
 
-## Đăng Ký với get_it
+## Đăng Ký với get_it (Dependency Injection)
 
 ```dart
 void setupDependencies() {
@@ -231,7 +231,7 @@ void setupDependencies() {
 
 ---
 
-## Testing Repository
+## Testing Repository - mục đích để mock data source
 
 ```dart
 /// [Mock Data Source]

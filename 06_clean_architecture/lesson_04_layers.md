@@ -12,27 +12,27 @@
 ## 3 Layers trong Clean Architecture
 
 ```
-┌────────────────────────────────────────────────┐
-│              PRESENTATION LAYER                │
-│  ┌──────────┐  ┌──────────┐  ┌─────────────┐  │
-│  │ Widgets  │  │ ViewModels│  │ BLoC/Cubit │  │
-│  └──────────┘  └──────────┘  └─────────────┘  │
-├────────────────────────────────────────────────┤
-│                DOMAIN LAYER                    │
-│  ┌──────────┐  ┌──────────┐  ┌─────────────┐  │
-│  │ Entities │  │ Use Cases│  │ Repo Interfaces│
-│  └──────────┘  └──────────┘  └─────────────┘  │
-├────────────────────────────────────────────────┤
-│                 DATA LAYER                     │
-│  ┌──────────┐  ┌──────────┐  ┌─────────────┐  │
-│  │  Models  │  │Data Sources│ │ Repo Impls │  │
-│  └──────────┘  └──────────┘  └─────────────┘  │
-└────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────┐
+│              PRESENTATION LAYER                   │
+│  ┌──────────┐  ┌────────────┐  ┌───────────────┐  │
+│  │ Widgets  │  │ ViewModels │  │ BLoC/Cubit    │  │
+│  └──────────┘  └────────────┘  └───────────────┘  │
+├───────────────────────────────────────────────────┤
+│                DOMAIN LAYER                       │
+│  ┌──────────┐  ┌────────────┐  ┌────────────────┐ │
+│  │ Entities │  │ Use Cases  │  │ Repo Interfaces│ │
+│  └──────────┘  └────────────┘  └────────────────┘ │
+├───────────────────────────────────────────────────┤
+│                 DATA LAYER                        │
+│  ┌──────────┐  ┌────────────┐  ┌─────────────┐    │
+│  │  Models  │  │Data Sources│  │ Repo Impls  │    │
+│  └──────────┘  └────────────┘  └─────────────┘    │
+└───────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 1. Domain Layer (Core)
+## 1. Domain Layer (Core) <= Lớp nghiệp vụ
 
 **Trung tâm của ứng dụng**, không phụ thuộc gì cả.
 
@@ -130,9 +130,9 @@ abstract class UserRepository {
 
 ---
 
-## 2. Data Layer
+## 2. Data Layer <= Lớp dữ liệu
 
-**Xử lý data từ external sources**.
+**Xử lý data từ external sources (API, Database, Shared Preferences, v.v.)**.
 
 ### Models
 ```dart
@@ -193,7 +193,7 @@ class UserModel {
 }
 ```
 
-### Data Sources
+### Data Sources 
 ```dart
 /// [Remote Data Source]
 abstract class UserRemoteDataSource {
@@ -245,7 +245,7 @@ class UserRepositoryImpl implements UserRepository {
 
 ---
 
-## 3. Presentation Layer
+## 3. Presentation Layer <= Lớp trình bày
 
 **UI và State Management**.
 
@@ -310,7 +310,7 @@ class UserListPage extends StatelessWidget {
 
 ---
 
-## Directory Structure theo Layers
+## Directory Structure theo Layers <= Cấu trúc thư mục theo lớp
 
 ```
 lib/
@@ -353,7 +353,7 @@ lib/
 
 ---
 
-## Dependency Rule
+## Dependency Rule <= Quy tắc phụ thuộc
 
 > **Inner layers KHÔNG biết outer layers**
 
