@@ -4,12 +4,12 @@
 /// 🎯 Mục tiêu:
 /// - Tách biệt Local và Remote data sources
 /// - Repository kết hợp nhiều sources
-/// - Caching strategy
+/// - Caching strategy (Cache-first, Network-first, etc.) - Chiến lược bộ nhớ đệm
 ///
 /// 📝 Data Source Pattern:
-/// - RemoteDataSource: API calls
-/// - LocalDataSource: Local DB, SharedPreferences
-/// - Repository: Orchestrate cả hai
+/// - RemoteDataSource: API calls - Gọi API
+/// - LocalDataSource: Local DB, SharedPreferences - Lưu trữ cục bộ
+/// - Repository: Orchestrate cả hai - Điều phối cả hai
 
 library;
 
@@ -41,17 +41,17 @@ class Article {
 
 /// [ArticleRemoteDataSource] - Remote API calls
 abstract class ArticleRemoteDataSource {
-  Future<List<Article>> fetchArticles();
-  Future<Article> fetchArticle(int id);
+  Future<List<Article>> fetchArticles(); // Lấy danh sách article từ remote
+  Future<Article> fetchArticle(int id); // Lấy article theo id từ remote
 }
 
 /// [ArticleLocalDataSource] - Local storage
 abstract class ArticleLocalDataSource {
-  Future<List<Article>?> getCachedArticles();
-  Future<Article?> getCachedArticle(int id);
-  Future<void> cacheArticles(List<Article> articles);
-  Future<void> cacheArticle(Article article);
-  Future<void> clearCache();
+  Future<List<Article>?> getCachedArticles(); // Lấy danh sách article từ local
+  Future<Article?> getCachedArticle(int id); // Lấy article theo id từ local
+  Future<void> cacheArticles(List<Article> articles); // Cache danh sách article
+  Future<void> cacheArticle(Article article); // Cache article vào local
+  Future<void> clearCache(); // Xóa cache toàn bộ
 }
 
 /// ===========================================
@@ -70,6 +70,7 @@ class ApiArticleDataSource implements ArticleRemoteDataSource {
     : _networkDelayMs = networkDelayMs,
       _errorRate = errorRate;
 
+  /// Lấy danh sách article từ remote
   @override
   Future<List<Article>> fetchArticles() async {
     await Future.delayed(Duration(milliseconds: _networkDelayMs));
@@ -90,6 +91,7 @@ class ApiArticleDataSource implements ArticleRemoteDataSource {
     );
   }
 
+  /// Lấy article theo id từ remote
   @override
   Future<Article> fetchArticle(int id) async {
     await Future.delayed(Duration(milliseconds: _networkDelayMs ~/ 2));
@@ -112,6 +114,7 @@ class InMemoryLocalDataSource implements ArticleLocalDataSource {
   List<Article>? _cachedArticles;
   final Map<int, Article> _articleCache = {};
 
+  /// Lấy danh sách article từ local
   @override
   Future<List<Article>?> getCachedArticles() async {
     debugPrint('[LocalDS] Getting cached articles...');
@@ -120,6 +123,7 @@ class InMemoryLocalDataSource implements ArticleLocalDataSource {
     return _cachedArticles;
   }
 
+  /// Lấy article theo id từ local
   @override
   Future<Article?> getCachedArticle(int id) async {
     debugPrint('[LocalDS] Getting cached article $id...');
@@ -127,6 +131,7 @@ class InMemoryLocalDataSource implements ArticleLocalDataSource {
     return _articleCache[id];
   }
 
+  /// Cache danh sách article vào local
   @override
   Future<void> cacheArticles(List<Article> articles) async {
     debugPrint('[LocalDS] Caching ${articles.length} articles...');
@@ -137,6 +142,7 @@ class InMemoryLocalDataSource implements ArticleLocalDataSource {
     }
   }
 
+  /// Cache article vào local
   @override
   Future<void> cacheArticle(Article article) async {
     debugPrint('[LocalDS] Caching article ${article.id}...');
@@ -144,6 +150,7 @@ class InMemoryLocalDataSource implements ArticleLocalDataSource {
     _articleCache[article.id] = article;
   }
 
+  /// Xóa cache toàn bộ
   @override
   Future<void> clearCache() async {
     debugPrint('[LocalDS] Clearing cache...');
@@ -201,6 +208,7 @@ class ArticleRepository {
     }
   }
 
+  /// [clearCache] - Xóa cache toàn bộ
   Future<void> clearCache() async {
     await localDataSource.clearCache();
   }
@@ -217,8 +225,10 @@ class Ex10LocalRemoteSource extends StatefulWidget {
 }
 
 class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
+  /// Repository - Repository pattern
   late final ArticleRepository _repository;
 
+  /// State
   List<Article> _articles = [];
   bool _isLoading = false;
   bool _isCached = false;
@@ -227,6 +237,8 @@ class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
   @override
   void initState() {
     super.initState();
+
+    // Initialize repository
     _repository = ArticleRepository(
       remoteDataSource: ApiArticleDataSource(
         networkDelayMs: 1500,
@@ -237,6 +249,7 @@ class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
     _loadArticles();
   }
 
+  /// [loadArticles] - Load articles from repository
   Future<void> _loadArticles({bool forceRefresh = false}) async {
     setState(() {
       _isLoading = true;
@@ -244,6 +257,7 @@ class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
     });
 
     try {
+      // Load articles from repository with cache-first strategy
       final (articles, isCached) = await _repository.getArticles(
         forceRefresh: forceRefresh,
       );
@@ -260,6 +274,7 @@ class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
     }
   }
 
+  /// [clearCache] - Clear cache
   Future<void> _clearCache() async {
     await _repository.clearCache();
     setState(() {
@@ -320,6 +335,10 @@ class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
+                // Load articles from repository with cache-first strategy
+                // 1. Trả về cache nếu có
+                // 2. Fetch từ API
+                // 3. Cache lại
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: _isLoading ? null : () => _loadArticles(),
@@ -328,6 +347,11 @@ class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
                   ),
                 ),
                 const SizedBox(width: 8),
+
+                // Force refresh - always fetch from API
+                // 1. Luôn fetch từ API
+                // 2. Không dùng cache
+                // 3. Cache lại
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: _isLoading
@@ -350,6 +374,7 @@ class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
     );
   }
 
+  /// [buildContent] - Build content
   Widget _buildContent() {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -364,6 +389,8 @@ class _Ex10LocalRemoteSourceState extends State<Ex10LocalRemoteSource> {
             const SizedBox(height: 16),
             Text('Error: $_error'),
             const SizedBox(height: 16),
+
+            // Retry button
             ElevatedButton(
               onPressed: () => _loadArticles(),
               child: const Text('Retry'),

@@ -2,12 +2,12 @@
 /// EXERCISE 09: REPOSITORY INTERFACE
 /// ===========================================
 /// 🎯 Mục tiêu:
-/// - Định nghĩa abstract repository
-/// - Repository ở Domain layer (business interface)
-/// - Implementation ở Data layer
+/// - Định nghĩa abstract repository - Định nghĩa repository trừu tượng
+/// - Repository ở Domain layer (business interface) - Repository ở Domain layer (business interface)
+/// - Implementation ở Data layer - Implementation ở Data layer
 ///
 /// 📝 Repository Pattern:
-/// - Tách biệt business logic khỏi data access
+/// - Tách biệt business logic khỏi data access - Tách biệt logic nghiệp vụ khỏi truy cập dữ liệu
 /// - Domain chỉ biết interface
 /// - Data implement interface
 
@@ -20,7 +20,7 @@ import 'package:flutter/material.dart';
 /// ===========================================
 
 /// [Product] - Domain Entity
-/// Pure Dart class, không có JSON serialization
+/// Pure Dart class, không có JSON serialization (tuần tự hóa)
 class Product {
   final int id;
   final String name;
@@ -68,6 +68,7 @@ abstract class ProductRepository {
 /// Trong real app, đây có thể là ApiProductRepository, SqliteProductRepository...
 class InMemoryProductRepository implements ProductRepository {
   /// [_products] - In-memory storage
+  /// Lưu trữ dữ liệu tạm thời trong bộ nhớ
   final List<Product> _products = [
     Product(id: 1, name: 'iPhone 15', price: 25000000, category: 'Phone'),
     Product(id: 2, name: 'MacBook Pro', price: 55000000, category: 'Laptop'),
@@ -76,15 +77,17 @@ class InMemoryProductRepository implements ProductRepository {
     Product(id: 5, name: 'Dell XPS', price: 40000000, category: 'Laptop'),
   ];
 
-  int _nextId = 6;
+  int _nextId = 6; // ID tiếp theo cho product mới
 
+  /// [getAll] - Lấy tất cả products
   @override
   Future<List<Product>> getAll() async {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 300));
-    return List.unmodifiable(_products);
+    return List.unmodifiable(_products); // Trả về danh sách không thể thay đổi
   }
 
+  /// [getById] - Lấy product theo ID
   @override
   Future<Product?> getById(int id) async {
     await Future.delayed(const Duration(milliseconds: 200));
@@ -95,12 +98,14 @@ class InMemoryProductRepository implements ProductRepository {
     }
   }
 
+  /// [getByCategory] - Lấy products theo category
   @override
   Future<List<Product>> getByCategory(String category) async {
     await Future.delayed(const Duration(milliseconds: 250));
     return _products.where((p) => p.category == category).toList();
   }
 
+  /// [add] - Thêm product mới
   @override
   Future<Product> add(Product product) async {
     await Future.delayed(const Duration(milliseconds: 300));
@@ -114,15 +119,19 @@ class InMemoryProductRepository implements ProductRepository {
     return newProduct;
   }
 
+  /// [update] - Cập nhật product theo ID
   @override
   Future<Product> update(Product product) async {
     await Future.delayed(const Duration(milliseconds: 300));
+    // Tìm index của product cần update
     final index = _products.indexWhere((p) => p.id == product.id);
+    // Nếu không tìm thấy product thì ném ra exception
     if (index == -1) throw Exception('Product not found');
     _products[index] = product;
     return product;
   }
 
+  /// [delete] - Xóa product theo ID
   @override
   Future<bool> delete(int id) async {
     await Future.delayed(const Duration(milliseconds: 200));
@@ -148,9 +157,9 @@ class _Ex09RepositoryInterfaceState extends State<Ex09RepositoryInterface> {
   /// Có thể swap InMemoryProductRepository với bất kỳ implementation nào
   final ProductRepository repository = InMemoryProductRepository();
 
-  List<Product> _products = [];
-  bool _isLoading = false;
-  String? _selectedCategory;
+  List<Product> _products = []; // Danh sách products
+  bool _isLoading = false; // Trạng thái loading
+  String? _selectedCategory; // Category được chọn
 
   @override
   void initState() {
@@ -158,6 +167,8 @@ class _Ex09RepositoryInterfaceState extends State<Ex09RepositoryInterface> {
     _loadProducts();
   }
 
+  /// [loadProducts] - Load products từ repository
+  /// [category] - Category để filter products
   Future<void> _loadProducts() async {
     setState(() => _isLoading = true);
 
@@ -171,11 +182,12 @@ class _Ex09RepositoryInterfaceState extends State<Ex09RepositoryInterface> {
     });
   }
 
+  /// [addProduct] - Thêm product mới
   Future<void> _addProduct() async {
     final name = 'New Product ${DateTime.now().second}';
     await repository.add(
       Product(
-        id: 0, // Will be assigned by repository
+        id: 0, // Sẽ được gán bởi repository
         name: name,
         price: 1000000,
         category: 'Phone',
@@ -184,13 +196,16 @@ class _Ex09RepositoryInterfaceState extends State<Ex09RepositoryInterface> {
     _loadProducts();
   }
 
+  /// [deleteProduct] - Xóa product theo ID
   Future<void> _deleteProduct(int id) async {
     await repository.delete(id);
     _loadProducts();
   }
 
+  /// [build] - Xây dựng UI
   @override
   Widget build(BuildContext context) {
+    // Danh sách các category
     final categories = ['All', 'Phone', 'Laptop', 'Audio'];
 
     return Scaffold(
@@ -236,9 +251,13 @@ class _Ex09RepositoryInterfaceState extends State<Ex09RepositoryInterface> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: categories.map((cat) {
+                // Kiểm tra xem category có được chọn không
                 final isSelected =
                     (cat == 'All' && _selectedCategory == null) ||
                     cat == _selectedCategory;
+
+                // FilterChip để chọn category
+                // FilterChip là một widget của Flutter để chọn category
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: FilterChip(
@@ -246,9 +265,11 @@ class _Ex09RepositoryInterfaceState extends State<Ex09RepositoryInterface> {
                     selected: isSelected,
                     onSelected: (_) {
                       setState(() {
+                        // Nếu chọn All, thì _selectedCategory = null
+                        // Nếu chọn category khác, thì _selectedCategory = category đó
                         _selectedCategory = cat == 'All' ? null : cat;
                       });
-                      _loadProducts();
+                      _loadProducts(); // Load products khi chọn category
                     },
                   ),
                 );
@@ -265,7 +286,10 @@ class _Ex09RepositoryInterfaceState extends State<Ex09RepositoryInterface> {
                 : ListView.builder(
                     itemCount: _products.length,
                     itemBuilder: (context, index) {
+                      // Lấy product theo index
                       final product = _products[index];
+
+                      // ListTile để hiển thị thông tin product
                       return ListTile(
                         leading: CircleAvatar(child: Text('${product.id}')),
                         title: Text(product.name),
@@ -274,6 +298,7 @@ class _Ex09RepositoryInterfaceState extends State<Ex09RepositoryInterface> {
                         ),
                         trailing: IconButton(
                           icon: const Icon(Icons.delete),
+                          // Xóa product khi click
                           onPressed: () => _deleteProduct(product.id),
                         ),
                       );

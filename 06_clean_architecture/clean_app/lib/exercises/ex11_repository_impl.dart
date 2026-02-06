@@ -2,14 +2,14 @@
 /// EXERCISE 11: REPOSITORY IMPLEMENTATION
 /// ===========================================
 /// 🎯 Mục tiêu:
-/// - Full repository implementation
-/// - Model ↔ Entity conversion
-/// - Error handling trong repository
+/// - Full repository implementation - Triển khai repository đầy đủ
+/// - Model ↔ Entity conversion - Chuyển đổi Model ↔ Entity
+/// - Error handling trong repository - Xử lý lỗi trong repository
 ///
-/// 📝 Repository responsibilities:
-/// - Orchestrate data sources
-/// - Convert Model → Entity
-/// - Handle errors
+/// 📝 Repository responsibilities: - Trách nhiệm của Repository
+/// - Orchestrate data sources - Điều phối data sources
+/// - Convert Model → Entity - Chuyển đổi Model → Entity
+/// - Handle errors - Xử lý lỗi
 
 library;
 
@@ -19,8 +19,8 @@ import 'package:flutter/material.dart';
 /// DOMAIN LAYER - ENTITY
 /// ===========================================
 
-/// [UserEntity] - Pure domain object
-/// Không có JSON, chỉ business data
+/// [UserEntity] - Pure domain object - Đối tượng domain thuần túy
+/// Không có JSON, chỉ business data - Không có JSON, chỉ có dữ liệu nghiệp vụ
 class UserEntity {
   final int id;
   final String name;
@@ -38,12 +38,21 @@ class UserEntity {
   String toString() => 'User($id, $name)';
 }
 
-/// [UserRepository] - Abstract repository interface
+/// [UserRepository] - Abstract repository interface - Interface repository trừu tượng
 abstract class UserRepository {
+  // Get all users - Lấy tất cả người dùng
   Future<List<UserEntity>> getUsers();
+
+  // Get user by ID - Lấy người dùng theo ID
   Future<UserEntity?> getUserById(int id);
+
+  // Create user - Tạo người dùng
   Future<UserEntity> createUser(String name, String email);
+
+  // Update user - Cập nhật người dùng
   Future<UserEntity> updateUser(UserEntity user);
+
+  // Delete user - Xóa người dùng
   Future<void> deleteUser(int id);
 }
 
@@ -51,8 +60,8 @@ abstract class UserRepository {
 /// DATA LAYER - MODEL
 /// ===========================================
 
-/// [UserModel] - Data layer model với JSON support
-/// Thêm fromJson/toJson, mapping với API response
+/// [UserModel] - Data layer model với JSON support - Model dữ liệu tầng data hỗ trợ JSON
+/// Thêm fromJson/toJson, mapping với API response - Thêm fromJson/toJson, mapping với API response
 class UserModel {
   final int id;
   final String fullName;
@@ -135,11 +144,13 @@ class UserDataSource {
 
   int _nextId = 4;
 
+  // Fetch all users - Lấy tất cả người dùng
   Future<List<Map<String, dynamic>>> fetchUsers() async {
     await Future.delayed(const Duration(milliseconds: 500));
     return List.from(_fakeDb);
   }
 
+  // Fetch user by ID - Lấy người dùng theo ID
   Future<Map<String, dynamic>?> fetchUser(int id) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
@@ -149,6 +160,7 @@ class UserDataSource {
     }
   }
 
+  // Create user - Tạo người dùng
   Future<Map<String, dynamic>> createUser(Map<String, dynamic> data) async {
     await Future.delayed(const Duration(milliseconds: 400));
     final newUser = {
@@ -161,17 +173,23 @@ class UserDataSource {
     return newUser;
   }
 
+  // Update user - Cập nhật người dùng
   Future<Map<String, dynamic>> updateUser(
     int id,
     Map<String, dynamic> data,
   ) async {
     await Future.delayed(const Duration(milliseconds: 400));
+
+    // Tìm index của user cần update
     final index = _fakeDb.indexWhere((u) => u['id'] == id);
     if (index == -1) throw Exception('User not found');
     _fakeDb[index] = {...data, 'id': id};
+
+    // Trả về user đã update
     return _fakeDb[index];
   }
 
+  // Delete user - Xóa người dùng
   Future<void> deleteUser(int id) async {
     await Future.delayed(const Duration(milliseconds: 300));
     _fakeDb.removeWhere((u) => u['id'] == id);
@@ -184,10 +202,12 @@ class UserDataSource {
 
 /// [UserRepositoryImpl] - Implement repository interface
 class UserRepositoryImpl implements UserRepository {
+  // Dependency injection - Tiêm dependency
   final UserDataSource dataSource;
 
   UserRepositoryImpl(this.dataSource);
 
+  // Get all users - Lấy tất cả người dùng
   @override
   Future<List<UserEntity>> getUsers() async {
     /// 1. Fetch raw data từ data source
@@ -200,15 +220,21 @@ class UserRepositoryImpl implements UserRepository {
     return models.map((model) => model.toEntity()).toList();
   }
 
+  /// Get user by ID - Lấy người dùng theo ID
   @override
   Future<UserEntity?> getUserById(int id) async {
+    /// 1. Fetch raw data từ data source
     final json = await dataSource.fetchUser(id);
     if (json == null) return null;
 
+    /// 2. Parse thành Model
     final model = UserModel.fromJson(json);
+
+    /// 3. Convert Model → Entity
     return model.toEntity();
   }
 
+  // Create user - Tạo người dùng
   @override
   Future<UserEntity> createUser(String name, String email) async {
     /// 1. Tạo request data
@@ -222,6 +248,7 @@ class UserRepositoryImpl implements UserRepository {
     return model.toEntity();
   }
 
+  // Update user - Cập nhật người dùng
   @override
   Future<UserEntity> updateUser(UserEntity user) async {
     /// 1. Entity → Model → JSON
@@ -235,6 +262,7 @@ class UserRepositoryImpl implements UserRepository {
     return UserModel.fromJson(responseJson).toEntity();
   }
 
+  // Delete user - Xóa người dùng
   @override
   Future<void> deleteUser(int id) async {
     await dataSource.deleteUser(id);
@@ -252,19 +280,22 @@ class Ex11RepositoryImpl extends StatefulWidget {
 }
 
 class _Ex11RepositoryImplState extends State<Ex11RepositoryImpl> {
+  // Repository instance - Tạo instance repository
   late final UserRepository _repository;
 
+  // State variables - Biến trạng thái
   List<UserEntity> _users = [];
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    // Inject data source vào repository
+    // Inject data source vào repository - Dependency Injection
     _repository = UserRepositoryImpl(UserDataSource());
     _loadUsers();
   }
 
+  // Load users - Tải danh sách người dùng
   Future<void> _loadUsers() async {
     setState(() => _isLoading = true);
     final users = await _repository.getUsers();
@@ -274,12 +305,14 @@ class _Ex11RepositoryImplState extends State<Ex11RepositoryImpl> {
     });
   }
 
+  // Add user - Thêm người dùng
   Future<void> _addUser() async {
     final name = 'New User ${DateTime.now().second}';
     await _repository.createUser(name, '$name@example.com');
     _loadUsers();
   }
 
+  // Toggle active - Bật/tắt trạng thái hoạt động
   Future<void> _toggleActive(UserEntity user) async {
     final updated = UserEntity(
       id: user.id,
@@ -291,21 +324,24 @@ class _Ex11RepositoryImplState extends State<Ex11RepositoryImpl> {
     _loadUsers();
   }
 
+  // Delete user - Xóa người dùng
   Future<void> _deleteUser(int id) async {
     await _repository.deleteUser(id);
     _loadUsers();
   }
 
+  // Build UI - Xây dựng giao diện
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ex11: Repository Impl'),
+        // Add button - Nút thêm
         actions: [IconButton(icon: const Icon(Icons.add), onPressed: _addUser)],
       ),
       body: Column(
         children: [
-          // Info
+          // Info - Thông tin
           const Card(
             color: Colors.indigo,
             margin: EdgeInsets.all(16),
@@ -353,10 +389,12 @@ class _Ex11RepositoryImplState extends State<Ex11RepositoryImpl> {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            // Toggle active - Bật/tắt trạng thái hoạt động
                             Switch(
                               value: user.isActive,
                               onChanged: (_) => _toggleActive(user),
                             ),
+                            // Delete - Xóa
                             IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () => _deleteUser(user.id),
