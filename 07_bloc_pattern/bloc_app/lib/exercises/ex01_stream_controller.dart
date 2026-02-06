@@ -33,7 +33,7 @@ class Ex01StreamController extends StatefulWidget {
 
 class _Ex01StreamControllerState extends State<Ex01StreamController> {
   // ============================================================================
-  // KHAI BÁO STREAM CONTROLLER
+  // KHAI BÁO STREAM CONTROLLER (Khai báo stream controller)
   // ============================================================================
   //
   // StreamController<int>: Controller quản lý stream chứa giá trị int
@@ -54,7 +54,7 @@ class _Ex01StreamControllerState extends State<Ex01StreamController> {
   int _currentValue = 0;
 
   // ============================================================================
-  // LIFECYCLE: DISPOSE
+  // LIFECYCLE: DISPOSE (Vòng đời: Hủy stream controller)
   // ============================================================================
   //
   // ⚠️ QUAN TRỌNG: Luôn đóng StreamController trong dispose()
@@ -73,7 +73,7 @@ class _Ex01StreamControllerState extends State<Ex01StreamController> {
   }
 
   // ============================================================================
-  // METHODS: THÊM DATA VÀO STREAM
+  // METHODS: THÊM DATA VÀO STREAM (Các phương thức để thêm dữ liệu vào stream)
   // ============================================================================
   //
   // .sink: Cổng vào của stream (input)
@@ -111,7 +111,7 @@ class _Ex01StreamControllerState extends State<Ex01StreamController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // ================================================================
-            // GIẢI THÍCH: STREAM FLOW
+            // GIẢI THÍCH: STREAM FLOW (Luồng dữ liệu trong stream)
             // ================================================================
             const Text(
               'StreamController Flow:',
@@ -189,7 +189,7 @@ class _Ex01StreamControllerState extends State<Ex01StreamController> {
             const SizedBox(height: 40),
 
             // ================================================================
-            // CONTROL BUTTONS
+            // CONTROL BUTTONS (Các nút bấm để điều khiển stream)
             // ================================================================
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +227,7 @@ class _Ex01StreamControllerState extends State<Ex01StreamController> {
             const SizedBox(height: 40),
 
             // ================================================================
-            // CODE EXPLANATION
+            // CODE EXPLANATION (Giải thích code)
             // ================================================================
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),

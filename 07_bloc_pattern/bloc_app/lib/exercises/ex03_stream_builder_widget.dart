@@ -8,7 +8,7 @@
 /// - Xử lý error trong stream
 /// - Best practices khi dùng StreamBuilder
 ///
-/// 📝 ASYNCSNAPSHOT PROPERTIES:
+/// 📝 ASYNCSNAPSHOT PROPERTIES (Các thuộc tính của AsyncSnapshot):
 /// - connectionState: none, waiting, active, done
 /// - hasData: true nếu có data
 /// - data: giá trị hiện tại
@@ -38,19 +38,23 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
   int _seconds = 0;
 
   // ============================================================================
-  // TẠO PERIODIC STREAM
+  // TẠO PERIODIC STREAM (Tạo stream định kỳ)
   // ============================================================================
   //
-  // Stream.periodic: Tạo stream emit giá trị theo interval
+  // Stream.periodic: Tạo stream emit giá trị theo interval (khoảng thời gian)
   //
   // Tuy nhiên, ở đây ta dùng Timer + StreamController để có control tốt hơn:
-  // - Có thể pause/resume
-  // - Có thể add error
-  // - Có thể close bất cứ lúc nào
+  // - Có thể pause/resume (tạm dừng/tiếp tục)
+  // - Có thể add error (thêm lỗi)
+  // - Có thể close bất cứ lúc nào (đóng stream bất cứ lúc nào)
   // ============================================================================
+
+  // Khởi tạo stream controller
   void _startTimer() {
     // Tạo controller mới (nếu chưa có hoặc đã đóng)
     _timerController?.close();
+
+    // broadcast: Cho phép nhiều listener lắng nghe
     _timerController = StreamController<int>.broadcast();
     _seconds = 0;
     _isRunning = true;
@@ -78,12 +82,14 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
     setState(() {});
   }
 
+  // Dừng timer
   void _stopTimer() {
     _timer?.cancel();
     _isRunning = false;
     setState(() {});
   }
 
+  // Reset timer
   void _resetTimer() {
     _stopTimer();
     _timerController?.close();
@@ -92,10 +98,11 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
     setState(() {});
   }
 
+  // Cleanup khi widget bị huỷ
   @override
   void dispose() {
-    _timer?.cancel();
-    _timerController?.close();
+    _timer?.cancel(); // Huỷ timer
+    _timerController?.close(); // Đóng stream controller
     super.dispose();
   }
 
@@ -132,7 +139,7 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
               // ================================================================
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                 // ============================================================
-                // XỬ LÝ THEO CONNECTION STATE
+                // XỬ LÝ THEO CONNECTION STATE (Xử lý theo trạng thái kết nối)
                 // ============================================================
                 //
                 // ConnectionState.none: Stream là null
@@ -145,9 +152,11 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
+                    // Màu nền thay đổi theo trạng thái
                     color: _getBackgroundColor(snapshot),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
+                      // Màu viền thay đổi theo trạng thái
                       color: _getBorderColor(snapshot),
                       width: 2,
                     ),
@@ -165,6 +174,7 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
+                          // Hiển thị Connection State
                           'State: ${snapshot.connectionState.name.toUpperCase()}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
@@ -178,16 +188,21 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
                       // ======================================================
                       // LOGIC HIỂN THỊ THEO STATE
                       // ======================================================
+
+                      // Kiểm tra xem có lỗi không
                       if (snapshot.hasError) ...[
                         // XỬ LÝ LỖI
                         const Icon(Icons.error_outline,
                             size: 60, color: Colors.red),
                         const SizedBox(height: 12),
                         Text(
+                          // Hiển thị lỗi
                           'Error: ${snapshot.error}',
                           style: const TextStyle(color: Colors.red),
                           textAlign: TextAlign.center,
                         ),
+
+                        // Kiểm tra xem có dữ liệu không
                       ] else if (snapshot.connectionState ==
                           ConnectionState.none) ...[
                         // CHƯA CÓ STREAM
@@ -195,19 +210,24 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
                             size: 60, color: Colors.grey),
                         const SizedBox(height: 12),
                         const Text(
+                          // Chưa có stream
                           'Stream chưa được tạo\nBấm Start để bắt đầu',
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.grey),
                         ),
+
+                        // Kiểm tra xem có đang chờ không
                       ] else if (snapshot.connectionState ==
                           ConnectionState.waiting) ...[
                         // ĐANG CHỜ
                         const CircularProgressIndicator(),
                         const SizedBox(height: 12),
                         const Text('Waiting for first value...'),
+
+                        // Kiểm tra xem có đang hoạt động không
                       ] else if (snapshot.connectionState ==
-                          ConnectionState.done) ...[
-                        // STREAM ĐÃ ĐÓNG
+                          ConnectionState.active) ...[
+                        // STREAM ĐANG HOẠT ĐỘNG
                         const Icon(Icons.check_circle,
                             size: 60, color: Colors.green),
                         const SizedBox(height: 12),
@@ -215,6 +235,8 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
                           'Stream closed\nFinal value: ${snapshot.data}',
                           textAlign: TextAlign.center,
                         ),
+
+                        // Trường hợp còn lại
                       ] else ...[
                         // ACTIVE - ĐANG NHẬN DATA
                         Text(
@@ -239,11 +261,12 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
             const SizedBox(height: 24),
 
             // ================================================================
-            // CONTROL BUTTONS
+            // CONTROL BUTTONS - NÚT ĐIỀU KHIỂN
             // ================================================================
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // NÚT START
                 ElevatedButton.icon(
                   onPressed: _isRunning ? null : _startTimer,
                   icon: const Icon(Icons.play_arrow),
@@ -253,6 +276,8 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
                   ),
                 ),
                 const SizedBox(width: 12),
+
+                // NÚT STOP
                 ElevatedButton.icon(
                   onPressed: _isRunning ? _stopTimer : null,
                   icon: const Icon(Icons.stop),
@@ -262,6 +287,8 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
                   ),
                 ),
                 const SizedBox(width: 12),
+
+                // NÚT RESET
                 ElevatedButton.icon(
                   onPressed: _resetTimer,
                   icon: const Icon(Icons.refresh),
@@ -276,7 +303,7 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
             const SizedBox(height: 32),
 
             // ================================================================
-            // ASYNCSNAPSHOT REFERENCE
+            // ASYNCSNAPSHOT REFERENCE - THAM KHẢO
             // ================================================================
             Container(
               padding: const EdgeInsets.all(16),
@@ -310,7 +337,7 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
             const SizedBox(height: 16),
 
             // ================================================================
-            // WARNING NOTE
+            // WARNING NOTE - GHI CHÚ QUAN TRỌNG
             // ================================================================
             Container(
               padding: const EdgeInsets.all(16),
@@ -339,6 +366,7 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
   }
 
   // Helper methods cho UI
+  // _getBackgroundColor - Lấy màu nền
   Color _getBackgroundColor(AsyncSnapshot<int> snapshot) {
     if (snapshot.hasError) return Colors.red.shade50;
     if (snapshot.connectionState == ConnectionState.none) {
@@ -350,6 +378,7 @@ class _Ex03StreamBuilderWidgetState extends State<Ex03StreamBuilderWidget> {
     return Colors.blue.shade50;
   }
 
+  // _getBorderColor - Lấy màu viền
   Color _getBorderColor(AsyncSnapshot<int> snapshot) {
     if (snapshot.hasError) return Colors.red.shade300;
     if (snapshot.connectionState == ConnectionState.none) {

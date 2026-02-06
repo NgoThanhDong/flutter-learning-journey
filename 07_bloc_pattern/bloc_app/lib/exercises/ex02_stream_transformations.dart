@@ -101,6 +101,7 @@ class _Ex02StreamTransformationsState extends State<Ex02StreamTransformations> {
         });
   }
 
+  /// Thêm log vào danh sách
   void _addLog(String message) {
     setState(() {
       _logs.add(message);
@@ -111,10 +112,12 @@ class _Ex02StreamTransformationsState extends State<Ex02StreamTransformations> {
     });
   }
 
+  /// Thêm số vào stream
   void _addNumber(int number) {
     _inputController.sink.add(number);
   }
 
+  /// Xóa log
   void _clearLogs() {
     setState(() {
       _logs.clear();
@@ -123,11 +126,12 @@ class _Ex02StreamTransformationsState extends State<Ex02StreamTransformations> {
 
   @override
   void dispose() {
-    _subscription?.cancel();
-    _inputController.close();
+    _subscription?.cancel(); // Hủy stream subscription
+    _inputController.close(); // Đóng stream controller
     super.dispose();
   }
 
+  /// Xây dựng giao diện
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,6 +139,7 @@ class _Ex02StreamTransformationsState extends State<Ex02StreamTransformations> {
         title: const Text('Ex02: Stream Transformations'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
+          /// Button xóa log
           IconButton(
             onPressed: _clearLogs,
             icon: const Icon(Icons.delete_outline),
@@ -145,7 +150,7 @@ class _Ex02StreamTransformationsState extends State<Ex02StreamTransformations> {
       body: Column(
         children: [
           // ================================================================
-          // PIPELINE VISUALIZATION
+          // PIPELINE VISUALIZATION (Hiển thị chuỗi các operators)
           // ================================================================
           Container(
             width: double.infinity,
@@ -167,7 +172,7 @@ class _Ex02StreamTransformationsState extends State<Ex02StreamTransformations> {
           ),
 
           // ================================================================
-          // NUMBER INPUT BUTTONS
+          // NUMBER INPUT BUTTONS (Các nút bấm để thêm số vào stream)
           // ================================================================
           Padding(
             padding: const EdgeInsets.all(16),
@@ -216,7 +221,7 @@ class _Ex02StreamTransformationsState extends State<Ex02StreamTransformations> {
           const Divider(),
 
           // ================================================================
-          // LOGS DISPLAY
+          // LOGS DISPLAY (Hiển thị log)
           // ================================================================
           Expanded(
             child: _logs.isEmpty
@@ -245,7 +250,7 @@ class _Ex02StreamTransformationsState extends State<Ex02StreamTransformations> {
           ),
 
           // ================================================================
-          // OPERATORS REFERENCE
+          // OPERATORS REFERENCE (Tham khảo các operators khác)
           // ================================================================
           Container(
             width: double.infinity,
