@@ -108,8 +108,112 @@ class _PortfolioScaffoldState extends State<PortfolioScaffold> {
     'Contact': GlobalKey(),
   };
 
+  final ScrollController _scrollController = ScrollController();
+  String _activeSection = 'Home';
+  bool _showBackToTop = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    // 1. Back to top visibility
+    if (_scrollController.offset > 300 && !_showBackToTop) {
+      setState(() => _showBackToTop = true);
+    } else if (_scrollController.offset <= 300 && _showBackToTop) {
+      setState(() => _showBackToTop = false);
+    }
+
+    // 2. Active Section Highlighting
+    _checkActiveSection();
+  }
+
+  void _checkActiveSection() {
+    double minDistance = double.infinity;
+    String newSection = _activeSection;
+
+    for (final entry in _keys.entries) {
+      final key = entry.value;
+      final context = key.currentContext;
+      if (context != null) {
+        final renderBox = context.findRenderObject() as RenderBox;
+        final position = renderBox.localToGlobal(Offset.zero);
+        // Distance of section top to the top of viewport (0)
+        final distance = (position.dy).abs();
+
+        // Check if section is somewhat visible (top is above screen center)
+        // A simple heuristic: The section closest to the top (0) is active
+        if (distance < minDistance) {
+          minDistance = distance;
+          newSection = entry.key;
+        }
+      }
+    }
+
+    if (newSection != _activeSection) {
+      setState(() => _activeSection = newSection);
+    }
+  }
+
+  Future<void> _simulateDownload() async {
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (context) => const Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text(
+                  'Generating PDF...',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+    );
+
+    // Simulate delay
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+    Navigator.pop(context); // Close dialog
+
+    // Show success snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: const [
+            Icon(Icons.check_circle, color: Colors.white),
+            SizedBox(width: 8),
+            Text('CV downloaded successfully to your device!'),
+          ],
+        ),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+  }
+
   void _scrollTo(String key) {
-    // If drawer is open (mobile), close it
     if (Scaffold.maybeOf(context)?.hasDrawer ?? false) {
       Navigator.pop(context);
     }
@@ -118,9 +222,11 @@ class _PortfolioScaffoldState extends State<PortfolioScaffold> {
     if (contextKey != null) {
       Scrollable.ensureVisible(
         contextKey,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeOutCubic,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.fastOutSlowIn,
       );
+      // Manually set active section to avoid jerky updates during scroll
+      setState(() => _activeSection = key);
     }
   }
 
@@ -156,17 +262,42 @@ class _PortfolioScaffoldState extends State<PortfolioScaffold> {
               color: Theme.of(context).colorScheme.onSurface,
             ),
             actions: [
-              // Desktop Menu
+              // Desktop Menu with Active Highlight
               if (!isMobile)
-                ...navItems.map(
-                  (item) => TextButton(
-                    onPressed: () => _scrollTo(item),
-                    child: Text(
-                      item,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                ...navItems.map((item) {
+                  final isActive = _activeSection == item;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: TextButton(
+                      onPressed: () => _scrollTo(item),
+                      style: TextButton.styleFrom(
+                        foregroundColor:
+                            isActive
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context).colorScheme.onSurface,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            item,
+                            style: TextStyle(
+                              fontWeight:
+                                  isActive ? FontWeight.bold : FontWeight.w500,
+                            ),
+                          ),
+                          if (isActive)
+                            Container(
+                              margin: const EdgeInsets.only(top: 4),
+                              height: 2,
+                              width: 20,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
 
               const SizedBox(width: 8),
 
@@ -215,6 +346,8 @@ class _PortfolioScaffoldState extends State<PortfolioScaffold> {
                       (item) => ListTile(
                         leading: Icon(_getIconFor(item)),
                         title: Text(item),
+                        selected: _activeSection == item,
+                        selectedColor: Theme.of(context).primaryColor,
                         onTap: () {
                           Navigator.pop(context);
                           _scrollTo(item);
@@ -225,27 +358,62 @@ class _PortfolioScaffoldState extends State<PortfolioScaffold> {
                 ),
               )
               : null,
+      floatingActionButton:
+          _showBackToTop
+              ? FloatingActionButton(
+                onPressed: () => _scrollTo('Home'),
+                mini: true,
+                child: const Icon(Icons.arrow_upward),
+              )
+              : null,
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
-            // HERO
-            Container(
-              key: _keys['Home'],
-              // Full height minus appbar roughly
-              constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height,
+            // HERO (Always visible initially, but consistent wrapping)
+            RevealOnScroll(
+              scrollController: _scrollController,
+              child: Container(
+                key: _keys['Home'],
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                ),
+                child: Center(
+                  child: Ex18PortfolioHome(
+                    onContactTap: () => _scrollTo('Contact'),
+                    onDownloadTap: _simulateDownload,
+                  ),
+                ),
               ),
-              child: const Center(child: Ex18PortfolioHome()),
             ),
 
             // SKILLS
-            Container(key: _keys['Skills'], child: const SkillsSection()),
+            RevealOnScroll(
+              scrollController: _scrollController,
+              delay: const Duration(milliseconds: 200),
+              child: Container(
+                key: _keys['Skills'],
+                child: const SkillsSection(),
+              ),
+            ),
 
             // PROJECTS
-            Container(key: _keys['Projects'], child: const ProjectsSection()),
+            RevealOnScroll(
+              scrollController: _scrollController,
+              child: Container(
+                key: _keys['Projects'],
+                child: const ProjectsSection(),
+              ),
+            ),
 
             // CONTACT
-            Container(key: _keys['Contact'], child: const ContactSection()),
+            RevealOnScroll(
+              scrollController: _scrollController,
+              child: Container(
+                key: _keys['Contact'],
+                child: const ContactSection(),
+              ),
+            ),
 
             // FOOTER
             Container(
@@ -271,5 +439,95 @@ class _PortfolioScaffoldState extends State<PortfolioScaffold> {
       'Contact' => Icons.email,
       _ => Icons.circle,
     };
+  }
+}
+
+// ============================================================================
+// ANIMATION WIDGET
+// ============================================================================
+
+class RevealOnScroll extends StatefulWidget {
+  final Widget child;
+  final ScrollController scrollController;
+  final Duration delay;
+
+  const RevealOnScroll({
+    super.key,
+    required this.child,
+    required this.scrollController,
+    this.delay = Duration.zero,
+  });
+
+  @override
+  State<RevealOnScroll> createState() => _RevealOnScrollState();
+}
+
+class _RevealOnScrollState extends State<RevealOnScroll>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _opacity;
+  late Animation<Offset> _slide;
+  bool _isVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _opacity = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 0.2), // Slide up from 20% down
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    // Listen to scroll
+    widget.scrollController.addListener(_checkVisibility);
+    // Initial check after build
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkVisibility());
+  }
+
+  void _checkVisibility() {
+    if (_isVisible) return;
+    if (!mounted) return;
+
+    final context = this.context;
+    final renderObject = context.findRenderObject();
+    if (renderObject == null) return;
+
+    final renderBox = renderObject as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero);
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Trigger when top of widget enters the bottom 85% of screen
+    if (position.dy < screenHeight * 0.85) {
+      if (widget.delay != Duration.zero) {
+        Future.delayed(widget.delay, () {
+          if (mounted) _controller.forward();
+        });
+      } else {
+        _controller.forward();
+      }
+
+      setState(() => _isVisible = true);
+      // Cleanup listener
+      widget.scrollController.removeListener(_checkVisibility);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController.removeListener(_checkVisibility);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: SlideTransition(position: _slide, child: widget.child),
+    );
   }
 }

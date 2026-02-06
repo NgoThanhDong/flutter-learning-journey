@@ -156,7 +156,10 @@ class _CursorBlinkState extends State<_CursorBlink>
 // ============================================================================
 
 class Ex18PortfolioHome extends StatelessWidget {
-  const Ex18PortfolioHome({super.key});
+  final VoidCallback? onContactTap;
+  final VoidCallback? onDownloadTap;
+
+  const Ex18PortfolioHome({super.key, this.onContactTap, this.onDownloadTap});
 
   @override
   Widget build(BuildContext context) {
@@ -279,7 +282,7 @@ class Ex18PortfolioHome extends StatelessWidget {
           alignment: centered ? WrapAlignment.center : WrapAlignment.start,
           children: [
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: onDownloadTap,
               icon: const Icon(Icons.download),
               label: const Text('Download CV'),
               style: ElevatedButton.styleFrom(
@@ -291,7 +294,7 @@ class Ex18PortfolioHome extends StatelessWidget {
               ),
             ),
             OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: onContactTap,
               icon: const Icon(Icons.contact_mail),
               label: const Text('Contact Me'),
               style: OutlinedButton.styleFrom(
