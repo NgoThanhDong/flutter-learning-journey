@@ -149,7 +149,8 @@ class PortfolioData {
     role: 'Senior Flutter Developer',
     bio:
         'Passionate mobile developer with 5+ years of experience building beautiful, performant iOS and Android applications using Flutter.',
-    avatarUrl: 'https://i.pravatar.cc/300',
+    avatarUrl:
+        'https://ui-avatars.com/api/?name=Flutter+Dev&background=0D47A1&color=fff&size=300',
     location: 'Ho Chi Minh City, Vietnam',
     email: 'hello@flutter.dev',
   );
@@ -247,7 +248,7 @@ class Ex16PortfolioModels extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           const Text(
-            '👤 Profile Data',
+            'Profile Data',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
@@ -263,7 +264,7 @@ class Ex16PortfolioModels extends StatelessWidget {
 
           const SizedBox(height: 24),
           const Text(
-            '🛠️ Skills Data',
+            'Skills Data',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
@@ -291,7 +292,7 @@ class Ex16PortfolioModels extends StatelessWidget {
 
           const SizedBox(height: 24),
           const Text(
-            '🚀 Projects Data',
+            'Projects Data',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),

@@ -72,7 +72,7 @@ class _Ex17PortfolioNavigationState extends State<Ex17PortfolioNavigation> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withOpacity(0.7),
+                        Colors.black.withValues(alpha: 0.7),
                         Colors.transparent,
                       ],
                     ),
@@ -130,7 +130,7 @@ class _Ex17PortfolioNavigationState extends State<Ex17PortfolioNavigation> {
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                       border: Border(
                         bottom: BorderSide(color: Colors.grey.shade200),
                       ),

@@ -73,7 +73,7 @@ class _SkillCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -84,7 +84,7 @@ class _SkillCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundColor: skill.type.color.withOpacity(0.1),
+            backgroundColor: skill.type.color.withValues(alpha: 0.1),
             child: Icon(Icons.code, color: skill.type.color, size: 32),
           ),
           const SizedBox(height: 16),
@@ -101,7 +101,7 @@ class _SkillCard extends StatelessWidget {
           LinearProgressIndicator(
             value: skill.level,
             color: skill.type.color,
-            backgroundColor: skill.type.color.withOpacity(0.1),
+            backgroundColor: skill.type.color.withValues(alpha: 0.1),
             minHeight: 4,
             borderRadius: BorderRadius.circular(2),
           ),
@@ -357,9 +357,7 @@ class _ContactSectionState extends State<ContactSection> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Message sent! 🚀'),
-                                ),
+                                const SnackBar(content: Text('Message sent!')),
                               );
                             }
                           },

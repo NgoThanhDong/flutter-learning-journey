@@ -135,9 +135,11 @@ class _PortfolioScaffoldState extends State<PortfolioScaffold> {
         preferredSize: const Size.fromHeight(70),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
+            color: Theme.of(
+              context,
+            ).scaffoldBackgroundColor.withValues(alpha: 0.9),
             border: Border(
-              bottom: BorderSide(color: Colors.grey.withOpacity(0.1)),
+              bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
             ),
           ),
           child: AppBar(
@@ -251,7 +253,7 @@ class _PortfolioScaffoldState extends State<PortfolioScaffold> {
               alignment: Alignment.center,
               color: Colors.black87,
               child: const Text(
-                'Built with Flutter 💙 by Me',
+                'Built with Flutter by Me',
                 style: TextStyle(color: Colors.white54),
               ),
             ),
