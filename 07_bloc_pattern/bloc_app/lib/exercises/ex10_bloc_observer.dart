@@ -3,14 +3,14 @@
 /// ============================================================================
 ///
 /// 🎯 MỤC TIÊU:
-/// - Hiểu BlocObserver và cách sử dụng
+/// - Hiểu BlocObserver (abstract class) và cách sử dụng
 /// - Debug tất cả BLoC/Cubit trong app
 /// - Log events, state changes, errors
 ///
 /// 📝 BLOCOBSERVER:
-/// - Global observer cho tất cả BLoC/Cubit
-/// - Track: onCreate, onEvent, onChange, onClose, onError
-/// - Hữu ích cho debugging và analytics
+/// - Global observer (quan sát viên) cho tất cả BLoC/Cubit
+/// - Track (theo dõi): onCreate, onEvent, onChange, onClose, onError
+/// - Hữu ích cho debugging (gỡ lỗi) và analytics (phân tích)
 ///
 /// ============================================================================
 library;
@@ -26,19 +26,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //
 // Override các methods để xử lý events:
 // - onCreate: Khi BLoC/Cubit được tạo
-// - onEvent: Khi event được dispatch (chỉ BLoC)
+// - onEvent: Khi event được dispatch (gửi) (chỉ BLoC)
 // - onChange: Khi state thay đổi
 // - onTransition: Event + state change (chỉ BLoC)
 // - onError: Khi có lỗi
 // - onClose: Khi BLoC/Cubit bị dispose
 // ============================================================================
+
+// Tạo một class kế thừa BlocObserver
 class AppBlocObserver extends BlocObserver {
   // Danh sách logs để hiển thị trong UI
   final List<String> logs = [];
   final void Function()? onLogAdded;
 
+  // Constructor
   AppBlocObserver({this.onLogAdded});
 
+  // Method để thêm log
   void _addLog(String message) {
     final timestamp = DateTime.now().toIso8601String().substring(11, 19);
     logs.add('[$timestamp] $message');
@@ -46,18 +50,21 @@ class AppBlocObserver extends BlocObserver {
     onLogAdded?.call();
   }
 
+  // onCreate: Khi BLoC/Cubit được tạo
   @override
   void onCreate(BlocBase bloc) {
     super.onCreate(bloc);
     _addLog('🆕 CREATE: ${bloc.runtimeType}');
   }
 
+  // onEvent: Khi event được dispatch (gửi) (chỉ BLoC)
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
     _addLog('📤 EVENT: ${bloc.runtimeType} ← $event');
   }
 
+  // onChange: Khi state thay đổi
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
@@ -66,6 +73,7 @@ class AppBlocObserver extends BlocObserver {
     _addLog('   to: ${change.nextState}');
   }
 
+  // onTransition: Event + state change (chỉ BLoC)
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
@@ -74,12 +82,14 @@ class AppBlocObserver extends BlocObserver {
     _addLog('   ${transition.currentState} → ${transition.nextState}');
   }
 
+  // onError: Khi có lỗi
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     super.onError(bloc, error, stackTrace);
     _addLog('❌ ERROR: ${bloc.runtimeType} - $error');
   }
 
+  // onClose: Khi BLoC/Cubit bị dispose
   @override
   void onClose(BlocBase bloc) {
     super.onClose(bloc);
@@ -103,10 +113,13 @@ class DemoCounterCubit extends Cubit<int> {
 /// Simple Counter BLoC với Events
 sealed class DemoCounterEvent {}
 
+// Event để tăng counter
 class DemoIncrement extends DemoCounterEvent {}
 
+// Event để giảm counter
 class DemoDecrement extends DemoCounterEvent {}
 
+// BLoC để xử lý counter
 class DemoCounterBloc extends Bloc<DemoCounterEvent, int> {
   DemoCounterBloc() : super(0) {
     on<DemoIncrement>((event, emit) => emit(state + 1));
@@ -125,6 +138,7 @@ class Ex10BlocObserver extends StatefulWidget {
 }
 
 class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
+  // Tạo một AppBlocObserver
   late final AppBlocObserver _observer;
 
   @override
@@ -152,11 +166,12 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
         if (mounted) setState(() {});
       });
     });
-    Bloc.observer = _observer;
+    Bloc.observer = _observer; // Thiết lập observer
   }
 
   @override
   Widget build(BuildContext context) {
+    // MultiBlocProvider để cung cấp BLoC/Cubit cho widget tree
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => DemoCounterCubit()),
@@ -171,14 +186,19 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
               icon: const Icon(Icons.delete_outline),
               onPressed: () {
                 setState(() {
-                  _observer.logs.clear();
+                  _observer.logs.clear(); // Xóa logs
                 });
               },
               tooltip: 'Clear logs',
             ),
           ],
         ),
+
         // Wrap body in Builder to get a context that is a descendant of MultiBlocProvider
+        // Builder là một widget nhận context là tham số
+        // Điều này cần thiết vì MultiBlocProvider nằm ở trên Ex10BlocObserver trong widget tree
+        // Nếu không dùng Builder, context của Ex10BlocObserver sẽ không phải là descendant của MultiBlocProvider
+        // và BlocProvider.of<DemoCounterCubit>(context) sẽ báo lỗi
         body: Builder(
           builder: (context) => Column(
             children: [
@@ -210,6 +230,8 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 8),
+
+                                  // BlocBuilder để hiển thị state của cubit
                                   BlocBuilder<DemoCounterCubit, int>(
                                     builder: (context, count) {
                                       return Text('$count',
@@ -220,12 +242,15 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      // IconButton để giảm counter
                                       IconButton(
                                         icon: const Icon(Icons.remove),
                                         onPressed: () => context
                                             .read<DemoCounterCubit>()
                                             .decrement(),
                                       ),
+
+                                      // IconButton để tăng counter
                                       IconButton(
                                         icon: const Icon(Icons.add),
                                         onPressed: () => context
@@ -251,6 +276,8 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 8),
+
+                                  // BlocBuilder để hiển thị state của bloc
                                   BlocBuilder<DemoCounterBloc, int>(
                                     builder: (context, count) {
                                       return Text('$count',
@@ -261,12 +288,15 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      // IconButton để giảm counter
                                       IconButton(
                                         icon: const Icon(Icons.remove),
                                         onPressed: () => context
                                             .read<DemoCounterBloc>()
                                             .add(DemoDecrement()),
                                       ),
+
+                                      // IconButton để tăng counter
                                       IconButton(
                                         icon: const Icon(Icons.add),
                                         onPressed: () => context
@@ -290,6 +320,7 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
                       child: ElevatedButton.icon(
                         onPressed: () {
                           try {
+                            // Trigger error
                             context.read<DemoCounterCubit>().throwError();
                           } catch (e) {
                             // Error đã được log bởi observer
@@ -323,13 +354,15 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
                           padding: const EdgeInsets.all(12),
                           itemCount: _observer.logs.length,
                           itemBuilder: (context, index) {
+                            // Lấy log
                             final log = _observer.logs[index];
+
                             return Text(
                               log,
                               style: TextStyle(
                                 fontFamily: 'monospace',
                                 fontSize: 12,
-                                color: _getLogColor(log),
+                                color: _getLogColor(log), // Lấy màu log
                               ),
                             );
                           },
@@ -338,7 +371,7 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
               ),
 
               // ================================================================
-              // EXPLANATION
+              // EXPLANATION (Giải thích)
               // ================================================================
               Container(
                 width: double.infinity,
@@ -357,6 +390,7 @@ class _Ex10BlocObserverState extends State<Ex10BlocObserver> {
     );
   }
 
+  // Hàm lấy màu log
   Color _getLogColor(String log) {
     if (log.contains('CREATE')) return Colors.green;
     if (log.contains('EVENT')) return Colors.yellow;

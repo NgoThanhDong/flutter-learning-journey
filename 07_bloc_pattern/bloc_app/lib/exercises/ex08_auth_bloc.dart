@@ -23,6 +23,7 @@ import 'package:equatable/equatable.dart';
 // ============================================================================
 // EVENTS
 // ============================================================================
+// sealed class: Tất cả các class con phải trong cùng file
 sealed class AuthEvent extends Equatable {
   const AuthEvent();
 
@@ -31,6 +32,7 @@ sealed class AuthEvent extends Equatable {
 }
 
 /// Event: Người dùng submit login form
+/// LoginSubmitted (Sự kiện người dùng submit form đăng nhập)
 class LoginSubmitted extends AuthEvent {
   final String username;
   final String password;
@@ -42,6 +44,7 @@ class LoginSubmitted extends AuthEvent {
 }
 
 /// Event: Người dùng logout
+/// LogoutRequested (Sự kiện người dùng yêu cầu đăng xuất)
 class LogoutRequested extends AuthEvent {
   const LogoutRequested();
 }
@@ -64,16 +67,19 @@ sealed class AuthState extends Equatable {
 }
 
 /// State: Chưa login
+/// AuthInitial (Trạng thái ban đầu - chưa đăng nhập)
 class AuthInitial extends AuthState {
   const AuthInitial();
 }
 
 /// State: Đang xử lý login
+/// AuthLoading (Trạng thái đang xử lý đăng nhập)
 class AuthLoading extends AuthState {
   const AuthLoading();
 }
 
 /// State: Login thành công
+/// AuthSuccess (Trạng thái đăng nhập thành công)
 class AuthSuccess extends AuthState {
   final String username;
   final String displayName;
@@ -85,6 +91,7 @@ class AuthSuccess extends AuthState {
 }
 
 /// State: Login thất bại
+/// AuthFailure (Trạng thái đăng nhập thất bại)
 class AuthFailure extends AuthState {
   final String errorMessage;
 
@@ -97,10 +104,11 @@ class AuthFailure extends AuthState {
 // ============================================================================
 // BLOC
 // ============================================================================
+// AuthBloc (Quản lý trạng thái đăng nhập)
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(const AuthInitial()) {
-    on<LoginSubmitted>(_onLoginSubmitted);
-    on<LogoutRequested>(_onLogoutRequested);
+    on<LoginSubmitted>(_onLoginSubmitted); // Xử lý sự kiện đăng nhập
+    on<LogoutRequested>(_onLogoutRequested); // Xử lý sự kiện đăng xuất
   }
 
   // ============================================================================
@@ -112,6 +120,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // 2. Thực hiện async operation (API call simulation)
   // 3. Emit Success hoặc Failure tùy kết quả
   // ============================================================================
+  // Xử lý sự kiện đăng nhập
   Future<void> _onLoginSubmitted(
     LoginSubmitted event,
     Emitter<AuthState> emit,
@@ -140,6 +149,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // ============================================================================
   // LOGOUT HANDLER
   // ============================================================================
+  // Xử lý sự kiện đăng xuất
   Future<void> _onLogoutRequested(
     LogoutRequested event,
     Emitter<AuthState> emit,
@@ -158,6 +168,7 @@ class Ex08AuthBloc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // BlocProvider (Cung cấp AuthBloc cho widget con)
     return BlocProvider<AuthBloc>(
       create: (context) => AuthBloc(),
       child: const _AuthView(),
@@ -175,7 +186,7 @@ class _AuthView extends StatefulWidget {
 class _AuthViewState extends State<_AuthView> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscurePassword = true;
+  bool _obscurePassword = true; // Ẩn mật khẩu
 
   @override
   void dispose() {
@@ -198,6 +209,7 @@ class _AuthViewState extends State<_AuthView> {
             // ================================================================
             // STATE DISPLAY
             // ================================================================
+            // BlocBuilder (Lắng nghe thay đổi state và build UI tương ứng)
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 return Container(
@@ -215,6 +227,7 @@ class _AuthViewState extends State<_AuthView> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
+                      // Hiển thị mô tả state
                       Text(
                         _getStateDescription(state),
                         style: TextStyle(color: _getStateColor(state)),
@@ -234,6 +247,7 @@ class _AuthViewState extends State<_AuthView> {
             // Dart 3 switch expression với sealed classes
             // Compiler đảm bảo handle tất cả cases
             // ================================================================
+            // BlocBuilder (Lắng nghe thay đổi state và build UI tương ứng)
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 // Pattern matching với switch expression
@@ -296,6 +310,7 @@ class _AuthViewState extends State<_AuthView> {
   // ============================================================================
   // LOGIN FORM WIDGET
   // ============================================================================
+  // Widget hiển thị form đăng nhập
   Widget _buildLoginForm(BuildContext context, {String? errorMessage}) {
     return Column(
       children: [
@@ -375,6 +390,7 @@ class _AuthViewState extends State<_AuthView> {
   // ============================================================================
   // LOADING WIDGET
   // ============================================================================
+  // Widget hiển thị trạng thái loading
   Widget _buildLoading() {
     return const SizedBox(
       height: 200,
@@ -394,6 +410,7 @@ class _AuthViewState extends State<_AuthView> {
   // ============================================================================
   // SUCCESS VIEW
   // ============================================================================
+  // Widget hiển thị trạng thái thành công
   Widget _buildSuccessView(
       BuildContext context, String username, String displayName) {
     return Column(
@@ -424,6 +441,7 @@ class _AuthViewState extends State<_AuthView> {
   // ============================================================================
   // HELPER METHODS
   // ============================================================================
+  // Phương thức helper để lấy màu tương ứng với state
   Color _getStateColor(AuthState state) {
     return switch (state) {
       AuthInitial() => Colors.grey,
@@ -433,6 +451,7 @@ class _AuthViewState extends State<_AuthView> {
     };
   }
 
+  // Phương thức helper để lấy mô tả tương ứng với state
   String _getStateDescription(AuthState state) {
     return switch (state) {
       AuthInitial() => 'Chưa đăng nhập',

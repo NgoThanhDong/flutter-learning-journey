@@ -12,9 +12,9 @@
 /// - BLoC: dispatch event (bloc.add(IncrementEvent()))
 ///
 /// Ưu điểm của BLoC:
-/// - Trace được event history
+/// - Trace (theo dõi) được event history (biết user đã làm gì)
 /// - Dễ debug (biết user làm gì)
-/// - Có thể transform events (debounce, throttle)
+/// - Có thể transform events (debounce, throttle) (biến đổi events)
 ///
 /// ============================================================================
 library;
@@ -31,7 +31,7 @@ import 'package:equatable/equatable.dart';
 // - Tất cả subclasses phải trong cùng file
 // - Compiler biết đủ tất cả types → exhaustive switch
 //
-// Naming convention:
+// Naming convention (quy tắc đặt tên):
 // - Động từ + đối tượng: Increment, Decrement, Reset
 // - Hoặc: CounterIncremented, CounterDecremented
 // ============================================================================
@@ -89,9 +89,9 @@ class CounterBloc extends Bloc<CounterEvent, int> {
     //
     // on<EventType>(handler): Khi nhận EventType, gọi handler
     //
-    // Handler signature:
+    // Handler signature (chữ ký của handler):
     //   Future<void> handler(Event event, Emitter<State> emit)
-    //   - event: Instance của event được dispatch
+    //   - event: Instance của event được dispatch (gửi đi)
     //   - emit: Function để phát ra state mới
     //
     // Lưu ý: Có thể có nhiều emit() trong 1 handler
@@ -127,6 +127,9 @@ class Ex07CounterBloc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // BlocProvider: Cung cấp BLoC cho widget tree
+    // create: Tạo instance của BLoC
+    // child: Widget con
     return BlocProvider<CounterBloc>(
       create: (context) => CounterBloc(),
       child: const _CounterView(),
@@ -216,7 +219,7 @@ class _CounterView extends StatelessWidget {
                 // DISPATCH EVENT
                 // ==========================================================
                 //
-                // bloc.add(Event): Dispatch event vào BLoC
+                // bloc.add(Event): Dispatch event vào BLoC (gửi event vào BLoC)
                 //
                 // Khác với Cubit:
                 // - Cubit: context.read<C>().method()
@@ -274,7 +277,7 @@ class _CounterView extends StatelessWidget {
             const SizedBox(height: 40),
 
             // ================================================================
-            // COMPARISON BOX
+            // COMPARISON BOX (Hộp so sánh)
             // ================================================================
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 24),

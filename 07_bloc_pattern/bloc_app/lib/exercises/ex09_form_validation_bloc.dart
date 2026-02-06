@@ -5,7 +5,7 @@
 /// 🎯 MỤC TIÊU:
 /// - Form validation với BLoC
 /// - Reactive validation (validate khi user đang nhập)
-/// - Xử lý multiple fields với complex state
+/// - Xử lý multiple fields với complex state (nhiều field)
 /// - Submit form khi valid
 ///
 /// 📝 REAL-WORLD USE CASE:
@@ -23,13 +23,14 @@ import 'package:equatable/equatable.dart';
 // ============================================================================
 // EVENTS
 // ============================================================================
+// FormEvent (Các event của form)
 sealed class FormEvent extends Equatable {
   const FormEvent();
   @override
   List<Object> get props => [];
 }
 
-/// Event: Email changed
+// EmailChanged (Event khi email thay đổi)
 class EmailChanged extends FormEvent {
   final String email;
   const EmailChanged(this.email);
@@ -37,7 +38,7 @@ class EmailChanged extends FormEvent {
   List<Object> get props => [email];
 }
 
-/// Event: Password changed
+// PasswordChanged (Event khi password thay đổi)
 class PasswordChanged extends FormEvent {
   final String password;
   const PasswordChanged(this.password);
@@ -45,7 +46,7 @@ class PasswordChanged extends FormEvent {
   List<Object> get props => [password];
 }
 
-/// Event: Confirm password changed
+// ConfirmPasswordChanged (Event khi confirm password thay đổi)
 class ConfirmPasswordChanged extends FormEvent {
   final String confirmPassword;
   const ConfirmPasswordChanged(this.confirmPassword);
@@ -53,7 +54,7 @@ class ConfirmPasswordChanged extends FormEvent {
   List<Object> get props => [confirmPassword];
 }
 
-/// Event: Submit form
+// FormSubmitted (Event khi submit form)
 class FormSubmitted extends FormEvent {
   const FormSubmitted();
 }
@@ -61,6 +62,7 @@ class FormSubmitted extends FormEvent {
 // ============================================================================
 // STATE - Complex form state
 // ============================================================================
+// FormValidationState (State của form)
 class FormValidationState extends Equatable {
   final String email;
   final String? emailError;
@@ -93,6 +95,7 @@ class FormValidationState extends Equatable {
       confirmPassword.isNotEmpty &&
       confirmPasswordError == null;
 
+  // copyWith (Phương thức để copy state và thay đổi các field)
   FormValidationState copyWith({
     String? email,
     String? emailError,
@@ -119,6 +122,7 @@ class FormValidationState extends Equatable {
     );
   }
 
+  // props (Phương thức để so sánh state)
   @override
   List<Object?> get props => [
         email,
@@ -131,16 +135,23 @@ class FormValidationState extends Equatable {
       ];
 }
 
+// FormStatus (Enum để biểu diễn trạng thái của form)
 enum FormStatus { initial, loading, success, failure }
 
 // ============================================================================
 // BLOC
 // ============================================================================
+
+// FormValidationBloc (BLoC để xử lý form validation)
 class FormValidationBloc extends Bloc<FormEvent, FormValidationState> {
   FormValidationBloc() : super(const FormValidationState()) {
+    // Event khi email thay đổi
     on<EmailChanged>(_onEmailChanged);
+    // Event khi password thay đổi
     on<PasswordChanged>(_onPasswordChanged);
+    // Event khi confirm password thay đổi
     on<ConfirmPasswordChanged>(_onConfirmPasswordChanged);
+    // Event khi submit form
     on<FormSubmitted>(_onFormSubmitted);
   }
 
@@ -190,6 +201,7 @@ class FormValidationBloc extends Bloc<FormEvent, FormValidationState> {
       confirmError = 'Mật khẩu xác nhận không khớp';
     }
 
+    // Emit state mới
     emit(state.copyWith(
       password: password,
       passwordError: error,
@@ -229,8 +241,10 @@ class FormValidationBloc extends Bloc<FormEvent, FormValidationState> {
     FormSubmitted event,
     Emitter<FormValidationState> emit,
   ) async {
+    // Nếu form không valid thì return
     if (!state.isValid) return;
 
+    // Emit state loading
     emit(state.copyWith(status: FormStatus.loading));
 
     // Simulate API call
@@ -248,6 +262,7 @@ class Ex09FormValidationBloc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // BlocProvider (Widget để cung cấp BLoC cho widget con)
     return BlocProvider(
       create: (context) => FormValidationBloc(),
       child: const _FormView(),
@@ -265,6 +280,8 @@ class _FormView extends StatelessWidget {
         title: const Text('Ex09: Form Validation BLoC'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
+
+      // BlocConsumer (Widget để lắng nghe và xây dựng UI)
       body: BlocConsumer<FormValidationBloc, FormValidationState>(
         // ====================================================================
         // LISTENER - Side effects
@@ -283,10 +300,12 @@ class _FormView extends StatelessWidget {
         // BUILDER - UI
         // ====================================================================
         builder: (context, state) {
+          // Nếu form đã submit thành công thì hiển thị màn hình success
           if (state.status == FormStatus.success) {
             return _buildSuccessView(context);
           }
 
+          // Nếu form chưa submit thì hiển thị form
           return SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -328,6 +347,9 @@ class _FormView extends StatelessWidget {
                 // ============================================================
                 TextField(
                   onChanged: (value) {
+                    // Gửi event EmailChanged đến BLoC
+                    // context.read<FormValidationBloc>() để lấy BLoC
+                    // .add() để gửi event
                     context.read<FormValidationBloc>().add(EmailChanged(value));
                   },
                   decoration: InputDecoration(
@@ -350,6 +372,9 @@ class _FormView extends StatelessWidget {
                 // ============================================================
                 TextField(
                   onChanged: (value) {
+                    // Gửi event PasswordChanged đến BLoC
+                    // context.read<FormValidationBloc>() để lấy BLoC
+                    // .add() để gửi event
                     context
                         .read<FormValidationBloc>()
                         .add(PasswordChanged(value));
@@ -375,6 +400,9 @@ class _FormView extends StatelessWidget {
                 // ============================================================
                 TextField(
                   onChanged: (value) {
+                    // Gửi event ConfirmPasswordChanged đến BLoC
+                    // context.read<FormValidationBloc>() để lấy BLoC
+                    // .add() để gửi event
                     context
                         .read<FormValidationBloc>()
                         .add(ConfirmPasswordChanged(value));
@@ -454,6 +482,7 @@ class _FormView extends StatelessWidget {
     );
   }
 
+  // Màn hình hiển thị khi form đã submit thành công
   Widget _buildSuccessView(BuildContext context) {
     return Center(
       child: Column(
