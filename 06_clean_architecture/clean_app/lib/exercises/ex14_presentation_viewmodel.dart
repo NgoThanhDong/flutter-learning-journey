@@ -2,14 +2,14 @@
 /// EXERCISE 14: PRESENTATION - VIEWMODEL
 /// ===========================================
 /// 🎯 Mục tiêu:
-/// - ViewModel pattern cho Presentation layer
-/// - Tách biệt UI logic khỏi Widget
-/// - State management với ChangeNotifier
+/// - ViewModel pattern cho Presentation layer (mục đích là để quản lý UI state và logic)
+/// - Tách biệt UI logic khỏi Widget (để đảm bảo tính tái sử dụng)
+/// - State management với ChangeNotifier (để thông báo cho UI khi state thay đổi)
 ///
 /// 📝 ViewModel trong Clean Architecture:
-/// - Quản lý UI state
-/// - Gọi Use Cases
-/// - Không biết về Widget cụ thể
+/// - Quản lý UI state (thay đổi state và thông báo cho UI)
+/// - Gọi Use Cases (để lấy dữ liệu từ Domain layer)
+/// - Không biết về Widget cụ thể (để đảm bảo tính tái sử dụng)
 
 library;
 
@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 /// DOMAIN LAYER
 /// ===========================================
 
+/// Task entity - Đại diện cho dữ liệu nghiệp vụ
 class Task {
   final String id;
   final String title;
@@ -52,15 +53,18 @@ class Task {
 /// USE CASES (simplified)
 /// ===========================================
 
+/// TaskRepository - Repository cho Task (lưu trữ và truy xuất dữ liệu)
 class TaskRepository {
   final List<Task> _tasks = [];
   int _nextId = 1;
 
+  /// [getTasks] - Lấy danh sách tasks
   Future<List<Task>> getTasks() async {
     await Future.delayed(const Duration(milliseconds: 300));
     return List.from(_tasks);
   }
 
+  /// [addTask] - Thêm task mới
   Future<Task> addTask(String title) async {
     await Future.delayed(const Duration(milliseconds: 200));
     final task = Task(
@@ -73,6 +77,7 @@ class TaskRepository {
     return task;
   }
 
+  /// [toggleTask] - Toggle complete status
   Future<Task> toggleTask(String id) async {
     await Future.delayed(const Duration(milliseconds: 100));
     final index = _tasks.indexWhere((t) => t.id == id);
@@ -84,6 +89,7 @@ class TaskRepository {
     return _tasks[index];
   }
 
+  /// [deleteTask] - Xóa task
   Future<void> deleteTask(String id) async {
     await Future.delayed(const Duration(milliseconds: 100));
     _tasks.removeWhere((t) => t.id == id);
@@ -126,8 +132,13 @@ class TaskListViewModel extends ChangeNotifier {
   String? get error => _error;
   TaskFilter get filter => _filter;
 
+  /// [completedCount] - Số lượng tasks đã hoàn thành
   int get completedCount => _tasks.where((t) => t.isCompleted).length;
+
+  /// [pendingCount] - Số lượng tasks chưa hoàn thành
   int get pendingCount => _tasks.where((t) => !t.isCompleted).length;
+
+  /// [totalCount] - Tổng số lượng tasks
   int get totalCount => _tasks.length;
 
   /// ===========================================
@@ -210,6 +221,7 @@ class TaskListViewModel extends ChangeNotifier {
   }
 }
 
+/// [TaskFilter] - Enum cho filter
 enum TaskFilter { all, completed, pending }
 
 /// ===========================================
@@ -228,6 +240,7 @@ class Ex14PresentationViewmodel extends StatelessWidget {
   }
 }
 
+/// [_TaskListPage] - UI page
 class _TaskListPage extends StatelessWidget {
   const _TaskListPage();
 
@@ -238,6 +251,8 @@ class _TaskListPage extends StatelessWidget {
         title: const Text('Ex14: ViewModel Pattern'),
         actions: [
           /// [Consumer] - Rebuild only this part when state changes
+          /// Chỉ xây dựng lại phần này khi trạng thái thay đổi.
+          /// [PopupMenuButton] - Hiển thị filter options
           Consumer<TaskListViewModel>(
             builder: (context, vm, _) => PopupMenuButton<TaskFilter>(
               icon: const Icon(Icons.filter_list),
@@ -260,6 +275,8 @@ class _TaskListPage extends StatelessWidget {
           ),
         ],
       ),
+
+      /// [body] - Hiển thị danh sách tasks
       body: Column(
         children: [
           // Info
@@ -292,6 +309,8 @@ class _TaskListPage extends StatelessWidget {
           ),
 
           // Filter indicator
+          /// [Consumer] - Rebuild only this part when state changes
+          /// Chỉ xây dựng lại phần này khi trạng thái thay đổi.
           Consumer<TaskListViewModel>(
             builder: (context, vm, _) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -321,6 +340,8 @@ class _TaskListPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Error: ${vm.error}'),
+                        /// [ElevatedButton] - Retry loading tasks
+                        /// Nút thử lại để tải danh sách tasks
                         ElevatedButton(
                           onPressed: () {
                             vm.clearError();
@@ -342,6 +363,8 @@ class _TaskListPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final task = vm.tasks[index];
                     return ListTile(
+                      /// [Checkbox] - Toggle task completion status
+                      /// Checkbox để thay đổi trạng thái hoàn thành của task
                       leading: Checkbox(
                         value: task.isCompleted,
                         onChanged: (_) => vm.toggleTask(task.id),
@@ -354,6 +377,8 @@ class _TaskListPage extends StatelessWidget {
                               : null,
                         ),
                       ),
+                      /// [IconButton] - Delete task
+                      /// Nút xóa để xóa task
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () => vm.deleteTask(task.id),
@@ -366,6 +391,8 @@ class _TaskListPage extends StatelessWidget {
           ),
         ],
       ),
+      /// [FloatingActionButton] - Add task
+      /// Nút thêm để thêm task
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddDialog(context),
         child: const Icon(Icons.add),
@@ -373,6 +400,8 @@ class _TaskListPage extends StatelessWidget {
     );
   }
 
+  /// [showAddDialog] - Show dialog to add a new task
+  /// Hiển thị dialog để thêm task mới
   void _showAddDialog(BuildContext context) {
     final controller = TextEditingController();
     showDialog(
@@ -389,6 +418,9 @@ class _TaskListPage extends StatelessWidget {
             onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Cancel'),
           ),
+          
+          /// [ElevatedButton] - Add task
+          /// Nút thêm để thêm task
           ElevatedButton(
             onPressed: () {
               context.read<TaskListViewModel>().addTask(controller.text);

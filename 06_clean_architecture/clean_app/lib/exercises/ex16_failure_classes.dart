@@ -1,4 +1,5 @@
 /// EXERCISE 16: FAILURE CLASSES
+
 library;
 
 import 'package:flutter/material.dart';
@@ -11,10 +12,12 @@ abstract class Failure {
   const Failure(this.message, {this.code});
 }
 
+/// Server Failure class định nghĩa các lỗi từ server
 class ServerFailure extends Failure {
   final int? statusCode;
   const ServerFailure(super.message, {this.statusCode, super.code});
 
+  /// Factory constructor để tạo instance ServerFailure từ status code
   factory ServerFailure.fromStatusCode(int code) {
     switch (code) {
       case 400:
@@ -31,20 +34,23 @@ class ServerFailure extends Failure {
   }
 }
 
+/// Network Failure class định nghĩa các lỗi từ network
 class NetworkFailure extends Failure {
   const NetworkFailure() : super('No internet connection', code: 'NETWORK');
 }
 
+/// Cache Failure class định nghĩa các lỗi từ cache
 class CacheFailure extends Failure {
   const CacheFailure(super.message, {super.code});
 }
 
+/// Validation Failure class định nghĩa các lỗi từ validation
 class ValidationFailure extends Failure {
   final Map<String, String> fieldErrors;
   const ValidationFailure(super.message, {this.fieldErrors = const {}});
 }
 
-/// Fake API
+/// Fake API class định nghĩa các endpoint để test
 class FakeApi {
   Future<Either<Failure, String>> call(int endpoint) async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -74,6 +80,7 @@ class FakeApi {
   }
 }
 
+/// Ex16FailureClasses class định nghĩa giao diện người dùng
 class Ex16FailureClasses extends StatefulWidget {
   const Ex16FailureClasses({super.key});
   @override
@@ -85,12 +92,19 @@ class _Ex16FailureClassesState extends State<Ex16FailureClasses> {
   String _result = '';
   bool _isLoading = false;
 
+  /// _callApi method gọi API và xử lý kết quả
   Future<void> _callApi(int endpoint) async {
     setState(() {
       _isLoading = true;
       _result = '';
     });
+
+    /// Gọi API và xử lý kết quả
     final result = await _api.call(endpoint);
+
+    /// result.fold() method xử lý kết quả của API call
+    /// Nếu có lỗi, sẽ chuyển đổi Failure thành message
+    /// Nếu thành công, sẽ hiển thị kết quả
     result.fold(
       (failure) => setState(() => _result = _mapFailureToMessage(failure)),
       (success) => setState(() => _result = '✅ $success'),
@@ -98,6 +112,7 @@ class _Ex16FailureClassesState extends State<Ex16FailureClasses> {
     setState(() => _isLoading = false);
   }
 
+  /// _mapFailureToMessage method chuyển đổi Failure thành message
   String _mapFailureToMessage(Failure failure) {
     if (failure is ServerFailure) {
       return '❌ Server Error (${failure.statusCode}): ${failure.message}';
@@ -135,6 +150,8 @@ class _Ex16FailureClassesState extends State<Ex16FailureClasses> {
               'Simulate API calls:',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+
+            /// Wrap widget để hiển thị các button theo hàng ngang
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -174,7 +191,11 @@ class _Ex16FailureClassesState extends State<Ex16FailureClasses> {
               ],
             ),
             const SizedBox(height: 24),
+
+            /// Hiển thị loading khi đang gọi API
             if (_isLoading) const CircularProgressIndicator(),
+
+            /// Hiển thị kết quả khi có kết quả
             if (_result.isNotEmpty)
               Card(
                 child: Padding(
