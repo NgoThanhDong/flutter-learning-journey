@@ -16,7 +16,8 @@
 ///    - Properties: hourlyRate (lương/giờ), hoursWorked (số giờ làm)
 ///    - calculateSalary() trả về hourlyRate * hoursWorked
 ///
-/// Chạy file: dart run exercise_05_employee.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_05_employee.dart
 
 void main() {
   print('=== BÀI TẬP 2: HỆ THỐNG NHÂN VIÊN ===\n');

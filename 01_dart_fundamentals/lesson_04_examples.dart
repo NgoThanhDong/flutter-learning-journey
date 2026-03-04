@@ -3,9 +3,7 @@
 /// ===========================================
 ///
 /// Chạy file:
-/// ```
-/// dart run lesson_04_examples.dart
-/// ```
+///   dart run 01_dart_fundamentals/lesson_04_examples.dart
 
 void main() {
   print('=== 1. LIST ===\n');
@@ -181,9 +179,11 @@ void demonstrateHigherOrderFunctions() {
   print('Original: $numbers');
 
   // map() - Biến đổi mỗi phần tử
+  // toList() - Chuyển về List
   var doubled = numbers.map((n) => n * 2).toList();
   print('\nmap (x2): $doubled');
 
+  // take() - Lấy số phần tử đầu tiên
   var strings = numbers.map((n) => 'Số $n').toList();
   print('map (to string): ${strings.take(3).toList()}...');
 
@@ -205,7 +205,7 @@ void demonstrateHigherOrderFunctions() {
   print('\nany (có số > 8): ${numbers.any((n) => n > 8)}');
   print('every (tất cả > 0): ${numbers.every((n) => n > 0)}');
 
-  // firstWhere()
+  // firstWhere() - Tìm phần tử đầu tiên thỏa mãn điều kiện
   var firstEven = numbers.firstWhere((n) => n % 2 == 0);
   print('\nfirstWhere (số chẵn đầu tiên): $firstEven');
 
@@ -235,6 +235,7 @@ void demonstrateSpread() {
   print('Với extra: $withExtra');
 
   // Null-aware spread (...?)
+  // Nếu maybeNull là null thì không thêm gì cả
   List<int>? maybeNull;
   var safe = [...list1, ...?maybeNull];
   print('\nNull-aware spread: $safe');

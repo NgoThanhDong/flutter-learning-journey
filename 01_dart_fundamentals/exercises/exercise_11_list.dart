@@ -4,7 +4,8 @@
 ///
 /// Mục tiêu: Thành thạo các thao tác cơ bản với List
 ///
-/// Chạy file: dart run exercise_11_list.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_11_list.dart
 
 void main() {
   print('=== BÀI TẬP 11: THAO TÁC VỚI LIST ===\n');

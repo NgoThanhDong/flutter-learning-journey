@@ -7,7 +7,7 @@
 /// Hướng dẫn:
 /// 1. Điền code vào các chỗ -TODO
 /// 2. Chạy file để kiểm tra kết quả:
-///    dart run exercise_01_variables.dart
+///   dart run 01_dart_fundamentals/exercises/exercise_01_variables.dart
 
 void main() {
   print('=== BÀI TẬP 1: KHAI BÁO BIẾN ===\n');

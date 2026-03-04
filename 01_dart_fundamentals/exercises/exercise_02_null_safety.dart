@@ -5,7 +5,7 @@
 /// Mục tiêu: Hiểu và sử dụng Null Safety trong Dart
 ///
 /// Chạy file:
-///    dart run exercise_02_null_safety.dart
+///    dart run 01_dart_fundamentals/exercises/exercise_02_null_safety.dart
 
 void main() {
   print('=== BÀI TẬP 2: NULL SAFETY ===\n');

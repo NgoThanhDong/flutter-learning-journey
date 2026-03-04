@@ -4,7 +4,8 @@
 ///
 /// Mục tiêu: Thành thạo map, where, fold, any, every
 ///
-/// Chạy file: dart run exercise_13_higher_order.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_13_higher_order.dart
 
 void main() {
   print('=== BÀI TẬP 13: HIGHER-ORDER FUNCTIONS ===\n');

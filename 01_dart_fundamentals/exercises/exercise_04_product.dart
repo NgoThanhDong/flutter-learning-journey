@@ -7,7 +7,8 @@
 /// 2. Tạo method getTotalValue() trả về price * quantity
 /// 3. Tạo named constructor Product.free(name) với price = 0
 ///
-/// Chạy file để kiểm tra: dart run exercise_04_product.dart
+/// Chạy file để kiểm tra: 
+///   dart run 01_dart_fundamentals/exercises/exercise_04_product.dart
 
 void main() {
   print('=== BÀI TẬP 1: CLASS PRODUCT ===\n');

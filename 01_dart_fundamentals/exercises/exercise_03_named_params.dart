@@ -5,7 +5,7 @@
 /// Mục tiêu: Thành thạo Named Parameters trong Dart
 /// 
 /// Chạy file:
-///    dart run exercise_03_named_params.dart
+///    dart run 01_dart_fundamentals/exercises/exercise_03_named_params.dart
 
 void main() {
   print('=== BÀI TẬP 3: NAMED PARAMETERS ===\n');

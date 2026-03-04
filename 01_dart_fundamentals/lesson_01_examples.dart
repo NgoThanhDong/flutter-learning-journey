@@ -6,10 +6,7 @@
 ///
 /// File này chứa các ví dụ minh họa cho Bài 1.
 /// Chạy file này để xem kết quả:
-///
-/// ```
-/// dart run lesson_01_examples.dart
-/// ```
+///   dart run 01_dart_fundamentals/lesson_01_examples.dart
 
 void main() {
   print('=== 1. VARIABLES & TYPES ===\n');

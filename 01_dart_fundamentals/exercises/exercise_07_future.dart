@@ -8,7 +8,8 @@
 /// Viết function delayedHello(String name) trả về Future<String>
 /// sau 2 giây trả về chuỗi "Xin chào, [name]!"
 ///
-/// Chạy file: dart run exercise_07_future.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_07_future.dart
 
 void main() async {
   print('=== BÀI TẬP 7: FUTURE CƠ BẢN ===\n');

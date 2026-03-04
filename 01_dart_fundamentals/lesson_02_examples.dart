@@ -3,9 +3,7 @@
 /// ===========================================
 ///
 /// Chạy file:
-/// ```
-/// dart run lesson_02_examples.dart
-/// ```
+///   dart run 01_dart_fundamentals/lesson_02_examples.dart
 
 void main() {
   print('=== 1. CLASS CƠ BẢN ===\n');

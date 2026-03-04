@@ -3,9 +3,7 @@
 /// ===========================================
 ///
 /// Chạy file:
-/// ```
-/// dart run lesson_03_examples.dart
-/// ```
+///   dart run 01_dart_fundamentals/lesson_03_examples.dart
 
 import 'dart:async';
 

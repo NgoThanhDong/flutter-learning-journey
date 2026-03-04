@@ -4,7 +4,8 @@
 ///
 /// Mục tiêu: Làm việc với Map, đặc biệt là JSON từ API
 ///
-/// Chạy file: dart run exercise_12_map.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_12_map.dart
 
 void main() {
   print('=== BÀI TẬP 12: THAO TÁC VỚI MAP ===\n');

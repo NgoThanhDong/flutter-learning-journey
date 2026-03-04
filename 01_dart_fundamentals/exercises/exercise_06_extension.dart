@@ -9,7 +9,8 @@
 /// Ví dụ:
 /// DateTime(2024, 1, 15).toVietnameseFormat() → "15/01/2024"
 ///
-/// Chạy file: dart run exercise_06_extension.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_06_extension.dart
 
 void main() {
   print('=== BÀI TẬP 3: EXTENSION METHOD ===\n');

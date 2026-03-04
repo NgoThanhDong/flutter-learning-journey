@@ -6,7 +6,7 @@
 /// Thay vào đó, MỌI CLASS đều có thể dùng như interface!
 /// 
 /// Chạy file:
-///    dart run lesson_02b_interface.dart
+///   dart run 01_dart_fundamentals/lesson_02b_interface.dart
 
 void main() {
   print('=== 1. INTERFACE CƠ BẢN ===\n');

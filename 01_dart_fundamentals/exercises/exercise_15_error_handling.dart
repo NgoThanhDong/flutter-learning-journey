@@ -4,7 +4,8 @@
 ///
 /// Mục tiêu: Thành thạo try-catch và custom exception
 ///
-/// Chạy file: dart run exercise_15_error_handling.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_15_error_handling.dart
 
 void main() async {
   print('=== BÀI TẬP 15: ERROR HANDLING ===\n');

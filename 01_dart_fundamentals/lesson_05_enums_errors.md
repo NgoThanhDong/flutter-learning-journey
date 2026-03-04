@@ -118,7 +118,7 @@ Widget build(BuildContext context) {
     case LoadingState.initial:
       return Text('Nhấn để tải');
     case LoadingState.loading:
-      return CircularProgressIndicator();
+      return CircularProgressIndicator(); // Vòng tròn quay quay :D
     case LoadingState.success:
       return Text(state.data!);
     case LoadingState.error:
@@ -206,12 +206,13 @@ void processData() {
 
 ---
 
-## 3. Custom Exception
+## 3. Custom Exception (Ngoại lệ tùy chỉnh)
 
 ### 3.1 Tạo Exception riêng
 
 ```dart
 // Custom Exception class
+// Giống class bình thường nhưng kế thừa Exception
 class ApiException implements Exception {
   final int statusCode;
   final String message;
@@ -234,20 +235,21 @@ class NetworkException implements Exception {
 ### 3.2 Sử dụng Custom Exception
 
 ```dart
+// Giả sử có API
 Future<String> fetchUser(int id) async {
   try {
     var response = await http.get('api/users/$id');
     
-    if (response.statusCode == 404) {
+    if (response.statusCode == 404) { // Không tìm thấy user
       throw ApiException(404, 'Không tìm thấy user');
     }
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200) { // Server error
       throw ApiException(response.statusCode, 'Server error');
     }
     
     return response.body;
-  } on SocketException {
-    throw NetworkException();
+  } on SocketException { // Lỗi kết nối mạng
+    throw NetworkException(); // Không có kết nối mạng
   }
 }
 
@@ -263,12 +265,13 @@ try {
 
 ---
 
-## 4. Pattern: Result Type
+## 4. Pattern: Result Type (Kiểu kết quả)
 
 Thay vì throw exception, trả về kết quả có cấu trúc:
 
 ```dart
 // Sealed class cho Result (Dart 3)
+// Sealed class là class chỉ có thể là Success hoặc Failure
 sealed class Result<T> {}
 
 class Success<T> extends Result<T> {
@@ -313,9 +316,9 @@ switch (result) {
 | Tình huống | Nên dùng |
 |------------|----------|
 | Lỗi không mong đợi (network, server) | Exception |
-| Validation input | Return null/false hoặc Result type |
-| Business logic error | Custom Exception |
-| Lỗi lập trình (bug) | Assert (development) |
+| Validation input (không hợp lệ) | Return null/false hoặc Result type |
+| Business logic error (lỗi nghiệp vụ) | Custom Exception |
+| Lỗi lập trình (bug) | Assert (chỉ dùng trong development) |
 
 ### 5.2 Không nên catch quá rộng
 
@@ -330,11 +333,11 @@ try {
 // ✅ TỐT - xử lý cụ thể
 try {
   doSomething();
-} on SpecificException catch (e) {
+} on SpecificException catch (e) { // Bắt lỗi cụ thể
   handleSpecificError(e);
-} catch (e) {
+} catch (e) { // Bắt lỗi chung
   logError(e);
-  rethrow;
+  rethrow; // Ném lại lỗi
 }
 ```
 

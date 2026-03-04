@@ -3,9 +3,7 @@
 /// ===========================================
 ///
 /// Chạy file:
-/// ```
-/// dart run lesson_05_examples.dart
-/// ```
+///   dart run 01_dart_fundamentals/lesson_05_examples.dart
 
 void main() {
   print('=== 1. ENUM CƠ BẢN ===\n');
@@ -99,6 +97,7 @@ void demonstrateEnhancedEnum() {
 
 enum OrderStatus { pending, processing, shipped, delivered, cancelled }
 
+/// Hàm trả về message của OrderStatus
 String getStatusMessage(OrderStatus status) {
   // Dart bắt buộc xử lý TẤT CẢ cases!
   switch (status) {
@@ -115,6 +114,7 @@ String getStatusMessage(OrderStatus status) {
   }
 }
 
+/// Hàm demo switch với enum
 void demonstrateSwitchEnum() {
   for (var status in OrderStatus.values) {
     print('${status.name}: ${getStatusMessage(status)}');
@@ -168,6 +168,7 @@ int divide(int a, int b) {
 // ============================================
 
 // Custom Exception classes
+/// Tạo custom exception để xử lý lỗi validation, phải implement Exception
 class ValidationException implements Exception {
   final String field;
   final String message;
@@ -178,6 +179,7 @@ class ValidationException implements Exception {
   String toString() => 'ValidationException: $field - $message';
 }
 
+/// Tạo custom exception kế thừa từ ValidationException
 class AgeValidationException extends ValidationException {
   final int invalidAge;
 

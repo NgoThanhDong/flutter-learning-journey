@@ -7,7 +7,8 @@
 /// Yêu cầu:
 /// Tạo Stream phát ra số từ 1 đến 10, mỗi giây 1 số
 ///
-/// Chạy file: dart run exercise_09_stream.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_09_stream.dart
 
 void main() async {
   print('=== BÀI TẬP 9: STREAM CƠ BẢN ===\n');

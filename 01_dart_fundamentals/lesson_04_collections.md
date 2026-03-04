@@ -50,10 +50,10 @@ var generatedList = List.generate(5, (i) => i * 2); // [0, 2, 4, 6, 8]
 var fruits = ['Táo', 'Cam', 'Chuối'];
 
 // Truy cập
-print(fruits[0]);        // Táo
-print(fruits.first);     // Táo
-print(fruits.last);      // Chuối
-print(fruits.length);    // 3
+print(fruits[0]);        // Táo (truy cập phần tử đầu tiên)
+print(fruits.first);     // Táo (truy cập phần tử đầu tiên)
+print(fruits.last);      // Chuối (truy cập phần tử cuối cùng)
+print(fruits.length);    // 3 (độ dài của list)
 
 // Thay đổi
 fruits[1] = 'Xoài';      // ['Táo', 'Xoài', 'Chuối']
@@ -68,9 +68,9 @@ fruits.removeAt(0);      // Xóa theo index
 ```dart
 var numbers = [1, 2, 3, 4, 5];
 
-print(numbers.isEmpty);      // false
-print(numbers.isNotEmpty);   // true
-print(numbers.contains(3));  // true
+print(numbers.isEmpty);      // false (kiểm tra list có rỗng không)
+print(numbers.isNotEmpty);   // true (kiểm tra list có rỗng không)
+print(numbers.contains(3));  // true (kiểm tra có chứa giá trị 3 không)
 print(numbers.indexOf(3));   // 2 (vị trí của số 3)
 ```
 
@@ -170,11 +170,11 @@ print(a.difference(b));   // {1} - Hiệu (a - b)
 ```dart
 // Không có Generics:
 var numbers = [1, 2, 3];
-numbers.add('hello');  // ❌ Runtime error!
+numbers.add('hello');  // ❌ Runtime error! (lỗi khi chạy)
 
 // Có Generics:
 List<int> numbers = [1, 2, 3];
-numbers.add('hello');  // ❌ Compile error! Bắt lỗi sớm hơn
+numbers.add('hello');  // ❌ Compile error! (lỗi khi biên dịch) - Bắt lỗi sớm hơn
 ```
 
 ### 5.2 Các Generics phổ biến trong Flutter
@@ -215,7 +215,7 @@ print(stringBox.getContent()); // Hello
 
 ---
 
-## 6. Higher-Order Functions
+## 6. Higher-Order Functions (Hàm bậc cao)
 
 Đây là các function nhận function làm tham số. **Rất quan trọng!**
 
@@ -292,7 +292,7 @@ var user = users.firstWhere(
 
 ---
 
-## 7. Spread Operator (...)
+## 7. Spread Operator (...) - Toán tử trải
 
 ```dart
 var list1 = [1, 2, 3];
@@ -306,7 +306,7 @@ var combined = [...list1, ...list2];
 Row(
   children: [
     Text('Start'),
-    ...otherWidgets,  // Spread danh sách widgets
+    ...otherWidgets,  // Spread (trải) danh sách widgets
     Text('End'),
   ],
 )

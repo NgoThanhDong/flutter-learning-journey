@@ -8,7 +8,8 @@
 /// Viết function fetchAllUsers() gọi đồng thời 3 "API" giả lập
 /// và trả về danh sách users
 ///
-/// Chạy file: dart run exercise_08_multiple_futures.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_08_multiple_futures.dart
 
 void main() async {
   print('=== BÀI TẬP 8: NHIỀU FUTURE SONG SONG ===\n');

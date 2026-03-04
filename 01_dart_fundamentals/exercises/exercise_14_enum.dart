@@ -4,7 +4,8 @@
 ///
 /// Mục tiêu: Thành thạo Enum cơ bản và Enhanced Enum
 ///
-/// Chạy file: dart run exercise_14_enum.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_14_enum.dart
 
 void main() {
   print('=== BÀI TẬP 14: ENUM ===\n');

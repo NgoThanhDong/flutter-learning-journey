@@ -10,7 +10,8 @@
 /// - void add(int n) (để phát số vào stream)
 /// - void dispose() (để đóng stream)
 ///
-/// Chạy file: dart run exercise_10_stream_controller.dart
+/// Chạy file: 
+///   dart run 01_dart_fundamentals/exercises/exercise_10_stream_controller.dart
 
 import 'dart:async';
 
