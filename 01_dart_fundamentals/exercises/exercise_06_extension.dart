@@ -49,6 +49,7 @@ void main() {
 // -TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
 // ============================================
 
+// Extension method cho DateTime
 extension DateTimeExtension on DateTime {
   String toVietnameseFormat() {
     // -TODO: Trả về "dd/MM/yyyy"
@@ -95,7 +96,7 @@ extension DateTimeExtensionBonus on DateTime {
   // Tên ngày trong tuần
   String get weekdayName {
     const days = ['', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
-    return days[weekday];
+    return days[weekday]; // weekday là property của DateTime, trả về số từ 1-7
   }
 
   // Format đầy đủ: "Thứ 3, 15/01/2024"

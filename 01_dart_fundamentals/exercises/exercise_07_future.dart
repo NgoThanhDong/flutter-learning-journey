@@ -17,9 +17,11 @@ void main() async {
   print('⏳ Đang chờ...');
 
   // Uncomment sau khi implement
+  // Cách 1: Dùng Future.delayed
   var message = await delayedHello('Dong');
   print(message);
 
+  // Cách 2: Dùng async/await
   message = await delayedHello2('DongNT');
   print(message);
 
@@ -33,6 +35,7 @@ void main() async {
 // -TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
 // ============================================
 
+// Cách 1: Dùng Future.delayed
 Future<String> delayedHello(String name) {
   // -TODO: Trả về Future sau 2 giây
   // với nội dung "Xin chào, [name]!"
@@ -41,6 +44,7 @@ Future<String> delayedHello(String name) {
   });
 }
 
+// Cách 2: Dùng async/await
 Future<String> delayedHello2(String name) async {
   await Future.delayed(Duration(seconds: 2));
   return 'Xin chào, $name!';
@@ -87,8 +91,10 @@ Future<void> checkExercise() async {
 
   var result = await delayedHello('Test');
 
+  // Tính thời gian đợi
   var elapsed = DateTime.now().difference(start).inMilliseconds;
 
+  // Kiểm tra thời gian đợi
   if (elapsed >= 1900 && elapsed <= 2500) {
     print('✅ Thời gian đợi: ${elapsed}ms (đúng ~2 giây)');
   } else {

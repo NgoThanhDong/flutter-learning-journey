@@ -86,8 +86,8 @@ class FullTimeEmployee extends Employee {
 // PartTimeEmployee - lương theo giờ
 class PartTimeEmployee extends Employee {
   // -TODO: Thêm properties hourlyRate, hoursWorked
-  double hourlyRate;
-  int hoursWorked;
+  double hourlyRate; // lương theo giờ
+  int hoursWorked; // số giờ làm
 
   // -TODO: Constructor
   PartTimeEmployee(String name, String id, this.hourlyRate, this.hoursWorked)

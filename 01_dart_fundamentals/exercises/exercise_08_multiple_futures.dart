@@ -24,8 +24,10 @@ void main() async {
   print('⏳ Đang fetch tất cả users...');
   var start = DateTime.now();
   
+  // Gọi hàm fetchAllUsers
   var users = await fetchAllUsers();
-  
+
+  // Tính thời gian đợi
   var elapsed = DateTime.now().difference(start).inMilliseconds;
   
   print('✅ Đã fetch xong trong ${elapsed}ms');
@@ -45,6 +47,8 @@ void main() async {
 // API GIẢ LẬP (Đã viết sẵn, không cần sửa)
 // ============================================
 
+// Hàm giả lập API để lấy thông tin user
+// Trả về Future<String> sau một khoảng thời gian nhất định
 Future<String> fetchUser(int id) async {
   // Mỗi user có thời gian khác nhau
   var delays = {1: 1000, 2: 2000, 3: 1500};
@@ -56,6 +60,7 @@ Future<String> fetchUser(int id) async {
 // -TODO: VIẾT CODE CỦA BẠN Ở ĐÂY
 // ============================================
 
+// Hàm để fetch tất cả users
 Future<List<String>> fetchAllUsers() async {
   // -TODO: Gọi fetchUser(1), fetchUser(2), fetchUser(3) SONG SONG
   // và trả về List<String> chứa tất cả users
