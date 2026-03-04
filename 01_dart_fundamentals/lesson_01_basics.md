@@ -18,7 +18,7 @@ Dart là ngôn ngữ được Google tạo ra cho Flutter. Hiểu Dart là nền
 
 ---
 
-## 2. Variables & Types
+## 2. Variables & Types (Biến và Kiểu dữ liệu)
 
 ### 2.1 Khai báo biến
 
@@ -53,7 +53,7 @@ const PI = 3.14159;  // Compile-time constant
 
 ---
 
-## 3. Null Safety - Phải Hiểu!
+## 3. Null Safety (An toàn với giá trị null) - Phải Hiểu!
 
 ```dart
 // [1] Non-nullable: KHÔNG được null
@@ -86,7 +86,7 @@ Với Null Safety, Dart **bắt lỗi này lúc compile**, không phải lúc ap
 
 ---
 
-## 4. Functions
+## 4. Functions (Hàm)
 
 ### 4.1 Cú pháp cơ bản
 
@@ -105,7 +105,7 @@ void greet(String name) {
 }
 ```
 
-### 4.2 Parameters - QUAN TRỌNG!
+### 4.2 Parameters (Tham số) - QUAN TRỌNG!
 
 ```dart
 // [1] Positional parameters (bắt buộc, theo thứ tự)

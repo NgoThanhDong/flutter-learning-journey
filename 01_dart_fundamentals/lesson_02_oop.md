@@ -140,7 +140,7 @@ class Dog extends Animal {
 
 ---
 
-## 4. Abstract Class
+## 4. Abstract Class (Lớp trừu tượng)
 
 ### 4.1 Định nghĩa và sử dụng
 
@@ -333,11 +333,12 @@ duck.swim();  // Đang bơi...
 
 ---
 
-## 7. Extension Methods
+## 7. Extension Methods (Mở rộng Class)
 
 ### 7.1 Thêm method vào class có sẵn
 
 ```dart
+// Tạo extension method cho String
 extension StringExtension on String {
   String capitalize() {
     if (isEmpty) return this;

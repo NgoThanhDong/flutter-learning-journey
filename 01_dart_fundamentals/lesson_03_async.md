@@ -8,9 +8,9 @@
 
 ---
 
-## 1. Tại Sao Cần Async?
+## 1. Tại Sao Cần Async? (Lập trình bất đồng bộ)
 
-### 1.1 Vấn đề: Blocking Code
+### 1.1 Vấn đề: Blocking Code (Code chặn)
 
 Hãy tưởng tượng bạn đang order coffee tại quán:
 
@@ -100,7 +100,7 @@ Future<void> greetUser() async {
 
 ### 💡 Suy luận: async/await vs then
 
-| Aspect | then/catchError | async/await |
+| Aspect (Khía cạnh) | then/catchError | async/await |
 |--------|-----------------|-------------|
 | Đọc | Khó theo dõi khi nhiều bước | Đọc như code đồng bộ |
 | Debug | Khó debug | Dễ debug |
@@ -162,8 +162,8 @@ Stream  = 📬 Đăng ký nhận báo hàng ngày
 | Future | Stream |
 |--------|--------|
 | **1 giá trị** trong tương lai | **Nhiều giá trị** theo thời gian |
-| HTTP request | WebSocket, realtime data |
-| Đọc 1 file | Đọc file lớn theo chunks |
+| HTTP request | WebSocket, realtime data (dữ liệu thời gian thực) |
+| Đọc 1 file | Đọc file lớn theo chunks (từng phần) |
 
 ### 4.2 Tạo Stream - Ví dụ trực quan
 
@@ -205,7 +205,7 @@ Stream<int> countDown(int from) async* {
 
 // Stream từ List
 Stream<String> fruitsStream() {
-  return Stream.fromIterable(['Táo', 'Cam', 'Chuối']);
+  return Stream.fromIterable(['Táo', 'Cam', 'Chuối']); // Tạo stream từ list
 }
 ```
 
@@ -225,9 +225,9 @@ countUp(5).listen((number) {
 });
 
 countDown(5).listen(
-  (number) => print('Countdown: $number'),
-  onDone: () => print('Blast off!'),
-  onError: (error) => print('Error: $error'),
+  (number) => print('Countdown: $number'), // Khi có giá trị
+  onDone: () => print('Blast off!'), // Khi stream kết thúc
+  onError: (error) => print('Error: $error'), // Khi có lỗi
 );
 
 // Cách 2: await for (trong async function)
@@ -235,13 +235,14 @@ Future<void> printCountdown() async {
   await for (var number in countDown(5)) {
     print('Countdown: $number');
   }
-  print('Blast off!');
+  print('Blast off!'); // Cất cánh!
 }
 ```
 
-### 4.5 Stream Transformations
+### 4.5 Stream Transformations (Biến đổi Stream)
 
 ```dart
+// Tạo stream từ list
 Stream<int> numbers = Stream.fromIterable([1, 2, 3, 4, 5]);
 
 // Map - biến đổi mỗi giá trị
@@ -343,12 +344,15 @@ class EventBus {
   // Broadcast = nhiều listeners
   final _controller = StreamController<String>.broadcast();
   
+  // Expose stream ra ngoài
   Stream<String> get events => _controller.stream;
   
+  // Phát data
   void emit(String event) {
     _controller.add(event);
   }
   
+  // Đóng stream
   void dispose() {
     _controller.close();
   }
@@ -395,11 +399,21 @@ class Result<T> {
   bool get isSuccess => error == null;
 }
 
+// Giả lập network call
+Future<String> fetchFromNetwork() async {
+  await Future.delayed(Duration(seconds: 2));
+  return 'Data from network';
+}
+
+// fetchSafely hàm fetch data an toàn
 Future<Result<String>> fetchSafely() async {
   try {
+    // Giả lập network call
     var data = await fetchFromNetwork();
+    // Trả về kết quả thành công
     return Result.success(data);
   } catch (e) {
+    // Trả về lỗi
     return Result.failure(e.toString());
   }
 }
