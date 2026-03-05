@@ -166,6 +166,7 @@ GridView.count(
   
   padding: EdgeInsets.all(16),
   
+  // children: Danh sách các widget con
   children: [
     Container(color: Colors.red),
     Container(color: Colors.green),
@@ -180,11 +181,12 @@ GridView.count(
 ```dart
 GridView.builder(
   // GridDelegate: Định dạng lưới
+  // SliverGridDelegateWithFixedCrossAxisCount: cố định số cột trong Grid
   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
     crossAxisCount: 2, // Số cột
     mainAxisSpacing: 10, // Khoảng cách giữa hàng
     crossAxisSpacing: 10, // Khoảng cách giữa cột
-    childAspectRatio: 0.75, // Cao hơn rộng
+    childAspectRatio: 0.75, // Tỷ lệ chiều rộng / chiều cao của mỗi item
   ),
   
   itemCount: products.length, // Số lượng items
@@ -199,11 +201,12 @@ GridView.builder(
 ```dart
 GridView.builder(
   // GridDelegate: Định dạng lưới
+  // SliverGridDelegateWithMaxCrossAxisExtent: giới hạn chiều rộng tối đa của mỗi item
   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
     maxCrossAxisExtent: 200, // Max width mỗi item
     mainAxisSpacing: 10, // Khoảng cách giữa hàng
     crossAxisSpacing: 10, // Khoảng cách giữa cột
-    childAspectRatio: 1.0, // Cao hơn rộng
+    childAspectRatio: 1.0, // Tỷ lệ chiều rộng / chiều cao của mỗi item
   ),
   itemCount: 10, // Số lượng items
   itemBuilder: (context, index) => ..., // Hàm tạo item
@@ -229,7 +232,7 @@ SingleChildScrollView(
 )
 ```
 
-### 4.2 Properties
+### 4.2 Properties (Thuộc tính)
 
 ```dart
 SingleChildScrollView(
@@ -242,7 +245,7 @@ SingleChildScrollView(
   // Physics
   physics: BouncingScrollPhysics(), // Hiệu ứng bounce
   
-  // Reverse
+  // Reverse là đảo ngược thứ tự cuộn
   reverse: false, // False: từ trên xuống, True: từ dưới lên
   
   child: Column(...), // Nội dung
@@ -254,7 +257,8 @@ SingleChildScrollView(
 ```dart
 // Khi bàn phím mở, tự động scroll để TextField visible (ẩn bàn phím)
 SingleChildScrollView(
-  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag, // Khi kéo scroll để dismiss keyboard
+  // Khi kéo scroll để dismiss (ẩn) keyboard
+  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag, 
   child: Column(
     children: [
       TextField(...),
@@ -282,7 +286,7 @@ CustomScrollView(
     SliverAppBar(
       expandedHeight: 200, // Khi chưa scroll → cao 200. Scroll xuống → giảm dần về chiều cao AppBar chuẩn (~56)
       floating: false, // False: Ẩn khi cuộn, True: Hiển thị luôn. AppBar KHÔNG tự bật lại ngay khi cuộn lên.
-      pinned: true, // True: Luôn fix ở trên, AppBar luôn dính ở trên cùng. Nếu false, Cuộn xuống → AppBar biến mất hoàn toàn
+      pinned: true, // True: Luôn fix ở trên, AppBar luôn dính ở trên cùng. Nếu false, Cuộn xuống → AppBar biến mất
       flexibleSpace: FlexibleSpaceBar( // Phần co giãn theo scroll
         title: Text('My App'),
         background: Image.network(
@@ -303,13 +307,15 @@ CustomScrollView(
     // SliverGrid: grid cuộn dùng Sliver, ghép chung scroll với các Sliver khác (AppBar, List…)
     SliverGrid(
       // GridDelegate: Định dạng lưới
+      // SliverGridDelegateWithFixedCrossAxisCount: cố định số cột trong Grid
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // Số cột
         mainAxisSpacing: 10, // Khoảng cách giữa hàng
         crossAxisSpacing: 10, // Khoảng cách giữa cột
-        childAspectRatio: 1.0, // Cao hơn rộng
+        childAspectRatio: 1.0, // Tỷ lệ chiều rộng / chiều cao của mỗi item
       ),
       // delegate: Tạo item lười biếng
+      // SliverChildBuilderDelegate: Tạo item lười biếng
       delegate: SliverChildBuilderDelegate(
         (context, index) => Container(color: Colors.primaries[index % 18]), // Item
         childCount: 10, // Số lượng item
@@ -319,9 +325,10 @@ CustomScrollView(
 )
 ```
 
-### 5.2 SliverAppBar Effects
+### 5.2 SliverAppBar Effects (Hiệu ứng AppBar)
 
 ```dart
+// SliverAppBar: AppBar co giãn (collapse / expand) khi scroll
 SliverAppBar(
   expandedHeight: 250, // Khi chưa scroll → cao 250. Scroll xuống → giảm dần về chiều cao AppBar chuẩn (~56)
   floating: true,   // Hiện khi scroll lên (Khi AppBar thu gọn xong → ẩn)
@@ -333,7 +340,7 @@ SliverAppBar(
     title: Text('Title'), // Tiêu đề
     centerTitle: true, // Tiêu đề ở giữa
     background: Image.network(...), // Background
-    collapseMode: CollapseMode.parallax, // Hiệu ứng parallax
+    collapseMode: CollapseMode.parallax, // Hiệu ứng parallax (background di chuyển ngược chiều với scroll)
   ),
   
   // actions: Thêm các action (ví dụ: IconButton)
@@ -345,22 +352,25 @@ SliverAppBar(
 
 ---
 
-## 6. ScrollController
+## 6. ScrollController (Control Scroll)
 
-### 6.1 Scroll to position
+### 6.1 Scroll to position (Cuộn đến vị trí)
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
-  final ScrollController _scrollController = ScrollController(); // Controller để control scroll
+  // Controller để control scroll
+  final ScrollController _scrollController = ScrollController();
   
+  // Dispose controller khi widget bị xóa
   @override
   void dispose() {
     _scrollController.dispose(); // QUAN TRỌNG: Dispose!
     super.dispose();
   }
   
+  // Scroll to top
   void _scrollToTop() {
-    // Animate to top
+    // animateTo: Cuộn đến vị trí
     _scrollController.animateTo(
       0, // Position
       duration: Duration(milliseconds: 500), // Thời gian animate
@@ -368,12 +378,13 @@ class _MyWidgetState extends State<MyWidget> {
     );
   }
   
+  // Scroll to bottom
   void _scrollToBottom() {
-    // Animate to bottom
     _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent, // Position max (Vị trí cuối cùng có thể cuộn tới)
-      duration: Duration(milliseconds: 500), // Thời gian animate
-      curve: Curves.easeInOut, // Hiệu ứng animate
+      // Position max (Vị trí cuối cùng có thể cuộn tới)
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
     );
   }
   
@@ -395,7 +406,7 @@ class _MyWidgetState extends State<MyWidget> {
 }
 ```
 
-### 6.2 Listen to scroll
+### 6.2 Listen to scroll (Lắng nghe sự kiện scroll)
 
 ```dart
 @override
@@ -404,14 +415,15 @@ void initState() { // Khi widget được tạo ra
   _scrollController.addListener(_onScroll); // Add listener để lắng nghe sự kiện scroll
 }
 
-void _onScroll() { // Khi scroll
-  // Current position
-  double offset = _scrollController.offset; // Vị trí hiện tại
+// Hàm này được gọi khi scroll
+void _onScroll() {
+  // Current position (Vị trí hiện tại)
+  double offset = _scrollController.offset; 
   
-  // Max scroll extent
-  double max = _scrollController.position.maxScrollExtent; // Vị trí cuối cùng có thể cuộn tới
+  // Max scroll extent (Vị trí cuối cùng có thể cuộn tới)
+  double max = _scrollController.position.maxScrollExtent; 
   
-  // Check if near bottom (load more)
+  // Check if near bottom (load more) (Kiểm tra xem có gần cuối không)
   if (offset >= max - 200) {
     _loadMore(); // Load thêm
   }
@@ -420,13 +432,13 @@ void _onScroll() { // Khi scroll
 
 ---
 
-## 7. Pull to Refresh
+## 7. Pull to Refresh (Kéo xuống để làm mới)
 
 ```dart
 // RefreshIndicator: kéo xuống để làm mới dữ liệu (pull-to-refresh)
 RefreshIndicator(
   onRefresh: () async { // Khi pull down → refresh
-    // Fetch new data
+    // Fetch new data (Lấy dữ liệu mới)
     await fetchData();
   },
   child: ListView.builder(

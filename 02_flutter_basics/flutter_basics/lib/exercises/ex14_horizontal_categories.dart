@@ -51,22 +51,27 @@ class _Ex14HorizontalCategoriesState extends State<Ex14HorizontalCategories> {
           Container(
             margin: EdgeInsets.only(top: 16),
             height: 50, // Chiều cao cố định cho list ngang
-            child: ScrollConfiguration( // ScrollConfiguration và cho phép mouse drag
+            // ScrollConfiguration và cho phép mouse drag
+            child: ScrollConfiguration(
               // ScrollConfiguration.of(context) lấy behavior hiện tại của context
               behavior: ScrollConfiguration.of(context).copyWith(
+                // dragDevices là danh sách các thiết bị có thể cuộn
                 dragDevices: {
-                  PointerDeviceKind.touch, 
-                  PointerDeviceKind.mouse, // ⭐ CHÌA KHÓA
+                  PointerDeviceKind.touch, // chạm
+                  PointerDeviceKind.mouse, // chuột - ⭐ CHÌA KHÓA
                 },
               ),
+
+              // ListView.builder: Widget tạo danh sách cuộn
               child: ListView.builder(
                 scrollDirection: Axis.horizontal, // Hướng cuộn: Ngang
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                ), // Padding cho list ngang
+                // Padding cho list ngang
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
+                  // Kiểm tra xem item hiện tại có phải là item đang được chọn không
                   final isSelected = index == _selectedIndex;
+
                   // GestureDetector: Widget giúp bắt sự kiện chạm (tap, drag...)
                   // vì Container thường ko có sự kiện này.
                   return GestureDetector(
@@ -77,13 +82,12 @@ class _Ex14HorizontalCategoriesState extends State<Ex14HorizontalCategories> {
                       });
                     },
                     child: Container(
-                      margin: EdgeInsets.only(
-                        right: 12,
-                      ), // Padding giữa các item
+                      margin: EdgeInsets.only(right: 12),
+                      // Padding cho item
                       padding: EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 8,
-                      ), // Padding cho item
+                      ),
                       alignment: Alignment.center, // Căn giữa chữ
                       decoration: BoxDecoration(
                         // Màu nền thay đổi theo trạng thái
@@ -91,7 +95,7 @@ class _Ex14HorizontalCategoriesState extends State<Ex14HorizontalCategories> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Text(
-                        categories[index],
+                        categories[index], // Tên category
                         style: TextStyle(
                           // Màu chữ cũng đổi (nền xanh -> chữ trắng, nền xám -> chữ đen)
                           color: isSelected ? Colors.white : Colors.black,

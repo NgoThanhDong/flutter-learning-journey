@@ -31,8 +31,8 @@ class Ex13ProductGrid extends StatelessWidget {
           crossAxisCount: 2, // Số cột: 2
           mainAxisSpacing: 10, // Khoảng cách dọc
           crossAxisSpacing: 10, // Khoảng cách ngang
-          childAspectRatio:
-              0.75, // Tỷ lệ Chiều Rộng / Chiều Cao (0.75 -> Cao > Rộng)
+          // Tỷ lệ Chiều Rộng / Chiều Cao (0.75 -> Cao > Rộng)
+          childAspectRatio: 0.75,
         ),
         itemCount: 20, // Số lượng sản phẩm
         itemBuilder: (context, index) {
@@ -48,6 +48,7 @@ class Ex13ProductGrid extends StatelessWidget {
                 // Expanded: Phần ảnh chiếm hết khoảng trống còn lại phía trên Text
                 Expanded(
                   child: Container(
+                    // BoxDecoration: Tạo khung với màu sắc, bo góc, ảnh nền
                     decoration: BoxDecoration(
                       color: Colors.grey[300],
                       borderRadius: BorderRadius.vertical(
@@ -70,12 +71,16 @@ class Ex13ProductGrid extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Text: Tên sản phẩm
                       Text(
                         'Product ${index + 1}',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, 
-                            fontSize: 16),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
+
+                      // Text: Giá sản phẩm
                       Text(
                         '\$${(index + 1) * 10}.00',
                         style: TextStyle(color: Colors.blue),

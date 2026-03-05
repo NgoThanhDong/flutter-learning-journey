@@ -43,17 +43,23 @@ class Ex12ContactList extends StatelessWidget {
         ),
         // itemBuilder: Hàm này được gọi lười (liên tục) khi user cuộn xuống
         itemBuilder: (context, index) {
-          final contact = contacts[index]; // Lấy contact tại vị trí index
+          // Lấy contact tại vị trí index
+          final contact = contacts[index];
+
           // ListTile: Widget chuẩn của Material hỗ trợ: leading, title, subtitle, trailing
           return ListTile(
             // tileColor: Màu nền của item
             tileColor: index % 2 == 0 ? Colors.white : Colors.grey[200],
             // leading: Widget hiển thị ở đầu hàng (ở đây là avatar)
+            // CircleAvatar: Widget hiển thị hình tròn
             leading: CircleAvatar(
               backgroundColor: index % 2 == 0
                   ? Colors.greenAccent
                   : Colors.redAccent,
-              child: Text(contact['name']![0]), // Lấy chữ cái đầu tiên
+              // Lấy chữ cái đầu tiên của tên
+              child: Text(
+                contact['name']![0].toString() + index.toString()
+              ),
             ),
             // title: Widget hiển thị ở giữa hàng (ở đây là tên)
             title: Text(
