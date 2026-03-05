@@ -15,9 +15,9 @@
 /// 3. Import file này trong main.dart
 /// 4. Chạy: flutter run -d chrome
 
-library;
+library; // Khai báo thư viện, giúp các file khác có thể import file này
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; // Import thư viện Material Design
 
 // [Giải thích concept]
 // StatelessWidget: Widget tĩnh, không thay đổi nội dung khi người dùng tương tác.

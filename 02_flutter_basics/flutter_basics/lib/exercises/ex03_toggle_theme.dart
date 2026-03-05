@@ -18,17 +18,32 @@ import 'package:flutter/material.dart';
 
 // Ex03ToggleTheme - Widget để thay đổi theme
 class Ex03ToggleTheme extends StatefulWidget {
-  const Ex03ToggleTheme({super.key});
+  // StatefulWidget là Widget không có state
+  // Nó chỉ là một template để tạo ra State
+  // Nó có thể thay đổi và sẽ được cập nhật lại UI
+  const Ex03ToggleTheme({
+    super.key,
+  }); // key là một định danh duy nhất cho Widget
 
+  // createState(): Hàm tạo State cho Widget
+  // Hàm này sẽ được gọi khi Widget được tạo ra
+  // Trả về một State object
   @override
   State<Ex03ToggleTheme> createState() => _Ex03ToggleThemeState();
 }
 
+// _Ex03ToggleThemeState: State của Ex03ToggleTheme
+// State là nơi lưu trữ dữ liệu thay đổi của Widget
+// State có thể thay đổi và sẽ được cập nhật lại UI
 class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
   // Biến boolean để lưu trạng thái: true = tối, false = sáng
   bool _isDark = false;
 
+  // Hàm để thay đổi state
   void _toggleTheme() {
+    // setState(): Hàm để cập nhật state
+    // Hàm này sẽ được gọi khi state thay đổi
+    // Trả về một State object
     setState(() {
       // Đảo ngược giá trị true/false mỗi khi bấm
       _isDark = !_isDark;
@@ -45,8 +60,9 @@ class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
       appBar: AppBar(
         title: Text('Toggle Theme'),
         // AppBar cũng đổi màu theo theme
-        backgroundColor: _isDark ? Colors.grey[900] : Colors.blue, // màu nền của AppBar
-        foregroundColor: Colors.white, // màu nội dung phía trước, bao gồm: chữ title, icon (menu, back, action icons), icon leading
+        backgroundColor: _isDark ? Colors.grey[900] : Colors.blue,
+        // foregroundColor: màu nội dung phía trước, bao gồm: chữ title, icon (menu, back, action icons), icon leading
+        foregroundColor: Colors.white,
       ),
 
       body: Center(
@@ -61,7 +77,7 @@ class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
               color: _isDark ? Colors.yellow : Colors.orange,
             ),
 
-            SizedBox(height: 32),
+            SizedBox(height: 32), // Khoảng cách giữa 2 widget
 
             Text(
               // Text hiển thị trạng thái hiện tại
@@ -75,6 +91,7 @@ class _Ex03ToggleThemeState extends State<Ex03ToggleTheme> {
 
             SizedBox(height: 32),
 
+            // Nút bấm để thay đổi state
             ElevatedButton(
               onPressed: _toggleTheme, // Gọi hàm đổi theme
               child: Text('Toggle'),

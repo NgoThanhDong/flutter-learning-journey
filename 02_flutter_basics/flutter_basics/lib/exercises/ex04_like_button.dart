@@ -30,6 +30,7 @@ class _Ex04LikeButtonState extends State<Ex04LikeButton> {
   // Số lượng like hiện tại
   int _likeCount = 99;
 
+  // Hàm _toggleLike thay đổi state
   void _toggleLike() {
     setState(() {
       _isLiked = !_isLiked; // Đảo ngược trạng thái
@@ -60,10 +61,8 @@ class _Ex04LikeButtonState extends State<Ex04LikeButton> {
               BoxShadow(
                 color: Colors.black12, // Màu bóng mờ nhạt
                 blurRadius: 10, // Độ nhòe của bóng
-                offset: Offset(
-                  0,
-                  5,
-                ), // Độ lệch bóng (x=0, y=5 -> bóng xuống dưới)
+                // Độ lệch bóng (x=0, y=5 -> bóng xuống dưới)
+                offset: Offset(0, 5),
               ),
             ],
           ),
@@ -82,6 +81,7 @@ class _Ex04LikeButtonState extends State<Ex04LikeButton> {
                   // Hiệu ứng chuyển đổi: Scale (phóng to/thu nhỏ) khi đổi icon
                   transitionBuilder:
                       (Widget child, Animation<double> animation) {
+                        // ScaleTransition: Widget tạo hiệu ứng phóng to/thu nhỏ
                         return ScaleTransition(scale: animation, child: child);
                       },
                   // Widget con hiển thị (Icon)

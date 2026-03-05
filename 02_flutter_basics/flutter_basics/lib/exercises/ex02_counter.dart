@@ -31,6 +31,7 @@ class _Ex02CounterState extends State<Ex02Counter> {
   // Đây là biến state. Khi biến này đổi -> UI cần vẽ lại.
   int _count = 0;
 
+  // Hàm tăng biến _count lên 1
   void _increment() {
     // [Quan trọng]
     // setState(): Hàm báo cho Flutter biết "Data đã đổi rồi, hãy vẽ lại màn hình đi!"
@@ -40,6 +41,7 @@ class _Ex02CounterState extends State<Ex02Counter> {
     });
   }
 
+  // Hàm giảm biến _count đi 1
   void _decrement() {
     setState(() {
       // Logic kiểm tra số âm
@@ -78,9 +80,11 @@ class _Ex02CounterState extends State<Ex02Counter> {
                 // Nút giảm (-)
                 ElevatedButton(
                   onPressed: _decrement, // Gọi hàm giảm
+                  // EdgeInsets.all(20): Đặt padding đều 20px cho tất cả các phía
                   style: ElevatedButton.styleFrom(padding: EdgeInsets.all(20)),
                   child: Icon(Icons.remove, size: 30),
                 ),
+
                 SizedBox(width: 24), // Khoảng cách giữa 2 nút
                 // Nút tăng (+)
                 ElevatedButton(

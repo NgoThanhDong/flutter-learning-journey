@@ -302,7 +302,7 @@ parent rebuild ──── → didUpdateWidget() ──────────
 
 ---
 
-## 5. const Constructor
+## 5. const Constructor - Constructor Hằng Số
 
 ### 5.1 Tại sao dùng const?
 
@@ -315,9 +315,9 @@ const Text('Hello')
 ```
 
 **Lợi ích**:
-- Cải thiện performance
+- Cải thiện performance - Tái sử dụng widget
 - Widget không rebuild nếu không cần
-- Dart cho phép compile-time constants
+- Dart cho phép compile-time (thời gian biên dịch) constants (hằng số)
 
 ### 5.2 Quy tắc
 
@@ -345,12 +345,12 @@ MyWidget(title: variableTitle)   // Nếu title là biến
 
 | Tiêu chí | StatelessWidget | StatefulWidget |
 |----------|-----------------|----------------|
-| State | Không có | Có |
-| Mutable | Không | Có (trong State class) |
-| Rebuild | Chỉ khi parent rebuild | Khi setState() |
+| State (Trạng thái) | Không có | Có |
+| Mutable (Có thể thay đổi) | Không | Có (trong State class) |
+| Rebuild (Vẽ lại) | Chỉ khi parent rebuild | Khi setState() |
 | Cấu trúc | 1 class | 2 class |
-| Use case | UI tĩnh | UI động |
-| Performance | Tốt hơn | Cần quản lý |
+| Use case (Trường hợp sử dụng) | UI tĩnh | UI động |
+| Performance (Hiệu năng) | Tốt hơn | Cần quản lý |
 
 ---
 

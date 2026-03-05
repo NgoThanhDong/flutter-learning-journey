@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 
 // [IMPORT LIST]
 // Để Main thấy được các file bài tập, ta cần import chúng vào đây.
-// Tôi đã import sẵn toàn bộ 22 bài tập cho bạn.
+
 import 'exercises/ex01_hello_flutter.dart';
 import 'exercises/ex02_counter.dart';
 import 'exercises/ex03_toggle_theme.dart';
@@ -47,8 +47,11 @@ void main() {
 /// MyApp là Widget gốc (Root Widget) của cả ứng dụng.
 /// Thường nó là một Stateless widget chứa MaterialApp.
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key}); // const MyApp({super.key}): tạo widget MyApp
 
+  // build: xây dựng widget
+  // @override: ghi đè phương thức build
+  // context: ngữ cảnh của widget
   @override
   Widget build(BuildContext context) {
     // MaterialApp: Widget bao bọc toàn bộ ứng dụng theo phong cách Material Design (Google).
@@ -58,8 +61,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Tắt chữ "DEBUG" ở góc phải
       // Theme: Cấu hình màu sắc, font chữ chung cho toàn app
       theme: ThemeData(
+        // ColorScheme: Cấu hình màu sắc cho toàn app
+        // seedColor: Màu sắc chủ đạo của app
+        // fromSeed: Tạo ColorScheme từ seedColor
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+        useMaterial3: true, // sử dụng Material Design 3
       ),
       // home: Màn hình đầu tiên hiện ra khi mở app
       // Ở đây ta gọi ExerciseListScreen (màn hình danh sách bài tập)
@@ -74,17 +80,22 @@ class ExerciseListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Scaffold: Cung cấp cấu trúc cơ bản cho màn hình (AppBar, Body, BottomNavigationBar...)
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Phase 2: Flutter Basics'),
-        centerTitle: true,
+        // AppBar: Thanh tiêu đề ở trên cùng
+        title: const Text('Phase 2: Flutter Basics'), // Tiêu đề của AppBar
+        centerTitle: true, // căn giữa tiêu đề
         backgroundColor: Colors.blue[100], // Màu nền nhẹ cho AppBar
       ),
+
+      // body: Phần thân chính của màn hình
       // ListView: Cho phép cuộn danh sách (vì danh sách bài tập rất dài)
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16), // Khoảng cách lề cho ListView
         children: [
-          // Tôi đã nhóm các bài tập theo từng bài học (Lesson) để dễ theo dõi
+          // Danh sách các widget con
+          // Nhóm các bài tập theo từng bài học (Lesson) để dễ theo dõi
           _buildLessonSection(context, 'Bài 1: Introduction', [
             // Mỗi item gồm: Tên hiển thị + Widget màn hình tương ứng
             _ExerciseItem('Ex 01: Hello Flutter', const Ex01HelloFlutter()),
@@ -157,37 +168,48 @@ class ExerciseListScreen extends StatelessWidget {
   Widget _buildLessonSection(
     BuildContext context,
     String title,
-    List<_ExerciseItem> exercises,
+    List<_ExerciseItem> exercises, // Danh sách các bài tập trong nhóm
   ) {
+    // Card: Tạo một khung có bo góc và đổ bóng
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16), // Khoảng cách lề dưới
       elevation: 2, // Độ nổi bóng đổ
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        // Padding: Tạo khoảng cách lề trong
+        padding: const EdgeInsets.all(16), // Khoảng cách lề trong
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // Column: Sắp xếp các widget theo chiều dọc
+          crossAxisAlignment: CrossAxisAlignment.start, // Căn lề trái
           children: [
             // Tiêu đề bài học
             Text(
               title,
+              // Theme.of(context): Lấy theme hiện tại của app
+              // .textTheme: Lấy bộ font chữ của theme
+              // .titleMedium: Lấy font chữ cho tiêu đề cỡ trung bình
+              // .copyWith: Copy và chỉnh sửa font chữ
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue[800],
+                fontWeight: FontWeight.bold, // In đậm
+                color: Colors.blue[800], // Màu xanh dương
               ),
             ),
             const Divider(), // Đường kẻ ngang
             // Danh sách bài tập trong bài học này
             ...exercises.map(
               (ex) => ListTile(
-                contentPadding: EdgeInsets.zero,
+                // ListTile: Tạo một dòng trong danh sách
+                contentPadding: EdgeInsets.zero, // Xóa khoảng cách lề mặc định
                 // Icon trạng thái: Xanh = Có bài, Xám = Chưa có
+                // Kiểm tra xem có bài tập không
+                // Nếu có -> Hiển thị icon check, màu xanh
+                // Nếu không -> Hiển thị icon radio, màu xám
                 leading: Icon(
                   ex.widget != null
                       ? Icons.check_circle
                       : Icons.radio_button_unchecked,
                   color: ex.widget != null ? Colors.green : Colors.grey,
                 ),
-                title: Text(ex.name),
+                title: Text(ex.name), // Tên bài tập
                 // Icon mũi tên chỉ sang phải
                 trailing: const Icon(
                   Icons.arrow_forward_ios,
@@ -197,6 +219,8 @@ class ExerciseListScreen extends StatelessWidget {
                 // [Quan trọng] Khi bấm vào item -> Chuyển màn hình
                 // Navigator.push: Đẩy màn hình mới vào ngăn xếp (stack) màn hình.
                 // Màn hình mới đè lên màn hình cũ. Có thể bấm Back để quay lại.
+                // Kiểm tra xem có bài tập không, nếu có thì chuyển màn hình
+                // Nếu không có thì hiện thông báo
                 onTap: ex.widget != null
                     ? () {
                         Navigator.push(
@@ -207,6 +231,8 @@ class ExerciseListScreen extends StatelessWidget {
                       }
                     : () {
                         // Nếu chưa có widget (null) thì hiện thông báo
+                        // ScaffoldMessenger.of(context): Lấy ScaffoldMessenger hiện tại
+                        // .showSnackBar: Hiển thị thông báo
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Bài tập này chưa được liên kết!'),
@@ -226,6 +252,6 @@ class ExerciseListScreen extends StatelessWidget {
 class _ExerciseItem {
   final String name; // Tên hiển thị
   final Widget? widget; // Màn hình bài tập tương ứng
-  
+
   _ExerciseItem(this.name, this.widget);
 }
