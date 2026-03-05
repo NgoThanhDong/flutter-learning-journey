@@ -90,7 +90,7 @@ var guest = User.guest();
 var user2 = User.withName('An');
 ```
 
-### 2.1 Khi nào nên dùng `factory`
+### 2.2 Khi nào nên dùng `factory`
 
 `factory` thường được dùng khi bạn **cần thêm logic vào quá trình tạo object**, thay vì luôn tạo một object mới như constructor bình thường. Một vài trường hợp phổ biến:
 

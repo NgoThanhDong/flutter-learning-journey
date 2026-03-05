@@ -23,7 +23,7 @@ void main() async {
   int? safeParseInt(String value) {
     try {
       return int.parse(value);
-    } on FormatException {
+    } on FormatException { // FormatException: lỗi khi parse
       return null;
     }
   }
@@ -68,6 +68,7 @@ void main() async {
 
   testEmail('test@example.com'); // ✅ Valid
   testEmail('invalid-email'); // ❌ Invalid
+  testEmail('invalid-email@example'); // ❌ Invalid
   testEmail(''); // ❌ Invalid
 
   // ╔════════════════════════════════════════════╗
@@ -77,8 +78,8 @@ void main() async {
   print('\n--- Bài tập 3: Custom Exception cho ngân hàng ---');
 
   // -TODO: Tạo các custom exception:
-  // - InsufficientBalanceException(required, available)
-  // - InvalidAmountException(amount)
+  // - InsufficientBalanceException(required, available) - không đủ tiền
+  // - InvalidAmountException(amount) - số tiền không hợp lệ
 
   // Sau đó implement class BankAccount:
   // - balance property
@@ -91,15 +92,15 @@ void main() async {
     try {
       account.withdraw(amount);
       print('✅ $amount withdrawed successfully');
-    } on InvalidAmountException catch (e) {
+    } on InvalidAmountException catch (e) { // InvalidAmountException: số tiền không hợp lệ
       print('❌ Invalid amount: $e');
-    } on InsufficientBalanceException catch (e) {
+    } on InsufficientBalanceException catch (e) { // InsufficientBalanceException: không đủ tiền
       print('❌ Insufficient balance: $e');
     }
   }
 
-  int balance = 1000000;
-  var account = BankAccount(balance);
+  int balance = 1000000; // số dư
+  var account = BankAccount(balance); // BankAccount: tài khoản ngân hàng
 
   testWithdraw(account, 500000); // ✅ OK
   testWithdraw(account, 1000000); // ❌ Không đủ tiền
@@ -186,9 +187,9 @@ void main() async {
 // ============================================
 
 // -TODO: Tạo custom exceptions
-class InsufficientBalanceException implements Exception {
-  final int required;
-  final int available;
+class InsufficientBalanceException implements Exception { // InsufficientBalanceException: không đủ tiền
+  final int required; // số tiền cần
+  final int available; // số tiền có
 
   InsufficientBalanceException(this.required, this.available);
 
@@ -197,8 +198,8 @@ class InsufficientBalanceException implements Exception {
       'InsufficientBalanceException: Cần $required, chỉ có $available';
 }
 
-class InvalidAmountException implements Exception {
-  final int amount;
+class InvalidAmountException implements Exception { // InvalidAmountException: số tiền không hợp lệ
+  final int amount; // số tiền
 
   InvalidAmountException(this.amount);
 
@@ -207,19 +208,20 @@ class InvalidAmountException implements Exception {
 }
 
 // -TODO: Implement BankAccount
-class BankAccount {
-  int balance;
+class BankAccount { // BankAccount: tài khoản ngân hàng
+  int balance; // số dư
 
   BankAccount(this.balance);
-  int withdraw(int amount) {
-    if (amount <= 0) {
-      throw InvalidAmountException(amount);
+
+  int withdraw(int amount) { // withdraw: rút tiền
+    if (amount <= 0) { // nếu số tiền <= 0
+      throw InvalidAmountException(amount); // throw InvalidAmountException
     }
-    if (amount > balance) {
-      throw InsufficientBalanceException(amount, balance);
+    if (amount > balance) { // nếu số tiền > số dư
+      throw InsufficientBalanceException(amount, balance); // throw InsufficientBalanceException
     }
-    balance -= amount;
-    return balance;
+    balance -= amount; // trừ tiền
+    return balance; // return balance mới
   }
 }
 

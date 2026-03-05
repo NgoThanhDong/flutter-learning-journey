@@ -118,7 +118,7 @@ void checkExercises() {
 
   // Test 1.1
   var prices = [100000, 250000, 500000];
-  var discounted = prices.map((p) => (p * 0.9).round()).toList();
+  var discounted = prices.map((p) => (p * 0.9).round()).toList(); // round() làm tròn giá
   if (discounted[0] == 90000) {
     print('✅ Bài 1.1: PASSED');
     score++;
