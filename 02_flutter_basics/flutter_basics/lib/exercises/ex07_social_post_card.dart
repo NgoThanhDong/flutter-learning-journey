@@ -25,14 +25,16 @@ class Ex07SocialPostCard extends StatelessWidget {
       appBar: AppBar(title: Text('Social Post')),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16), // Padding bên ngoài Card
           child: Card(
-            elevation: 2,
+            elevation: 2, // Độ sâu của Card
             // Xác định hình dạng (shape) của widget Card
+            // RoundedRectangleBorder: Hình chữ nhật bo góc
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
+              // Thu nhỏ chiều cao bằng nội dung
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -48,7 +50,10 @@ class Ex07SocialPostCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 12),
+
+                      // Name + Time + More icon
                       Column(
+                        // Căn trái
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -61,8 +66,10 @@ class Ex07SocialPostCard extends StatelessWidget {
                           ),
                         ],
                       ),
+
                       // Spacer: Chiếm hết khoảng trống thừa còn lại -> Đẩy icon cuối cùng sang sát lề phải
                       Spacer(),
+
                       // IconButton: Nút có icon
                       IconButton(
                         onPressed: () {
@@ -76,9 +83,8 @@ class Ex07SocialPostCard extends StatelessWidget {
 
                 // 2. Content Text
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12,
-                  ), // Padding 2 bên
+                  // Padding 2 bên theo chiều ngang
+                  padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
                     'Just arrived in Paris! The weather is amazing. 🗼☕ #travel #paris #france',
                     style: TextStyle(fontSize: 16),
@@ -100,10 +106,11 @@ class Ex07SocialPostCard extends StatelessWidget {
 
                 // 4. Footer Actions
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8), // Padding 2 bên
+                  // Padding 2 bên theo chiều ngang
+                  padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment
-                        .spaceAround, // Chia đều không gian cho 3 nút
+                    // Chia đều không gian cho 3 nút: Like, Comment, Share
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       // TextButton.icon: Nút có cả icon và chữ
                       TextButton.icon(

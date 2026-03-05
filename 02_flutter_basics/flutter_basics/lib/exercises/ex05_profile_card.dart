@@ -20,11 +20,12 @@ class Ex05ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( // Scaffold: Cấu trúc cơ bản của màn hình
+    return Scaffold(
+      // Scaffold: Cấu trúc cơ bản của màn hình
       appBar: AppBar(title: Text('Profile Card')),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16), // Padding 16px bên ngoài Card
           // Card: Widget có sẵn shadow và bo góc nhẹ, thường dùng để group thông tin
           child: Card(
             elevation: 4, // Độ nổi của Card (bóng đổ đậm hơn nếu số to)
@@ -33,13 +34,14 @@ class Ex05ProfileCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16), // Bo tròn tất cả 4 góc
             ),
             child: Padding(
-              padding: EdgeInsets.all(24),
+              padding: EdgeInsets.all(24), // Padding 24px bên trong Card
               child: Column(
                 // [Quan trọng]
                 // MainAxisSize.min: Column chỉ cao vừa đủ nội dung.
                 // Nếu không dùng cái này, Column sẽ chiếm hết height màn hình -> Card bị kéo dài vô duyên.
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Khung chứa ảnh đại diện
                   Container(
                     width: 200,
                     height: 200,
@@ -47,33 +49,33 @@ class Ex05ProfileCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       // Màu nền
                       color: Colors.white,
-                      // Gradient
+                      // Gradient chuyển màu
                       gradient: LinearGradient(
                         colors: [Colors.blue, Colors.purple],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      // Border
+
+                      // Border viền
                       border: Border.all(color: Colors.black, width: 2),
+
                       // Bo góc
                       // borderRadius: BorderRadius.circular(12),
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
+                        topLeft: Radius.circular(20), // Bo góc trên bên trái
                       ),
 
                       // Cấu hình đổ bóng (shadow) cho widget
                       boxShadow: [
                         BoxShadow(
-                          color: Colors
-                              .black26, // black26 = đen với độ trong suốt 26%
-                          offset: Offset(
-                            0,
-                            4,
-                          ), // offset = vị trí của bóng (bóng đổ xuống dưới 4px)
-                          blurRadius:
-                              8, // blurRadius = độ mờ của bóng (Số càng lớn → bóng càng mềm)
-                          spreadRadius:
-                              2, // spreadRadius = độ rộng của bóng (> 0 → bóng to ra, < 0 → bóng nhỏ lại)
+                          // black26 = đen với độ trong suốt 26%
+                          color: Colors.black26,
+                          // offset = vị trí của bóng (bóng đổ xuống dưới 4px)
+                          offset: Offset(0, 4),
+                          // blurRadius = độ mờ của bóng (Số càng lớn → bóng càng mềm)
+                          blurRadius: 8,
+                          // spreadRadius = độ rộng của bóng (> 0 → bóng to ra, < 0 → bóng nhỏ lại)
+                          spreadRadius: 2,
                         ),
                       ],
                     ),
@@ -97,8 +99,8 @@ class Ex05ProfileCard extends StatelessWidget {
                   Text(
                     'Flutter Developer | Tech Enthusiast',
                     style: TextStyle(color: Colors.grey, fontSize: 14),
-                    textAlign:
-                        TextAlign.center, // Căn giữa text nếu nó dài quá 1 dòng
+                    // Căn giữa text nếu nó dài quá 1 dòng
+                    textAlign: TextAlign.center,
                   ),
 
                   SizedBox(height: 16),
@@ -117,6 +119,7 @@ class Ex05ProfileCard extends StatelessWidget {
                   const SizedBox(height: 16),
                   // RichText: Cho phép hiển thị text với nhiều style khác nhau trong cùng 1 widget
                   Row(
+                    // spaceEvenly: Chia đều khoảng cách giữa các widget
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       RichText(
@@ -139,6 +142,7 @@ class Ex05ProfileCard extends StatelessWidget {
                       ),
 
                       // Hoặc dùng Text.rich
+                      // Text.rich: Cho phép hiển thị text với nhiều style khác nhau trong cùng 1 widget
                       Text.rich(
                         TextSpan(
                           text: 'Salary: ',

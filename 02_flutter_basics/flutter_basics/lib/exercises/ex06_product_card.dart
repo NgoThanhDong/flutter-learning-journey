@@ -39,27 +39,25 @@ class Ex06ProductCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black12,
-                blurRadius:
-                    10, // blurRadius = độ mờ của bóng (Số càng lớn → bóng càng mềm)
-                offset: Offset(
-                  0,
-                  4,
-                ), // offset = vị trí của bóng (bóng đổ xuống dưới 4px)
+                // blurRadius = độ mờ của bóng (Số càng lớn → bóng càng mềm)
+                blurRadius: 10,
+                // offset = vị trí của bóng (bóng đổ xuống dưới 4px)
+                offset: Offset(0, 4),
               ),
             ],
           ),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // Căn lề trái nội dung
+            // crossAxisAlignment: Căn lề trái nội dung
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisSize: Thu nhỏ chiều cao bằng nội dung
             mainAxisSize: MainAxisSize.min,
             children: [
               // 1. Ảnh sản phẩm
               // ClipRRect: Cắt con (Image) theo hình bo tròn
               // Cần thiết vì Image thường là hình chữ nhật vuông góc
               ClipRRect(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ), // Chỉ bo 2 góc trên
+                // Chỉ bo 2 góc trên
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 child: Image.network(
                   'https://picsum.photos/300/300', // Random image
                   height: 200,
@@ -70,10 +68,10 @@ class Ex06ProductCard extends StatelessWidget {
 
               // 2. Nội dung text (Padding tách biệt với viền)
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16), // Padding xung quanh nội dung
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // Căn lề trái nội dung
+                  // Căn lề trái nội dung
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Tên
                     Text(
@@ -111,12 +109,14 @@ class Ex06ProductCard extends StatelessWidget {
                             color: Colors.blue,
                           ),
                         ),
+
                         // Nút Add cart tùy chỉnh
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.blue,
                             borderRadius: BorderRadius.circular(12),
                           ),
+                          // IconButton: Nút có icon
                           child: IconButton(
                             icon: Icon(
                               Icons.add_shopping_cart,
@@ -124,11 +124,12 @@ class Ex06ProductCard extends StatelessWidget {
                             ),
                             onPressed: () {},
                             // Tinh chỉnh kích thước nút bấm
+                            // BoxConstraints.tightFor: Tạo kích thước cố định cho widget
                             constraints: BoxConstraints.tightFor(
                               width: 40,
                               height: 40,
                             ),
-                            padding: EdgeInsets.zero,
+                            padding: EdgeInsets.zero, // Xóa padding mặc định
                           ),
                         ),
                       ],

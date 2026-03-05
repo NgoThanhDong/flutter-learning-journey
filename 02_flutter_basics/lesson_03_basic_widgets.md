@@ -47,23 +47,23 @@ Text(
     fontStyle: FontStyle.italic,
     
     // Decoration
-    decoration: TextDecoration.underline,
-    decorationColor: Colors.red,
-    decorationStyle: TextDecorationStyle.wavy,
+    decoration: TextDecoration.underline, // Gạch chân
+    decorationColor: Colors.red, // Màu gạch chân
+    decorationStyle: TextDecorationStyle.wavy, // Kiểu gạch chân
     
     // Letter & Word spacing
-    letterSpacing: 2.0,
-    wordSpacing: 5.0,
+    letterSpacing: 2.0, // Khoảng cách giữa các chữ
+    wordSpacing: 5.0, // Khoảng cách giữa các từ
     
     // Line height (1.0 = normal)
-    height: 1.5,
+    height: 1.5, // Chiều cao dòng
     
     // Shadow
     shadows: [
       Shadow(
-        color: Colors.grey,
-        offset: Offset(2, 2),
-        blurRadius: 4,
+        color: Colors.grey, // Màu bóng
+        offset: Offset(2, 2), // Độ lệch bóng (x=2, y=2 -> bóng xuống dưới và sang phải)
+        blurRadius: 4, // Độ mờ của bóng
       ),
     ],
   ),
@@ -93,24 +93,26 @@ Text(
 ### 1.4 RichText - Text nhiều style
 
 ```dart
+// RichText: Widget để hiển thị text với nhiều style khác nhau trong cùng 1 widget
 RichText(
-  text: TextSpan(
+  text: TextSpan( // TextSpan: Widget để hiển thị text với nhiều style khác nhau trong cùng 1 widget
     text: 'Hello ',
-    style: TextStyle(color: Colors.black),
+    style: TextStyle(color: Colors.black), // Style cho text "Hello"
     children: [
       TextSpan(
         text: 'Flutter',
-        style: TextStyle(
+        style: TextStyle( // Style cho text "Flutter"
           color: Colors.blue,
           fontWeight: FontWeight.bold,
         ),
       ),
-      TextSpan(text: '!'),
+      TextSpan(text: '!'), // Text "!" sẽ kế thừa style từ TextSpan cha
     ],
   ),
 )
 
 // Hoặc dùng Text.rich
+// Text.rich: Widget để hiển thị text với nhiều style khác nhau trong cùng 1 widget
 Text.rich(
   TextSpan(
     text: 'Price: ',
@@ -126,7 +128,7 @@ Text.rich(
 
 ---
 
-## 2. Container Widget
+## 2. Container Widget - Tạo khung, nền, bo góc, đổ bóng
 
 ### 2.1 Cơ bản
 
@@ -140,18 +142,18 @@ Container(
 
 ```dart
 Container(
-  width: 200,
-  height: 100,
+  width: 200, // Chiều rộng
+  height: 100, // Chiều cao
   
-  // Constraints
+  // Constraints - Ràng buộc kích thước
   constraints: BoxConstraints(
-    minWidth: 100,
-    maxWidth: 300,
-    minHeight: 50,
-    maxHeight: 200,
+    minWidth: 100, // chiều rộng tối thiểu
+    maxWidth: 300, // chiều rộng tối đa
+    minHeight: 50, // chiều cao tối thiểu
+    maxHeight: 200, // chiều cao tối đa
   ),
   
-  child: Text('Sized Container'),
+  child: Text('Sized Container'), // Widget con
 )
 ```
 
@@ -163,10 +165,10 @@ Container(
   color: Colors.blue,
   
   // Khoảng cách bên trong
-  padding: EdgeInsets.all(16),
-  // EdgeInsets.symmetric(horizontal: 20, vertical: 10)
-  // EdgeInsets.only(left: 10, top: 20)
-  // EdgeInsets.fromLTRB(10, 20, 10, 20)
+  padding: EdgeInsets.all(16), // Tạo khoảng cách đều nhau ở tất cả các phía
+  // EdgeInsets.symmetric(horizontal: 20, vertical: 10) // Tạo khoảng cách đều nhau ở hai phía đối diện
+  // EdgeInsets.only(left: 10, top: 20) // Tạo khoảng cách ở các phía cụ thể
+  // EdgeInsets.fromLTRB(10, 20, 10, 20) // Tạo khoảng cách ở các phía: left, top, right, bottom
   
   // Khoảng cách bên ngoài
   margin: EdgeInsets.all(8),
@@ -186,30 +188,30 @@ Container(
     // Màu nền
     color: Colors.white,
     
-    // Gradient
+    // Gradient - Tạo hiệu ứng chuyển màu
     gradient: LinearGradient(
-      colors: [Colors.blue, Colors.purple],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
+      colors: [Colors.blue, Colors.purple], // Màu sắc chuyển đổi
+      begin: Alignment.topLeft, // Điểm bắt đầu
+      end: Alignment.bottomRight, // Điểm kết thúc
     ),
     
-    // Border
+    // Border - Tạo viền
     border: Border.all(
-      color: Colors.black,
-      width: 2,
+      color: Colors.black, // Màu viền
+      width: 2, // Độ rộng viền
     ),
     
     // Bo góc
-    borderRadius: BorderRadius.circular(12),
-    // BorderRadius.only(topLeft: Radius.circular(20))
+    borderRadius: BorderRadius.circular(12), // Bo tròn tất cả các góc
+    // BorderRadius.only(topLeft: Radius.circular(20)) // Bo tròn góc trên bên trái
     
-    // Shadow
+    // Shadow - Tạo bóng đổ
     boxShadow: [
       BoxShadow(
-        color: Colors.black26,
-        offset: Offset(0, 4),
-        blurRadius: 8,
-        spreadRadius: 2,
+        color: Colors.black26, // Màu bóng
+        offset: Offset(0, 4), // Độ lệch bóng (bóng đổ xuống dưới 4px)
+        blurRadius: 8, // Độ mờ của bóng (Số càng lớn → bóng càng mềm)
+        spreadRadius: 2, // Độ rộng của bóng (> 0 → bóng to ra, < 0 → bóng nhỏ lại)
       ),
     ],
   ),
@@ -226,9 +228,10 @@ Container(
   height: 150,
   decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(12),
-    image: DecorationImage(
-      image: NetworkImage('https://...'),
-      fit: BoxFit.cover,
+    // Image - Hình ảnh
+    image: DecorationImage( // DecorationImage: Widget để hiển thị hình ảnh
+      image: NetworkImage('https://...'), // NetworkImage: Widget để hiển thị hình ảnh từ mạng
+      fit: BoxFit.cover, // BoxFit.cover: Hình ảnh sẽ lấp đầy khung mà không bị méo
     ),
   ),
 )
@@ -241,6 +244,7 @@ Container(
 ### 3.1 Image từ Internet
 
 ```dart
+// Image.network: Widget để hiển thị hình ảnh từ mạng
 Image.network(
   'https://picsum.photos/300/200',
   
@@ -249,16 +253,20 @@ Image.network(
   height: 200,
   
   // Fit mode
-  fit: BoxFit.cover,
-  // BoxFit.contain, fill, fitWidth, fitHeight, none
+  fit: BoxFit.cover, // BoxFit.cover: Hình ảnh sẽ lấp đầy khung mà không bị méo
+  // BoxFit.contain: Hình ảnh sẽ lấp đầy khung mà không bị cắt
+  // BoxFit.fill: Hình ảnh sẽ lấp đầy khung mà không bị méo
+  // BoxFit.fitWidth: Hình ảnh sẽ lấp đầy chiều rộng khung mà không bị méo
+  // BoxFit.fitHeight: Hình ảnh sẽ lấp đầy chiều cao khung mà không bị méo
+  // BoxFit.none: Hình ảnh sẽ không lấp đầy khung
   
-  // Loading placeholder
-  loadingBuilder: (context, child, loadingProgress) {
-    if (loadingProgress == null) return child;
-    return Center(child: CircularProgressIndicator());
+  // loadingBuilder: Widget để hiển thị khi đang tải ảnh
+  loadingBuilder: (context, child, loadingProgress) { 
+    if (loadingProgress == null) return child; // Nếu không có lỗi thì trả về ảnh
+    return Center(child: CircularProgressIndicator()); // Nếu có lỗi thì trả về loading indicator
   },
   
-  // Error handling
+  // errorBuilder: Widget để hiển thị khi có lỗi
   errorBuilder: (context, error, stackTrace) {
     return Icon(Icons.error, size: 50);
   },
@@ -275,6 +283,7 @@ flutter:
 ```
 
 ```dart
+// Image.asset: Widget để hiển thị hình ảnh từ assets
 Image.asset(
   'assets/images/logo.png',
   width: 100,
@@ -285,9 +294,10 @@ Image.asset(
 ### 3.3 ClipRRect - Bo góc ảnh
 
 ```dart
+// ClipRRect: Widget để bo góc ảnh
 ClipRRect(
-  borderRadius: BorderRadius.circular(12),
-  child: Image.network(
+  borderRadius: BorderRadius.circular(12), // Bo góc 12px
+  child: Image.network( // Image.network: Widget để hiển thị hình ảnh từ mạng
     'https://picsum.photos/200',
     width: 200,
     height: 200,
@@ -299,10 +309,11 @@ ClipRRect(
 ### 3.4 CircleAvatar
 
 ```dart
+// CircleAvatar: Widget để tạo ảnh tròn
 CircleAvatar(
-  radius: 50,
-  backgroundImage: NetworkImage('https://...'),
-  backgroundColor: Colors.grey,
+  radius: 50, // Bán kính
+  backgroundImage: NetworkImage('https://...'), // Ảnh từ mạng
+  backgroundColor: Colors.grey, // Màu nền
   
   // Hoặc hiển thị text
   // child: Text('AB'),
@@ -316,10 +327,11 @@ CircleAvatar(
 ### 4.1 Material Icons
 
 ```dart
+// Icon: Widget để hiển thị icon
 Icon(
-  Icons.favorite,
-  size: 30,
-  color: Colors.red,
+  Icons.favorite, // Icon từ Material Icons
+  size: 30, // Kích thước icon
+  color: Colors.red, // Màu sắc icon
 )
 
 Icon(
@@ -363,11 +375,12 @@ Icons.more_horiz
 ### 4.3 IconButton
 
 ```dart
+// IconButton: Widget để hiển thị icon có thể bấm
 IconButton(
-  icon: Icon(Icons.favorite),
-  iconSize: 30,
-  color: Colors.red,
-  onPressed: () {
+  icon: Icon(Icons.favorite), // Icon từ Material Icons
+  iconSize: 30, // Kích thước icon
+  color: Colors.red, // Màu sắc icon
+  onPressed: () { // Hàm được gọi khi bấm vào icon
     print('Tapped!');
   },
 )
@@ -393,16 +406,16 @@ SizedBox(
 
 // Full width
 SizedBox(
-  width: double.infinity,
+  width: double.infinity, // Chiều rộng full màn hình
   child: ElevatedButton(...),
 )
 ```
 
-### 5.2 Padding
+### 5.2 Padding - Tạo khoảng cách bên trong
 
 ```dart
 Padding(
-  padding: EdgeInsets.all(16),
+  padding: EdgeInsets.all(16), // Tạo khoảng cách đều nhau ở tất cả các phía
   child: Text('Padded'),
 )
 ```
@@ -410,27 +423,30 @@ Padding(
 ### 5.3 Center
 
 ```dart
+// Center: Widget để căn giữa widget con
 Center(
-  child: Text('Centered'),
+  child: Text('Centered'), // Widget con
 )
 ```
 
 ### 5.4 Align
 
 ```dart
+// Align: Widget để căn chỉnh vị trí của widget con
 Align(
   alignment: Alignment.topRight, // Căn chỉnh vị trí của widget con
-  child: Text('Top Right'),
+  child: Text('Top Right'), // Widget con
 )
 // Alignment.center, topLeft, bottomCenter...
 ```
 
-### 5.5 Opacity
+### 5.5 Opacity - Độ trong suốt
 
 ```dart
+// Opacity: Widget để tạo độ trong suốt
 Opacity(
   opacity: 0.5, // 0.0 - 1.0
-  child: Container(...),
+  child: Container(...), // Widget con
 )
 ```
 
@@ -439,6 +455,7 @@ Opacity(
 ## 6. Card Widget
 
 ```dart
+// Card: Widget có sẵn shadow và bo góc nhẹ, thường dùng để group thông tin
 Card(
   elevation: 4, // Độ cao của card
   margin: EdgeInsets.all(8), // Khoảng cách với các widget khác
@@ -462,8 +479,9 @@ Card(
 ## 7. Divider Widget
 
 ```dart
+// Divider: Widget để tạo đường kẻ ngang
 Divider(
-  height: 20,
+  height: 20, // Chiều cao của đường kẻ
   thickness: 1, // Độ dày của đường kẻ
   color: Colors.grey, // Màu của đường kẻ
   indent: 16, // Khoảng cách từ lề trái
