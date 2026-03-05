@@ -90,11 +90,154 @@ var guest = User.guest();
 var user2 = User.withName('An');
 ```
 
-### 💡 Thủ thuật: Khi nào dùng Factory?
+### 2.2 Factory trong Dart (Flutter)
 
-- Khi cần **cache** objects (singleton pattern)
-- Khi cần **return subclass** dựa trên input
-- Khi cần **logic phức tạp** trước khi tạo object
+Trong **Dart** (ngôn ngữ dùng để phát triển Flutter), `factory` là **factory constructor** – một loại constructor đặc biệt cho phép bạn **kiểm soát cách tạo object**.
+
+Điểm đặc biệt: `factory` **không bắt buộc phải tạo object mới mỗi lần được gọi**.
+
+---
+
+# 1. Cú pháp cơ bản
+
+```dart
+class Person {
+  String name;
+
+  Person(this.name);
+
+  factory Person.create(String name) {
+    return Person(name);
+  }
+}
+```
+
+Sử dụng:
+
+```dart
+var p = Person.create("John");
+```
+
+`factory` hoạt động giống constructor nhưng cho phép bạn viết **logic xử lý bên trong**.
+
+---
+
+# 2. Khi nào nên dùng factory
+
+## 2.1 Quyết định tạo object nào
+
+```dart
+class Shape {
+  factory Shape(String type) {
+    if (type == "circle") {
+      return Circle();
+    } else {
+      return Square();
+    }
+  }
+}
+
+class Circle implements Shape {}
+class Square implements Shape {}
+```
+
+Sử dụng:
+
+```dart
+var s = Shape("circle");
+```
+
+`Shape` sẽ trả về `Circle` hoặc `Square`.
+
+---
+
+## 2.2 Tránh tạo nhiều object giống nhau (Singleton)
+
+```dart
+class Logger {
+  static final Logger _instance = Logger._internal();
+
+  factory Logger() {
+    return _instance;
+  }
+
+  Logger._internal();
+}
+```
+
+Dù gọi `Logger()` nhiều lần thì vẫn chỉ có **một object duy nhất**.
+
+---
+
+## 2.3 Parse JSON (rất phổ biến trong Flutter)
+
+```dart
+class User {
+  String name;
+  int age;
+
+  User(this.name, this.age);
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      json['name'],
+      json['age'],
+    );
+  }
+}
+```
+
+Sử dụng:
+
+```dart
+var user = User.fromJson({
+  "name": "An",
+  "age": 20
+});
+```
+
+---
+
+# 3. Khác gì với constructor bình thường?
+
+Constructor thường:
+
+```dart
+Person(this.name);
+```
+
+Factory constructor:
+
+```dart
+factory Person.create(String name) {
+  return Person(name);
+}
+```
+
+| Constructor thường | Factory |
+|---|---|
+| Luôn tạo object mới | Có thể không tạo object mới |
+| Không có logic phức tạp | Có thể viết logic |
+| Không thể trả về object khác | Có thể trả về object khác |
+
+---
+
+# 4. Tóm tắt
+
+`factory` trong Dart dùng để:
+
+- Kiểm soát cách tạo object
+- Trả về object đã tồn tại
+- Trả về object khác
+- Parse dữ liệu JSON → Object
+
+Trong Flutter, `factory` thường xuất hiện dưới dạng:
+
+```dart
+factory Model.fromJson(...)
+```
+
+để **chuyển dữ liệu API thành object Dart**.
 
 ---
 

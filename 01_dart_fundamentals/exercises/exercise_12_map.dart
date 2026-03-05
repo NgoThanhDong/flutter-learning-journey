@@ -60,6 +60,7 @@ void main() {
   
   var orders = apiResponse['data']['orders'] as List;
   var totalOrders = orders.length;
+  // Dùng fold để tính tổng
   var totalAmount = orders.fold(0, (sum, order) => sum + order['total'] as int);
   
   print('User: $userName ($userEmail)');

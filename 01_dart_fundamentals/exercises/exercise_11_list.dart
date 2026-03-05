@@ -54,7 +54,8 @@ void main() {
 
   // -TODO: Tìm sản phẩm có giá > 9000000
   // Dùng where() để lọc
-
+  // Dùng toList() để chuyển sang List
+  
   var expensive = products.where((p) => p['price'] as int > 9000000).toList();
   print('Sản phẩm giá > 9 triệu: $expensive');
 
@@ -72,6 +73,9 @@ void main() {
 
   scores.sort();
   print('Tăng dần: $scores');
+
+  // Dùng reversed để đảo ngược danh sách
+  // Dùng take để lấy 3 phần tử đầu tiên
   var top3 = scores.reversed.take(3).toList();
   print('Top 3: $top3');
 
