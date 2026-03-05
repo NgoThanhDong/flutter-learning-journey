@@ -26,7 +26,8 @@ class Ex10ProfileHeader extends StatelessWidget {
           // [Concept] Stack: Cho phép xếp chồng các Widget lên nhau (layer).
           // Widget viết sau sẽ đè lên Widget viết trước.
           Stack(
-            // clipBehavior.none: Cho phép con (Avatar) vẽ tràn ra ngoài khung Stack -> Hiệu ứng avatar nằm đè lên biên giới.
+            // clipBehavior.none: Cho phép con (Avatar) vẽ tràn ra ngoài khung Stack
+            // -> Hiệu ứng avatar nằm đè lên biên giới.
             clipBehavior: Clip.none,
             alignment: Alignment.bottomCenter, // Các con mặc định căn giữa đáy
             children: [
@@ -45,15 +46,16 @@ class Ex10ProfileHeader extends StatelessWidget {
               // 2. Layer trên: Avatar
               // Positioned: Định vị trí tuyệt đối trong Stack
               Positioned(
-                bottom:
-                    -50, // Tràn xuống dưới đáy Stack 50px (tạo hiệu ứng 1/2 nằm trên cover, 1/2 nằm dưới)
+                // Tràn xuống dưới đáy Stack 50px (tạo hiệu ứng 1/2 nằm trên cover, 1/2 nằm dưới)
+                bottom: -50,
                 child: Container(
                   padding: EdgeInsets.all(4), // Tạo viền trắng dày 4px
                   decoration: BoxDecoration(
                     color: Colors.white, // Màu viền
-                    shape:
-                        BoxShape.circle, // Bắt widget có hình dạng là hình tròn
+                    // Bắt widget có hình dạng là hình tròn
+                    shape: BoxShape.circle,
                   ),
+                  // CircleAvatar: Widget tạo ảnh đại diện hình tròn
                   child: CircleAvatar(
                     radius: 50, // Bán kính của ảnh
                     backgroundImage: NetworkImage('https://i.pravatar.cc/300'),
@@ -108,9 +110,8 @@ class Ex10ProfileHeader extends StatelessWidget {
                 decorationStyle: TextDecorationStyle.wavy,
 
                 // Letter & Word spacing
-                letterSpacing: 2.0,
-                wordSpacing: 5.0,
-
+                letterSpacing: 2.0, // Khoảng cách giữa các chữ cái
+                wordSpacing: 5.0, // Khoảng cách giữa các từ
                 // Line height (1.0 = normal)
                 height: 1.5,
 

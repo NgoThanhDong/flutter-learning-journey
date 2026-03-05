@@ -25,7 +25,9 @@ class Ex09PriceRow extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
+          // List các item
           children: [
+            // Tên sản phẩm
             _buildItem(
               'MacBook Pro M3 Max 16 inch 1TB SSD 32GB RAM',
               1,
@@ -58,27 +60,37 @@ class Ex09PriceRow extends StatelessWidget {
     );
   }
 
+  // Helper method: Tách code lặp lại ra hàm riêng -> Code gọn, dễ bảo trì
+  // Tạo hàng hiển thị thông tin giỏ hàng
   Widget _buildItem(String name, int qty, double price) {
     return Padding(
       // Tạo khoảng cách đều 12px cho cả trên, dưới, trái, phải
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      // padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      padding: EdgeInsets.all(12),
       child: Row(
         children: [
           // [Quan trọng]
           // Expanded: Bắt buộc `name` phải chiếm HẾT khoảng trống còn lại trong Row.
           // Nếu tên dài quá, nó sẽ tự xuống dòng hoặc cắt bớt (ellipsis) chứ không gây lỗi Overflow.
           Expanded(
-            child: Text(
-              name,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              maxLines: 1, // Chỉ hiện 1 dòng
-              overflow: TextOverflow.ellipsis, // Nếu dài quá thì hiện dấu ...
+            child: Tooltip(
+              message: name, // nội dung tooltip
+              child: Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1, // Chỉ hiện 1 dòng
+                overflow: TextOverflow.ellipsis, // Nếu dài quá thì hiện dấu ...
+              ),
             ),
           ),
 
           // Số lượng (Width tự động theo nội dung)
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            // Tạo khung bo tròn
             decoration: BoxDecoration(
               color: Colors.purple[200],
               borderRadius: BorderRadius.circular(12),

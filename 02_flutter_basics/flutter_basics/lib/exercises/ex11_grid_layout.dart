@@ -29,6 +29,7 @@ class Ex11GridLayout extends StatelessWidget {
         child: Wrap(
           spacing: 16, // Khoảng cách ngang giữa các phần tử
           runSpacing: 16, // Khoảng cách dọc giữa các dòng
+          // children: Danh sách các widget con
           children: [
             _buildCard(Icons.people, '1,204', 'Users', Colors.blue),
             _buildCard(Icons.shopping_bag, '340', 'Orders', Colors.orange),
@@ -43,14 +44,15 @@ class Ex11GridLayout extends StatelessWidget {
   // _buildCard - Widget để tạo card thống kê
   Widget _buildCard(IconData icon, String value, String label, Color color) {
     return Container(
-      width:
-          160, // [Lưu ý] Wrap cần biết width con để xác định khi nào xuống dòng.
+      // [Lưu ý] Wrap cần biết width con để xác định khi nào xuống dòng
+      width: 160,
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow( // Tạo bóng đổ
+          BoxShadow(
+            // Tạo bóng đổ
             color: Colors.blue.withValues(alpha: 0.1),
             blurRadius: 10, // Độ mờ của bóng
             offset: Offset(0, 2), // Vị trí của bóng
@@ -67,13 +69,15 @@ class Ex11GridLayout extends StatelessWidget {
               color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: color),
+            child: Icon(icon, color: color), // Icon: Biểu tượng thống kê
           ),
           SizedBox(height: 16),
+          // Text: Hiển thị giá trị
           Text(
             value,
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
+          // Text: Hiển thị nhãn
           Text(label, style: TextStyle(color: Colors.grey)),
         ],
       ),

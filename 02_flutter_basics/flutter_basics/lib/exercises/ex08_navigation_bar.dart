@@ -35,16 +35,19 @@ class Ex08NavigationBar extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 10,
-              offset: Offset(0, -2),
+              blurRadius: 10, // blurRadius là độ mờ của bóng đổ
+              offset: Offset(0, -2), // offset là vị trí của bóng đổ
             ),
           ],
         ),
+
+        // Row: Căn đều các item
         child: Row(
           // [Quan trọng]
           // spaceAround: Chia đều khoảng cách giữa các phần tử và cả 2 đầu
           // Home -- Search -- Fav -- Profile
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // List các item
           children: [
             _buildNavItem(Icons.home, 'Home', true),
             _buildNavItem(Icons.search, 'Search', false),
@@ -57,11 +60,13 @@ class Ex08NavigationBar extends StatelessWidget {
   }
 
   // Helper method: Tách code lặp lại ra hàm riêng -> Code gọn, dễ bảo trì
+  // Tạo item trong thanh điều hướng
   Widget _buildNavItem(IconData icon, String label, bool isActive) {
     return Column(
       // Căn giữa nội dung trong Column (Icon và Text)
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // IconButton: Nút có icon và text
         IconButton(
           icon: Icon(icon),
           // Active thì màu xanh, in-active màu xám
@@ -71,7 +76,9 @@ class Ex08NavigationBar extends StatelessWidget {
             debugPrint('Pressed $label');
           },
         ),
+        // SizedBox: Khoảng cách
         SizedBox(height: 4),
+        // Text: Hiển thị text
         Text(
           label,
           style: TextStyle(
