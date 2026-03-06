@@ -25,8 +25,8 @@ class Ex18AppTheme extends StatelessWidget {
       data: ThemeData(
         // ColorScheme: Hệ thống màu chuẩn của Material 3
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors
-              .deepPurple, // Màu chủ đạo -> Flutter sẽ tự sinh ra các màu phụ khác
+          // Màu chủ đạo -> Flutter sẽ tự sinh ra các màu phụ khác
+          seedColor: Colors.deepPurple,
           brightness: Brightness.light,
         ),
 
@@ -53,6 +53,28 @@ class Ex18AppTheme extends StatelessWidget {
             ), // Khoảng cách bên trong
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20), // Bo góc
+            ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          // OutlinedButtonThemeData = Theme cho nút bấm OutlinedButton
+          style: OutlinedButton.styleFrom(
+            backgroundColor: Colors.greenAccent, // Màu nền
+            foregroundColor: Colors.redAccent, // Màu chữ
+            side: BorderSide(
+              color: Colors.deepOrange,
+              width: 2,
+            ), // Viền
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 12,
+            ), // Khoảng cách bên trong
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10), // Bo góc
             ),
           ),
         ),
@@ -101,6 +123,14 @@ class Ex18AppTheme extends StatelessWidget {
                           debugPrint('Filled Button pressed');
                         },
                         child: Text('Filled Button'),
+                      ),
+                      SizedBox(height: 16),
+                      OutlinedButton(
+                        // OutlinedButton = Nút bấm viền
+                        onPressed: () {
+                          debugPrint('Outlined Button pressed');
+                        },
+                        child: Text('Outlined Button'),
                       ),
                     ],
                   );

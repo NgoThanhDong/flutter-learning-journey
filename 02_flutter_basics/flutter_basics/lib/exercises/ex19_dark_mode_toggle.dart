@@ -33,16 +33,16 @@ class _Ex19DarkModeToggleState extends State<Ex19DarkModeToggle> {
       colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.blue,
       ), // ColorScheme = Hệ thống màu chuẩn của Material 3
-      scaffoldBackgroundColor:
-          Colors.white, // ScaffoldBackgroundColor = Màu nền của Scaffold
+      // ScaffoldBackgroundColor = Màu nền của Scaffold
+      scaffoldBackgroundColor: Colors.white,
     );
 
     final darkTheme = ThemeData(
       // ThemeData = Theme cho toàn bộ app
       brightness: Brightness.dark, // Brightness.dark = Chế độ tối
       colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors
-            .blue, // seedColor = Màu chủ đạo -> Flutter sẽ tự sinh ra các màu phụ khác
+        // seedColor = Màu chủ đạo -> Flutter sẽ tự sinh ra các màu phụ khác
+        seedColor: Colors.blue,
         brightness: Brightness.dark, // Brightness.dark = Chế độ tối
       ),
       scaffoldBackgroundColor: Colors.grey[900], // Màu nền tối
@@ -50,10 +50,9 @@ class _Ex19DarkModeToggleState extends State<Ex19DarkModeToggle> {
 
     // MaterialApp là widget root có khả năng quản lý Theme
     return MaterialApp(
-      debugShowCheckedModeBanner:
-          false, // DebugShowCheckedModeBanner = Ẩn banner debug
+      debugShowCheckedModeBanner: false,
       // [Logic] Chọn theme dựa vào state
-      theme: _isDark ? darkTheme : lightTheme, // Theme = Theme cho toàn bộ app
+      theme: _isDark ? darkTheme : lightTheme,
       home: Scaffold(
         appBar: AppBar(
           title: Text('Dark Mode Toggle'),
@@ -71,10 +70,7 @@ class _Ex19DarkModeToggleState extends State<Ex19DarkModeToggle> {
             margin: EdgeInsets.all(24),
             decoration: BoxDecoration(
               // Màu nền Container cũng phải đổi theo theme (hoặc code cứng logic như dưới đây)
-              color: _isDark
-                  ? Colors.grey[800]
-                  : Colors
-                        .grey[100], // Màu nền Container cũng phải đổi theo theme (hoặc code cứng logic như dưới đây)
+              color: _isDark ? Colors.grey[800] : Colors.grey[100],
               borderRadius: BorderRadius.circular(16), // Bo góc
               boxShadow: [
                 BoxShadow(color: Colors.black12, blurRadius: 10),
@@ -84,30 +80,21 @@ class _Ex19DarkModeToggleState extends State<Ex19DarkModeToggle> {
               mainAxisSize:
                   MainAxisSize.min, // MainAxisSize.min = Kích thước tối thiểu
               children: [
+                // Icon đổi theo mode
                 Icon(
-                  _isDark
-                      ? Icons.nightlight_round
-                      : Icons.wb_sunny, // Icon đổi theo mode
+                  _isDark ? Icons.nightlight_round : Icons.wb_sunny,
                   size: 64, // Kích thước icon
                   // Màu icon đổi theo mode
-                  color: _isDark
-                      ? Colors.yellow
-                      : Colors.orange, // Màu icon đổi theo mode
+                  color: _isDark ? Colors.yellow : Colors.orange,
                 ),
                 SizedBox(height: 24),
+                // Text đổi theo mode
                 Text(
-                  _isDark
-                      ? 'Dark Mode Active'
-                      : 'Light Mode Active', // Text đổi theo mode
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ), // Style text
+                  _isDark ? 'Dark Mode Active' : 'Light Mode Active',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 16),
-                Text(
-                  'This card adapts to current theme.',
-                ), // Text đổi theo mode
+                Text('This card adapts to current theme.'),
                 SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
