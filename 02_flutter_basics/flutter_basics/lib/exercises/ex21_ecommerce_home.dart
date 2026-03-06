@@ -35,8 +35,8 @@ class Ex21EcommerceHome extends StatelessWidget {
           child: TextField(
             // TextField là widget dùng để tạo ô nhập liệu
             decoration: InputDecoration(
-              hintText:
-                  'Search products...', // Text hiển thị khi ô nhập liệu trống
+              // Text hiển thị khi ô nhập liệu trống
+              hintText: 'Search products...',
               prefixIcon: Icon(Icons.search), // Icon là widget dùng để tạo icon
               border: InputBorder.none, // Bỏ viền mặc định
               contentPadding: EdgeInsets.symmetric(
@@ -63,9 +63,8 @@ class Ex21EcommerceHome extends StatelessWidget {
             // 1. Banner
             Container(
               height: 180,
-              margin: EdgeInsets.all(
-                16,
-              ), // Margin là khoảng cách bên ngoài của widget
+              // Margin là khoảng cách bên ngoài của widget
+              margin: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 // BoxDecoration là widget dùng để tạo khung cho widget
                 color: Colors.blue, // Màu nền của widget
@@ -86,9 +85,7 @@ class Ex21EcommerceHome extends StatelessWidget {
 
             // 2. Categories
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ), // Padding là khoảng cách bên trong của widget
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Categories',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -98,19 +95,14 @@ class Ex21EcommerceHome extends StatelessWidget {
 
             // ListView ngang
             SizedBox(
-              height:
-                  90, // Bắt buộc set height cố định vì ListView nằm trong Column
+              // Bắt buộc set height cố định vì ListView nằm trong Column
+              height: 90,
               child: ListView(
                 scrollDirection: Axis.horizontal, // Scroll theo chiều ngang
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                ), // Padding là khoảng cách bên trong của widget
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                  // Children là danh sách các widget con
-                  _buildCategoryItem(
-                    Icons.phone_iphone,
-                    'Phones',
-                  ), // _buildCategoryItem là widget dùng để tạo danh mục
+                  // _buildCategoryItem là widget dùng để tạo danh mục
+                  _buildCategoryItem(Icons.phone_iphone, 'Phones'),
                   _buildCategoryItem(Icons.laptop, 'Laptops'),
                   _buildCategoryItem(Icons.watch, 'Watches'),
                   _buildCategoryItem(Icons.headset, 'Audio'),
@@ -125,17 +117,13 @@ class Ex21EcommerceHome extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Row(
-                // mainAxisAlignment là thuộc tính của widget Row dùng để căn chỉnh khoảng cách giữa các widget con
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Popular Products',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('See All'),
-                  ), // TextButton là widget dùng để tạo nút bấm
+                  TextButton(onPressed: () {}, child: Text('See All')),
                 ],
               ),
             ),
@@ -149,21 +137,18 @@ class Ex21EcommerceHome extends StatelessWidget {
             GridView.builder(
               // GridView là widget dùng để tạo lưới
               shrinkWrap: true, // Thu gọn Grid bằng nội dung
-              physics:
-                  NeverScrollableScrollPhysics(), // Tắt cuộn Grid, dùng cuộn của SingleChildScrollView cha
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ), // Padding là khoảng cách bên trong của widget
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               itemCount: 4, // Số lượng widget con
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 // SliverGridDelegateWithFixedCrossAxisCount là widget dùng để tạo lưới
                 crossAxisCount: 2, // Số lượng cột
-                childAspectRatio:
-                    0.7, // Tỷ lệ chiều rộng trên chiều cao của mỗi ô
-                mainAxisSpacing:
-                    16, // Khoảng cách giữa các widget con theo chiều dọc
-                crossAxisSpacing:
-                    16, // Khoảng cách giữa các widget con theo chiều ngang
+                // Tỷ lệ chiều rộng trên chiều cao của mỗi ô
+                childAspectRatio: 0.7,
+                // Khoảng cách giữa các widget con theo chiều dọc
+                mainAxisSpacing: 16,
+                // Khoảng cách giữa các widget con theo chiều ngang
+                crossAxisSpacing: 16,
               ),
               itemBuilder: (context, index) {
                 // itemBuilder là hàm dùng để tạo widget con
@@ -171,12 +156,8 @@ class Ex21EcommerceHome extends StatelessWidget {
                   decoration: BoxDecoration(
                     // BoxDecoration là widget dùng để tạo khung cho widget
                     color: Colors.white, // Màu nền của widget
-                    borderRadius: BorderRadius.circular(
-                      12,
-                    ), // Bo góc của widget
-                    border: Border.all(
-                      color: Colors.grey[200]!,
-                    ), // Viền của widget
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey[200]!),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,6 +216,7 @@ class Ex21EcommerceHome extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+            backgroundColor: Colors.blue,
           ), // BottomNavigationBarItem là widget dùng để tạo mục trong thanh điều hướng
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Saved'),
           BottomNavigationBarItem(
@@ -251,15 +233,11 @@ class Ex21EcommerceHome extends StatelessWidget {
   Widget _buildCategoryItem(IconData icon, String label) {
     return Container(
       width: 70,
-      margin: EdgeInsets.only(
-        right: 12,
-      ), // Margin là khoảng cách bên ngoài của widget
+      margin: EdgeInsets.only(right: 12),
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(
-              12,
-            ), // Padding là khoảng cách bên trong của widget
+            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.grey[100], // Màu nền của widget
               shape: BoxShape.circle, // Hình dạng của widget

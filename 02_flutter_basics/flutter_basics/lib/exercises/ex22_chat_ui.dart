@@ -16,12 +16,12 @@ import 'package:flutter/material.dart';
 // Ex22ChatUI - Màn hình chat chi tiết
 // Ex22ChatUI là StatefulWidget vì nó có state là danh sách tin nhắn
 class Ex22ChatUI extends StatefulWidget {
-  const Ex22ChatUI({
-    super.key,
-  }); // super.key là tham số tùy chọn để truyền key cho StatefulWidget
+  // super.key là tham số tùy chọn để truyền key cho StatefulWidget
+  const Ex22ChatUI({super.key});
 
+  // createState() là phương thức trả về State của StatefulWidget
   @override
-  State<Ex22ChatUI> createState() => _Ex22ChatUIState(); // createState() là phương thức trả về State của StatefulWidget
+  State<Ex22ChatUI> createState() => _Ex22ChatUIState();
 }
 
 // _Ex22ChatUIState là State của Ex22ChatUI
@@ -105,19 +105,20 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
         children: [
           // Expanded: Chiếm phần lớn màn hình cho danh sách tin nhắn
           Expanded(
+            // ListView.builder là widget dùng để tạo danh sách các widget
             child: ListView.builder(
-              // ListView.builder là widget dùng để tạo danh sách các widget
-              reverse:
-                  true, // [Quan trọng] Đảo ngược list: Item 0 nằm dưới cùng. Khi có tin nhắn mới, nó sẽ hiện ngay ngón tay người dùng.
+              // padding: là khoảng cách lề
               padding: EdgeInsets.all(16),
-              itemCount:
-                  _messages.length, // itemCount: là số lượng item trong list
+              // [Quan trọng] Đảo ngược list: Item 0 nằm dưới cùng. Khi có tin nhắn mới, nó sẽ hiện ngay ngón tay người dùng.
+              reverse: true,
+              // itemCount: là số lượng item trong list
+              itemCount: _messages.length,
               itemBuilder: (context, index) {
                 // itemBuilder: là hàm được gọi để tạo item
                 final msg = _messages[index]; // msg: là item hiện tại
-                final isMe =
-                    msg['isMe']
-                        as bool; // isMe: là true nếu là người gửi, false nếu là người nhận
+                // isMe: là true nếu là người gửi, false nếu là người nhận
+                final isMe = msg['isMe'] as bool;
+
                 // Align: Căn trái nếu là người khác, căn phải nếu là tôi
                 return Align(
                   alignment: isMe
@@ -125,13 +126,8 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
                       : Alignment.centerLeft,
                   child: Container(
                     // Container: là widget dùng để tạo khung chứa các widget
-                    margin: EdgeInsets.symmetric(
-                      vertical: 4,
-                    ), // margin: là khoảng cách bên ngoài
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 10,
-                    ), // padding: là khoảng cách bên trong
+                    margin: EdgeInsets.symmetric(vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
                       // BoxDecoration: là widget dùng để tạo khung chứa các widget
                       color: isMe
@@ -148,8 +144,8 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
                       ),
                     ),
                     child: Text(
-                      msg['text']
-                          as String, // msg['text']: là nội dung tin nhắn
+                      // msg['text']: là nội dung tin nhắn
+                      msg['text'] as String,
                       style: TextStyle(
                         color: isMe
                             ? Colors.white
@@ -185,15 +181,15 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
                 // Expanded: Chiếm phần lớn màn hình cho ô nhập văn bản
                 Expanded(
                   child: TextField(
-                    controller:
-                        _controller, // TextEditingController: là widget dùng để điều khiển nội dung của TextField
+                    // TextEditingController: là widget dùng để điều khiển nội dung của TextField
+                    controller: _controller,
                     decoration: InputDecoration(
                       hintText: 'Type a message...',
                       border: OutlineInputBorder(
                         // OutlineInputBorder: là widget dùng để tạo khung viền cho TextField
                         borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide
-                            .none, // BorderSide.none: là không có viền
+                        // BorderSide.none: là không có viền
+                        borderSide: BorderSide.none,
                       ),
                       filled: true, // filled: là true nếu có màu nền
                       fillColor: Colors.grey[100], // fillColor: là màu nền
@@ -214,8 +210,7 @@ class _Ex22ChatUIState extends State<Ex22ChatUI> {
                       Icons.send,
                       color: Colors.white,
                     ), // Icon: là widget dùng để tạo icon
-                    onPressed:
-                        _sendMessage, // onPressed: là hàm được gọi khi nút bấm được nhấn
+                    onPressed: _sendMessage,
                   ),
                 ),
               ],

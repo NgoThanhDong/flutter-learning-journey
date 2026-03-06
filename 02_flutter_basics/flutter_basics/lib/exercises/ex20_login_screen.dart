@@ -18,10 +18,12 @@ class Ex20LoginScreen extends StatefulWidget {
 }
 
 class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
-  final _emailController =
-      TextEditingController(); // TextEditingController là widget dùng để quản lý nội dung của TextField
+  // TextEditingController là widget dùng để quản lý nội dung của TextField
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscurePassword = true; // Biến để ẩn/hiện password
+
+  // Biến để ẩn/hiện password
+  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -38,11 +40,10 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           // SingleChildScrollView là widget cho phép cuộn trên màn hình nhỏ
-          // Cho phép cuộn trên màn hình nhỏ
           padding: EdgeInsets.all(24),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.stretch, // Kéo dãn các con theo chiều ngang
+            // Kéo dãn các con theo chiều ngang
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 60), // Tạo khoảng cách 60px
               // Logo
@@ -75,19 +76,18 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
 
               // Email field
               TextField(
-                controller:
-                    _emailController, // TextField là widget dùng để nhập liệu
-                keyboardType: TextInputType
-                    .emailAddress, // TextInputType.emailAddress là kiểu bàn phím dùng để nhập email
+                // TextField là widget dùng để nhập liệu
+                controller: _emailController,
+                // TextInputType.emailAddress là kiểu bàn phím dùng để nhập email
+                keyboardType: TextInputType.emailAddress,
+                // InputDecoration là widget dùng để trang trí TextField
                 decoration: InputDecoration(
-                  // InputDecoration là widget dùng để trang trí TextField
-                  labelText:
-                      'Email', // Label text là text hiển thị trên TextField
-                  prefixIcon: Icon(
-                    Icons.email_outlined,
-                  ), // Icon hiển thị trước TextField
+                  // Label text là text hiển thị trên TextField
+                  labelText: 'Email',
+                  // Icon hiển thị trước TextField
+                  prefixIcon: Icon(Icons.email_outlined),
+                  // OutlineInputBorder là kiểu viền của TextField
                   border: OutlineInputBorder(
-                    // OutlineInputBorder là kiểu viền của TextField
                     borderRadius: BorderRadius.circular(12), // Bo góc TextField
                   ),
                 ),
@@ -97,21 +97,18 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
 
               // Password field
               TextField(
-                controller:
-                    _passwordController, // controller là widget dùng để quản lý nội dung của TextField
-                obscureText:
-                    _obscurePassword, // obscureText là thuộc tính để ẩn/hiện password
+                controller: _passwordController,
+                // obscureText là thuộc tính để ẩn/hiện password
+                obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  prefixIcon: Icon(
-                    Icons.lock_outlined,
-                  ), // Icon hiển thị trước TextField
+                  // Icon hiển thị trước TextField
+                  prefixIcon: Icon(Icons.lock_outlined),
                   border: OutlineInputBorder(
-                    // OutlineInputBorder là kiểu viền của TextField
                     borderRadius: BorderRadius.circular(12), // Bo góc TextField
                   ),
+                  // IconButton là widget dùng để hiển thị icon
                   suffixIcon: IconButton(
-                    // IconButton là widget dùng để hiển thị icon
                     icon: Icon(
                       _obscurePassword // obscureText là thuộc tính để ẩn/hiện password
                           ? Icons.visibility_outlined
@@ -129,9 +126,9 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
               SizedBox(height: 8),
 
               // Forgot password (Align right)
+              // Align là widget dùng để căn chỉnh vị trí của widget
               Align(
-                // Align là widget dùng để căn chỉnh vị trí của widget
-                alignment: Alignment.centerRight, // Căn chỉnh vị trí của widget
+                alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {},
                   child: Text('Forgot Password?'),
@@ -142,16 +139,11 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
 
               // Login button
               ElevatedButton(
-                // ElevatedButton là widget dùng để tạo nút bấm
-                onPressed:
-                    () {}, // onPressed là thuộc tính để xử lý sự kiện khi nút bấm được nhấn
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  // ElevatedButton.styleFrom là widget dùng để tạo style cho ElevatedButton
-                  padding: EdgeInsets.symmetric(
-                    vertical: 16,
-                  ), // Padding là khoảng cách bên trong của widget
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // Bo góc TextField
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 child: Text('LOGIN'),
@@ -162,21 +154,13 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
               // OR divider (Dùng Row + Divider)
               Row(
                 children: [
-                  Expanded(
-                    child: Divider(),
-                  ), // Divider là widget dùng để tạo đường kẻ ngang
+                  // Divider là widget dùng để tạo đường kẻ ngang
+                  Expanded(child: Divider()),
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                    ), // Padding là khoảng cách bên trong của widget
-                    child: Text(
-                      'OR',
-                      style: TextStyle(color: Colors.grey),
-                    ), // Text là widget dùng để hiển thị text
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('OR', style: TextStyle(color: Colors.grey)),
                   ),
-                  Expanded(
-                    child: Divider(),
-                  ), // Divider là widget dùng để tạo đường kẻ ngang
+                  Expanded(child: Divider()),
                 ],
               ),
 
@@ -184,24 +168,14 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
 
               // Social login keys
               Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .center, // mainAxisAlignment là thuộc tính để căn chỉnh vị trí của widget
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildSocialButton(
-                    Icons.g_mobiledata,
-                  ), // _buildSocialButton là widget dùng để tạo nút bấm mạng xã hội
-                  SizedBox(
-                    width: 16,
-                  ), // SizedBox là widget dùng để tạo khoảng cách
-                  _buildSocialButton(
-                    Icons.facebook,
-                  ), // _buildSocialButton là widget dùng để tạo nút bấm mạng xã hội
-                  SizedBox(
-                    width: 16,
-                  ), // SizedBox là widget dùng để tạo khoảng cách
-                  _buildSocialButton(
-                    Icons.apple,
-                  ), // _buildSocialButton là widget dùng để tạo nút bấm mạng xã hội
+                  // _buildSocialButton là widget dùng để tạo nút bấm mạng xã hội
+                  _buildSocialButton(Icons.g_mobiledata),
+                  SizedBox(width: 16),
+                  _buildSocialButton(Icons.facebook),
+                  SizedBox(width: 16),
+                  _buildSocialButton(Icons.apple),
                 ],
               ),
 
@@ -209,16 +183,11 @@ class _Ex20LoginScreenState extends State<Ex20LoginScreen> {
 
               // Sign up link
               Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .center, // mainAxisAlignment là thuộc tính để căn chỉnh vị trí của widget
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Don't have an account?",
-                  ), // Text là widget dùng để hiển thị text
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('Sign Up'),
-                  ), // TextButton là widget dùng để tạo nút bấm
+                  Text("Don't have an account?"),
+                  SizedBox(width: 8),
+                  TextButton(onPressed: () {}, child: Text('Sign Up')),
                 ],
               ),
             ],
