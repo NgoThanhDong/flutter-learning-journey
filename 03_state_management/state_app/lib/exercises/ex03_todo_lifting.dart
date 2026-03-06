@@ -128,7 +128,7 @@ class _Ex03TodoLiftingState extends State<Ex03TodoLifting> {
 /// ===========================================
 /// WIDGET CON 1: -TODO INPUT
 /// ===========================================
-/// [Stateless với callback]
+/// 
 /// Widget này chỉ lo việc nhập liệu.
 /// Không biết gì về list todos, chỉ gọi onAdd khi user submit.
 class _TodoInput extends StatefulWidget {

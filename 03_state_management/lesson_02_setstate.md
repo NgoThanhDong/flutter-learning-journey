@@ -2,7 +2,7 @@
 
 ## 🎯 Mục tiêu bài học
 - Ôn tập và hiểu sâu hơn về `setState`
-- Học kỹ thuật **Lifting State Up**
+- Học kỹ thuật **Lifting State Up** (nâng state lên)
 - Hiểu **InheritedWidget** - nền tảng của Provider
 - Sử dụng **ValueNotifier** & **ValueListenableBuilder**
 
@@ -118,6 +118,9 @@ class CountDisplay extends StatelessWidget {
 }
 
 class CountButtons extends StatelessWidget {
+  // onIncrement và onDecrement là các hàm được truyền từ widget cha xuống
+  // VoidCallback là kiểu dữ liệu của hàm không nhận tham số và không trả về giá trị
+  // Tương đương với: () => void
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
   

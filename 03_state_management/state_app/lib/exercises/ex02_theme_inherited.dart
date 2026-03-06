@@ -47,6 +47,9 @@ class ThemeInherited extends InheritedWidget {
   /// - Đăng ký widget gọi là "dependent" (sự phụ thuộc) -> sẽ rebuild khi ThemeInherited thay đổi
   static ThemeInherited of(BuildContext context) {
     final result = context.dependOnInheritedWidgetOfExactType<ThemeInherited>();
+    // assert là một câu lệnh kiểm tra điều kiện
+    // Nếu điều kiện sai, nó sẽ throw một exception
+    // Assert chỉ chạy khi debug
     assert(
       result != null,
       'ThemeInherited not found in widget tree!',
@@ -118,9 +121,7 @@ class _ThemeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Lấy theme từ InheritedWidget
     // Không cần truyền qua constructor!
-    final theme = ThemeInherited.of(
-      context,
-    ); // <--- Lấy theme từ InheritedWidget
+    final theme = ThemeInherited.of(context);
 
     return Scaffold(
       backgroundColor: theme.isDarkMode ? Colors.grey[900] : Colors.white,
@@ -207,6 +208,7 @@ class _ThemeCard extends StatelessWidget {
       width: 280,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
+        // Màu nền của thẻ thay đổi theo theme
         color: theme.isDarkMode ? Colors.grey[800] : Colors.grey[100],
         borderRadius: BorderRadius.circular(16),
         boxShadow: [

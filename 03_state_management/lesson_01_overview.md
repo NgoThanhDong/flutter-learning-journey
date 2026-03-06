@@ -177,11 +177,11 @@ class UserAvatar extends StatelessWidget {
 
 | Giải pháp | Độ khó | Phù hợp với | Ưu điểm | Nhược điểm |
 |-----------|--------|-------------|---------|------------|
-| **setState** | ⭐ | App nhỏ, local state | Đơn giản, built-in | Không scale được |
-| **InheritedWidget** | ⭐⭐ | Tìm hiểu, ít dùng trực tiếp | Built-in, cơ sở Provider | Boilerplate nhiều |
+| **setState** | ⭐ | App nhỏ, local state | Đơn giản, built-in (không cần cài thêm thư viện) | Không scale được |
+| **InheritedWidget** | ⭐⭐ | Tìm hiểu, ít dùng trực tiếp | Built-in, cơ sở Provider | Boilerplate nhiều (cần nhiều code hơn để làm việc) |
 | **Provider** | ⭐⭐ | App vừa & lớn | Dễ học, phổ biến | Cần BuildContext |
-| **Riverpod** | ⭐⭐⭐ | App mới, team có kinh nghiệm | Compile-safe, testable | Cú pháp mới lạ hơn |
-| **BLoC** | ⭐⭐⭐⭐ | App enterprise, logic phức tạp | Tách biệt rõ ràng, reactive | Boilerplate nhiều |
+| **Riverpod** | ⭐⭐⭐ | App mới, team có kinh nghiệm | Compile-safe (không bị lỗi runtime khi refactor), testable (dễ test hơn Provider) | Cú pháp mới lạ hơn |
+| **BLoC** | ⭐⭐⭐⭐ | App enterprise (dự án lớn), logic phức tạp | Tách biệt rõ ràng, reactive (phản ứng với sự kiện) | Boilerplate nhiều |
 
 - Boilerplate = phần code “thủ tục bắt buộc”
 - Càng nhiều boilerplate → càng mệt khi viết & đọc
