@@ -18,8 +18,9 @@ import 'package:flutter/material.dart';
 class Ex15LoginForm extends StatefulWidget {
   const Ex15LoginForm({super.key}); // Tạo widget Ex15LoginForm
 
+  // Tạo state cho widget Ex15LoginForm
   @override
-  State<Ex15LoginForm> createState() => _Ex15LoginFormState(); // Tạo state cho widget Ex15LoginForm
+  State<Ex15LoginForm> createState() => _Ex15LoginFormState();
 }
 
 class _Ex15LoginFormState extends State<Ex15LoginForm> {
@@ -27,9 +28,8 @@ class _Ex15LoginFormState extends State<Ex15LoginForm> {
   final _formKey = GlobalKey<FormState>(); // Tạo key cho form
 
   // Controller: Kiểm soát nội dung của TextField
-  final _emailController = TextEditingController(); // Tạo controller cho email
-  final _passwordController =
-      TextEditingController(); // Tạo controller cho password
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   // State variables
   bool _obscurePassword = true; // Ẩn/hiện mật khẩu
@@ -65,8 +65,8 @@ class _Ex15LoginFormState extends State<Ex15LoginForm> {
         child: Form(
           key: _formKey, // Gán key đã tạo
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment
-                .stretch, // Căn chỉnh các widget theo chiều ngang
+            // Căn chỉnh các widget theo chiều ngang
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // TextFormField khác TextField thường ở chỗ nó hỗ trợ Validator
               TextFormField(
@@ -105,20 +105,20 @@ class _Ex15LoginFormState extends State<Ex15LoginForm> {
                     // Icon để toggle Ẩn/Hiện pass
                     icon: Icon(
                       _obscurePassword
-                          ? Icons
-                                .visibility // Hiện pass
-                          : Icons.visibility_off, // Ẩn pass
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
                     onPressed: () {
                       // Khi bấm nút
                       setState(() {
                         // Cập nhật state
-                        _obscurePassword =
-                            !_obscurePassword; // Toggle Ẩn/Hiện pass
+                        // Toggle Ẩn/Hiện pass
+                        _obscurePassword = !_obscurePassword;
                       });
                     },
                   ),
                 ),
+                // Validation Logic
                 validator: (value) {
                   // Validation Logic
                   if (value == null || value.isEmpty) {
@@ -135,8 +135,8 @@ class _Ex15LoginFormState extends State<Ex15LoginForm> {
               SizedBox(height: 8), // Khoảng cách giữa các widget
 
               Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .spaceBetween, // Căn chỉnh các widget theo chiều ngang
+                // spaceBetween: Căn chỉnh các widget theo chiều ngang không có khoảng trống
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
@@ -155,6 +155,8 @@ class _Ex15LoginFormState extends State<Ex15LoginForm> {
                       Text('Remember me'), // Text ghi nhớ đăng nhập
                     ],
                   ),
+
+                  // TextButton: Nút bấm quên mật khẩu
                   TextButton(
                     onPressed: () {
                       debugPrint('Forgot Password?');
@@ -163,9 +165,10 @@ class _Ex15LoginFormState extends State<Ex15LoginForm> {
                   ), // Text quên mật khẩu
                 ],
               ),
-              SizedBox(height: 24), // Khoảng cách giữa các widget
 
-              ElevatedButton( // Nút đăng nhập
+              SizedBox(height: 24), // Khoảng cách giữa các widget
+              // Nút đăng nhập
+              ElevatedButton(
                 onPressed: _login, // Gọi hàm _login khi bấm nút
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),

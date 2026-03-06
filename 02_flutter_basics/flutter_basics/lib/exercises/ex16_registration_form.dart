@@ -45,13 +45,15 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, // Text lề trái
             children: [
+              // Name field
               TextFormField(
-                // TextFormField: Input text
                 decoration: InputDecoration(labelText: 'Full Name'),
                 // Validator rút gọn
                 validator: (v) => v!.isEmpty ? 'Required' : null,
               ),
+
               SizedBox(height: 16), // Khoảng cách giữa các TextFormField
+              // Email field
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
@@ -69,10 +71,10 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
               RadioGroup<Gender>(
                 // Thay đổi từ 'value' thành 'groupValue' cho đúng chuẩn
                 groupValue: _gender, // Giá trị Radio đang chọn
-                onChanged: (value) =>
-                    setState(() => _gender = value), // Khi chọn Radio
+                onChanged: (value) => setState(() => _gender = value),
                 child: Row(
                   children: [
+                    // Male radio button
                     Expanded(
                       child: RadioListTile<Gender>(
                         // RadioListTile: Radio + Text
@@ -81,10 +83,19 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
                         contentPadding: EdgeInsets.zero, // Ẩn padding
                       ),
                     ),
+                    // Female radio button
                     Expanded(
                       child: RadioListTile<Gender>(
                         title: Text('Female'),
                         value: Gender.female,
+                        contentPadding: EdgeInsets.zero, // Ẩn padding
+                      ),
+                    ),
+                    // Other radio button
+                    Expanded(
+                      child: RadioListTile<Gender>(
+                        title: Text('Other'),
+                        value: Gender.other,
                         contentPadding: EdgeInsets.zero, // Ẩn padding
                       ),
                     ),
@@ -97,15 +108,15 @@ class _Ex16RegistrationFormState extends State<Ex16RegistrationForm> {
                 // CheckboxListTile: Checkbox + Text
                 title: Text('I agree to Terms & Conditions'),
                 value: _agreedToTerms, // Giá trị Checkbox đang chọn
-                onChanged: (v) => setState(
-                  () => _agreedToTerms = v ?? false,
-                ), // Khi chọn Checkbox
-                controlAffinity:
-                    ListTileControlAffinity.leading, // Checkbox nằm bên trái
-                contentPadding: EdgeInsets.zero,
+                // Khi chọn Checkbox
+                onChanged: (v) => setState(() => _agreedToTerms = v ?? false),
+                // Checkbox nằm bên trái
+                controlAffinity: ListTileControlAffinity.leading,
+                contentPadding: EdgeInsets.zero, // Ẩn padding
               ),
               SizedBox(height: 24),
 
+              // Nút Register
               SizedBox(
                 width: double.infinity, // Nút full width
                 child: ElevatedButton(

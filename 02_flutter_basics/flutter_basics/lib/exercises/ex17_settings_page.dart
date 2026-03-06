@@ -26,8 +26,9 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
   bool _notifications = true; // Cài đặt thông báo
   bool _darkMode = false; // Cài đặt mode tối
   String _language = 'English'; // Cài đặt ngôn ngữ
+
+  // Danh sách ngôn ngữ
   final List<String> _languages = [
-    // Danh sách ngôn ngữ
     'English',
     'Vietnamese',
     'French',
@@ -48,8 +49,8 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
             secondary: Icon(Icons.notifications), // Icon bên trái
             title: Text('Notifications'),
             value: _notifications, // Giá trị true/false
-            onChanged: (val) =>
-                setState(() => _notifications = val), // Khi thay đổi giá trị
+            // Khi thay đổi giá trị
+            onChanged: (val) => setState(() => _notifications = val),
           ),
 
           SwitchListTile(
@@ -66,20 +67,16 @@ class _Ex17SettingsPageState extends State<Ex17SettingsPage> {
             title: Text('Language'), // Text
             trailing: DropdownButton<String>(
               value: _language, // Giá trị đang chọn
-              underline:
-                  SizedBox(), // Ẩn gạch chân mặc định của Dropdown cho đẹp
+              // Ẩn gạch chân mặc định của Dropdown cho đẹp
+              underline: SizedBox(),
               // map: Chuyển list String -> list DropdownMenuItem
               items: _languages
                   .map(
-                    (lang) => DropdownMenuItem(
-                      value: lang,
-                      child: Text(lang),
-                    ), // Chuyển list String -> list DropdownMenuItem
+                    (lang) => DropdownMenuItem(value: lang, child: Text(lang)),
                   )
                   .toList(),
               // Khi chọn item mới
-              onChanged: (val) =>
-                  setState(() => _language = val!), // Khi chọn item mới
+              onChanged: (val) => setState(() => _language = val!),
             ),
           ),
 
