@@ -294,6 +294,7 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Hiển thị số lượng todo
         Text(
           '$value',
           style: TextStyle(
@@ -302,6 +303,7 @@ class _StatItem extends StatelessWidget {
             color: color,
           ),
         ),
+        // Hiển thị nhãn
         Text(
           label,
           style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
@@ -347,7 +349,8 @@ class _TodoList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       itemCount: todos.length, // Số lượng todo
       // Phân cách giữa các todo
-      separatorBuilder: (_, _) => const Divider(height: 1),
+      separatorBuilder: (_, _) =>
+          const Divider(height: 1, indent: 16, endIndent: 16),
       // Xây dựng từng todo
       itemBuilder: (context, index) {
         final todo = todos[index]; // Lấy todo tại index

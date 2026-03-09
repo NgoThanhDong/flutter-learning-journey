@@ -127,6 +127,7 @@ class CartNotifier extends ChangeNotifier {
 
   /// [Helper] Kiểm tra sản phẩm có trong cart không
   bool isInCart(String productId) {
+    // any() là một higher-order function dùng để kiểm tra xem có item nào thỏa mãn điều kiện không
     return _items.any((item) => item.product.id == productId);
   }
 
@@ -220,9 +221,7 @@ class _ProductsScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: Colors.red, // Màu nền của badge
-                        borderRadius: BorderRadius.circular(
-                          10,
-                        ), // Bo góc của badge
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       // Đảm bảo badge có kích thước tối thiểu 18x18
                       // BoxConstraints dùng để đảm bảo kích thước tối thiểu của widget
@@ -235,7 +234,7 @@ class _ProductsScreen extends StatelessWidget {
                         '${cart.itemCount}', // Số lượng item trong cart
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 10,
+                          fontSize: 8,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
@@ -264,6 +263,7 @@ class _ProductsScreen extends StatelessWidget {
         itemCount: sampleProducts.length,
         // itemBuilder là hàm build từng item trong danh sách
         itemBuilder: (context, index) {
+          // _ProductCard là widget hiển thị thông tin sản phẩm
           return _ProductCard(product: sampleProducts[index]);
         },
       ),
@@ -296,16 +296,18 @@ class _ProductCard extends StatelessWidget {
           // mainAxisAlignment dùng để căn chỉnh các widget con theo chiều dọc
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Hiển thị emoji của sản phẩm
             Text(product.emoji, style: const TextStyle(fontSize: 48)),
             const SizedBox(height: 8),
+            // Hiển thị tên sản phẩm
             Text(
               product.name,
               style: const TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),
+            // Hiển thị giá sản phẩm
             Text(
-              // Hiển thị giá sản phẩm
               // toStringAsFixed(0) dùng để làm tròn giá sản phẩm
               '\$${product.price.toStringAsFixed(0)}',
               style: TextStyle(
@@ -500,7 +502,7 @@ class _CartItemTile extends StatelessWidget {
         children: [
           // IconButton dùng để hiển thị nút giảm số lượng
           IconButton(
-            icon: const Icon(Icons.remove_circle_outline),
+            icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
             onPressed: () {
               // cart.updateQuantity dùng để cập nhật số lượng sản phẩm
               cart.updateQuantity(cartItem.product.id, cartItem.quantity - 1);
@@ -513,7 +515,7 @@ class _CartItemTile extends StatelessWidget {
           ),
           // IconButton dùng để hiển thị nút tăng số lượng
           IconButton(
-            icon: const Icon(Icons.add_circle_outline),
+            icon: const Icon(Icons.add_circle_outline, color: Colors.green),
             onPressed: () {
               // cart.updateQuantity dùng để cập nhật số lượng sản phẩm
               cart.updateQuantity(cartItem.product.id, cartItem.quantity + 1);
