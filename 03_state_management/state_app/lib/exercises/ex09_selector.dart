@@ -34,7 +34,7 @@ class UserNotifier extends ChangeNotifier {
   void updateName(String name) {
     _name = name;
     debugPrint('🔔 UserNotifier: name updated to $name');
-    notifyListeners();
+    notifyListeners(); // Thông báo cho các widget lắng nghe biết state đã thay đổi
   }
 
   // Hàm cập nhật age
@@ -126,7 +126,6 @@ class _SelectorScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            /// [Cách 1: Selector Widget]
             /// Chỉ rebuild khi name thay đổi
             const _NameWidget(), // Widget hiển thị name
             const SizedBox(height: 8),

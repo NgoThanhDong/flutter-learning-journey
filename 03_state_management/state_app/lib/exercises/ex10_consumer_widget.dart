@@ -264,13 +264,10 @@ class _HeavyWidget extends StatelessWidget {
           // Animated icon (expensive to rebuild)
           // TweenAnimationBuilder dùng để tạo hiệu ứng chuyển động
           TweenAnimationBuilder<double>(
-            tween: Tween(
-              begin: 0,
-              end: 1,
-            ), // Tạo hiệu ứng chuyển động từ 0 đến 1
-            duration: const Duration(
-              milliseconds: 500,
-            ), // Thời gian chuyển động
+            // Tạo hiệu ứng chuyển động từ 0 đến 1
+            tween: Tween(begin: 0, end: 1),
+            // Thời gian chuyển động
+            duration: const Duration(milliseconds: 500),
             builder: (context, value, child) {
               // Transform.rotate dùng để tạo hiệu ứng xoay
               return Transform.rotate(
@@ -319,6 +316,7 @@ class _CodeComparison extends StatelessWidget {
 
           Row(
             children: [
+              // Expanded là widget để chia sẻ không gian cho các widget con
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(12),
@@ -332,6 +330,7 @@ class _CodeComparison extends StatelessWidget {
                   ),
                 ),
               ),
+
               const SizedBox(width: 12),
               Expanded(
                 child: Container(

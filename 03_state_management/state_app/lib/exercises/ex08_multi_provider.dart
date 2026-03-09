@@ -218,12 +218,14 @@ class _MultiProviderScreen extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Hiển thị tên user
                               Text(
                                 user.user!.name,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              // Hiển thị email user
                               Text(
                                 user.user!.email,
                                 style: const TextStyle(color: Colors.grey),
@@ -286,7 +288,13 @@ class _MultiProviderScreen extends StatelessWidget {
                         IconButton.filled(
                           // Gọi hàm decrement từ CounterNotifier
                           onPressed: () => counter.decrement(),
-                          icon: const Icon(Icons.remove),
+                          icon: const Icon(Icons.remove, color: Colors.red),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.surface,
+                            side: BorderSide(color: Colors.red, width: 2),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -304,7 +312,13 @@ class _MultiProviderScreen extends StatelessWidget {
                         IconButton.filled(
                           // Gọi hàm increment từ CounterNotifier
                           onPressed: () => counter.increment(),
-                          icon: const Icon(Icons.add),
+                          icon: const Icon(Icons.add, color: Colors.green),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.surface,
+                            side: BorderSide(color: Colors.green, width: 2),
+                          ),
                         ),
                       ],
                     ),
@@ -335,6 +349,10 @@ class _MultiProviderScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     // SwitchListTile là một widget button có viền và nền
                     SwitchListTile(
+                      // Đổi icon của thumb theo state
+                      thumbIcon: WidgetStatePropertyAll(
+                        Icon(theme.isDark ? Icons.dark_mode : Icons.light_mode),
+                      ),
                       title: const Text('Dark Mode'),
                       value: theme.isDark,
                       // Gọi hàm toggleTheme từ ThemeNotifier
